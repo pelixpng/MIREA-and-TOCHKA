@@ -3,8 +3,9 @@ import { RootStackParamList } from '../types/Navigation.types'
 import { NavigationContainer } from '@react-navigation/native'
 import BottomNavigation from './BottomNavigation'
 import StartScreen from '../screens/StartScreen'
-import Shedule from '../screens/Shedule'
 import { MainRoutes } from './Routes'
+import DaysNavigation from './DaysNavigation'
+import { useReduxSelector } from '../redux'
 
 const Stack = createStackNavigator<RootStackParamList>()
 
@@ -13,6 +14,8 @@ interface Props {
 }
 
 export function Navigation({ isAuth }: Props) {
+	const mainGroup = useReduxSelector(state => state.counter.group)
+	const mainWeek = useReduxSelector(state => state.counter.week)
 	return (
 		<NavigationContainer>
 			<Stack.Navigator
@@ -26,10 +29,19 @@ export function Navigation({ isAuth }: Props) {
 				<Stack.Screen
 					name={MainRoutes.Shedule}
 					component={BottomNavigation}
-					options={{ title: 'Расписание' }}
+					options={{
+						title: mainGroup + '                        ' + mainWeek + ' неделя'
+					}}
 				/>
-				{/* <Stack.Screen name='Profile' component={Profile} /> */}
 			</Stack.Navigator>
 		</NavigationContainer>
 	)
 }
+
+// export function Navigation({ isAuth }: Props) {
+// 	return (
+// 		<NavigationContainer>
+// 			<DaysNavigation />
+// 		</NavigationContainer>
+// 	)
+// }

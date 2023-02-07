@@ -15,6 +15,8 @@ import { createStore } from 'redux'
 import { useDispatch, useSelector } from 'react-redux'
 import store, { useReduxDispatch } from './app/redux'
 import { addGroupToRedux } from './app/redux/counter'
+import { RootApp } from './RunApp'
+
 // const action: object = {
 // 	type: '',
 // 	payload: '?'
@@ -41,42 +43,42 @@ import { addGroupToRedux } from './app/redux/counter'
 // 	const reduxGroup = store.getState().group
 
 export default function App() {
-	const [isAppLoading, setIsAppLoading] = useState(false)
-	const [isAuth, setIsAuth] = useState(false)
-	//const dispatch = useReduxDispatch() //запись в хранилище
-	useEffect(() => {
-		getInitialRoute()
-	}, [])
+	// const [isAppLoading, setIsAppLoading] = useState(false)
+	// const [isAuth, setIsAuth] = useState(false)
+	// //const dispatch = useReduxDispatch() //запись в хранилище
+	// useEffect(() => {
+	// 	getInitialRoute()
+	// }, [])
 
-	const getInitialRoute = async () => {
-		try {
-			//console.log(reduxGroup)
-			const cachedGroup = await AsyncStorage.getItem('@currentGroup')
-			if (cachedGroup !== null) {
-				//dispatch(addGroupToRedux(cachedGroup))
-				return setIsAuth(true)
-			}
-		} catch (e) {
-			console.log(e)
-		} finally {
-			setIsAppLoading(true)
-		}
-	}
+	// const getInitialRoute = async () => {
+	// 	try {
+	// 		//console.log(reduxGroup)
+	// 		const cachedGroup = await AsyncStorage.getItem('@currentGroup')
+	// 		if (cachedGroup !== null) {
+	// 			//dispatch(addGroupToRedux(cachedGroup))
+	// 			return setIsAuth(true)
+	// 		}
+	// 	} catch (e) {
+	// 		console.log(e)
+	// 	} finally {
+	// 		setIsAppLoading(true)
+	// 	}
+	// }
 
-	if (!isAppLoading) return <View style={styles.container} />
+	// if (!isAppLoading) return <View style={styles.container} />
 
 	return (
 		<Provider store={store}>
-			<Navigation isAuth={isAuth} />
+			<RootApp />
 		</Provider>
 	)
 }
 
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: '#fff',
-		alignItems: 'center',
-		justifyContent: 'center'
-	}
-})
+// const styles = StyleSheet.create({
+// 	container: {
+// 		flex: 1,
+// 		backgroundColor: '#fff',
+// 		alignItems: 'center',
+// 		justifyContent: 'center'
+// 	}
+// })

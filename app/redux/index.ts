@@ -16,7 +16,7 @@ const store = configureStore({
 
 // псевдонимы для useDispatch и useSelector, добавим к ним типизацию, а затем экспортируем эти псевдонимы, 
 // чтобы нам не нужно было делать это каждый раз, когда мы хотим их использовать.
-
+// Вынести в файл hooks и типизацию в types или можно оставить в хукс
 export type AppDispatch = typeof store.dispatch
 export const useReduxDispatch = (): AppDispatch => useDispatch<AppDispatch>()
 export const useReduxSelector: TypedUseSelectorHook<RootState> = useSelector

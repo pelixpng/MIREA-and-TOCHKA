@@ -1,24 +1,18 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { NavigationContainer } from '@react-navigation/native'
 import React, { FC } from 'react'
 import { Button, Text, View } from 'react-native'
-import { useSelector } from 'react-redux'
-import Settings from './Settings'
 import { StyleSheet } from 'react-native'
 import { useReduxSelector } from '../redux'
-
-const Tab = createBottomTabNavigator()
+import DaysNavigation from '../navigation/DaysNavigation'
 
 const Shedule: FC = () => {
-	const value = useReduxSelector(state => state.counter)
+	const mainGroup = useReduxSelector(state => state.counter.group)
+	const mainWeek = useReduxSelector(state => state.counter.week)
+	const mainSchedule = useReduxSelector(state => state.counter.schedule)
 
 	return (
 		<View>
-			<Text style={{ fontSize: 30, textAlign: 'center' }}>
-				ТУТ БУДЕТ РАСПИСАНИЕ
-			</Text>
-			<Text style={{ fontSize: 30 }}>Группа в Redux: {value}</Text>
-			{/* <Button title='Стереть кэш' /> */}
+			<Text style={{ fontSize: 30 }}>Группа в Redux: {mainGroup}</Text>
+			<Text style={{ fontSize: 30 }}>Учебная неделя: {mainWeek}</Text>
 		</View>
 	)
 }

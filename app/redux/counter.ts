@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { ScheduleResponse } from '../types/schedule';
 
 
 //reducer — чистая функция которая будет отвечать за обновление состояния. 
@@ -7,14 +8,46 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 // Функция createSlice возвращает объект, включающий (но не ограничивающийся) действия и редьюсер, 
 // которые нам нужно экспортировать для использования в нашем приложении.
 
+
+//TODO: сделать интерфейс под апи
+interface InitialState {
+    group:string;
+    week:number;
+    schedule:ScheduleResponse;
+    schedulePars:Array<object>
+}
+
+
+
+const initialState:InitialState = {
+    group:"",
+    week: 0,
+    schedule:{
+        group:"",
+        schedule:[]
+    },
+    schedulePars:[]
+}
+
+
 const counterSlice = createSlice({
     name: 'groupState', 
-    initialState: 'Пока ничего нет',
+    initialState,
     reducers: { // тут делаем редусеры (функции)
-        addGroupToRedux: (state, action: PayloadAction<string>) => state = action.payload, //принятое значение сохраняем
-       // decrement: (state, action: PayloadAction<number>) => state - action.payload,
+        addGroupToRedux: (state, action: PayloadAction<string>) =>{
+            state.group = action.payload
+        },
+        addWeekToRedux: (state, action: PayloadAction<number>) => {
+            state.week = action.payload
+        },
+        addScheduleToRedux: (state, action: PayloadAction<any>) => {
+            state.schedule = action.payload
+        },
+        addScheduleParsToRedux: (state, action: PayloadAction<any>) => {
+            state.schedulePars = action.payload
+        }
     },
 })
 
-export const { addGroupToRedux } = counterSlice.actions //экспортируем функцию
+export const { addGroupToRedux, addWeekToRedux, addScheduleToRedux, addScheduleParsToRedux } = counterSlice.actions //экспортируем функцию
 export default counterSlice.reducer // экспортируем редусеры

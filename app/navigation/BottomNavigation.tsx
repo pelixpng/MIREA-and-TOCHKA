@@ -1,18 +1,24 @@
 import { FC } from 'react'
-import { Text, View } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Shedule from '../screens/Shedule'
 import Settings from '../screens/Settings'
 import { MainRoutes } from './Routes'
+//import { Ionicons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons'
+import DaysNavigation from './DaysNavigation'
 
 const Tab = createBottomTabNavigator()
 
 const BottomNavigation: FC = () => {
 	return (
-		<Tab.Navigator>
+		<Tab.Navigator
+			screenOptions={{
+				tabBarHideOnKeyboard: true
+			}}
+		>
 			<Tab.Screen
 				name={MainRoutes.Shedule}
-				component={Shedule}
+				component={DaysNavigation}
 				options={{ headerShown: false, title: 'Bottom расписание' }}
 			/>
 			<Tab.Screen

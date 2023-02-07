@@ -2,42 +2,47 @@ import React, { FC, useEffect, useState } from 'react'
 import { Button, TextInput, View } from 'react-native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../types/Navigation.types'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { useDispatch, useSelector } from 'react-redux'
 import { StyleSheet, Text } from 'react-native'
 import { useReduxDispatch, useReduxSelector } from '../redux'
-import { addGroupToRedux } from '../redux/counter'
+import {
+	addGroupToRedux,
+	addScheduleParsToRedux,
+	addScheduleToRedux
+} from '../redux/counter'
+import StorageService from '../Storage/Storage'
+import ApiService from '../api/MireaApi'
+import { MainRoutes } from '../navigation/Routes'
+import { parsSchedule } from '../api/ParserApi'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'StartScreen'>
 
 const StartScreen: FC<Props> = ({ navigation }) => {
 	const [group, setGroup] = useState('')
-
-	const value = useReduxSelector(state => state.counter) //получение из хранилища
 	const dispatch = useReduxDispatch() //запись в хранилище
 
-	const storeData = async () => {
+	const setStatrGroup = async () => {
 		try {
-			dispatch(addGroupToRedux(group))
-			await AsyncStorage.setItem('@currentGroup', group)
-			navigation.navigate('Shedule')
+			await StorageService.storeData(dispatch, '@currentGroup', group)
+			const updateSchedule = await ApiService.full_schedule(group)
+
+			const mainWeek = await ApiService.current_week()
+			const tmp = parsSchedule(mainWeek, updateSchedule)
+			dispatch(addScheduleParsToRedux(tmp))
+
+			navigation.navigate(MainRoutes.Shedule)
 		} catch (e) {
-			// saving error
+			console.log(e)
 		}
 	}
 
 	return (
 		<View>
 			<TextInput
-				placeholder='Напиши группу'
+				placeholder={'Напиши группу...'}
 				onChangeText={setGroup}
 				style={{ fontSize: 50 }}
 			/>
-			<Button title='Далее' onPress={storeData} />
-
-			{/* <Button title='+1' onPress={() => dispatch(increment(1))} />
-			<Button title='-1' onPress={() => dispatch(decrement(1))} /> */}
-			<Text style={{ fontSize: 30 }}>Группа в Redux: {value}</Text>
+			<Button title='Далее' onPress={setStatrGroup} />
 		</View>
 	)
 }

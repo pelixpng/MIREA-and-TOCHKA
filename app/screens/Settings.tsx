@@ -1,26 +1,51 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { Text, View } from 'react-native'
-import { useSelector } from 'react-redux'
 import { Button, TextInput } from 'react-native'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { useReduxSelector } from '../redux'
+import { useReduxSelector, useReduxDispatch } from '../redux'
+import { addScheduleParsToRedux, addScheduleToRedux } from '../redux/counter'
+import StorageService from '../Storage/Storage'
+import ApiService from '../api/MireaApi'
+import { ButtonParser } from '../api/TestApiPars'
+//import { ButtonParser } from '../api/TestApiPars'
+import { parsSchedule } from '../api/ParserApi'
 
 const Settings: FC = () => {
-	const value = useReduxSelector(state => state.counter)
-	const delData = async () => {
+	const [group, setGroup] = useState('')
+	const value = useReduxSelector(state => state.counter.group) //получение из хранилища
+	const mainWeek = useReduxSelector(state => state.counter.week)
+	const mainScheduleJson = useReduxSelector(state => state.counter.schedule)
+	const finalPars = useReduxSelector(state => state.counter.schedulePars)
+	const dispatch = useReduxDispatch() //запись в хранилище
+	const changeGroup = async () => {
 		try {
-			await AsyncStorage.clear()
+			await StorageService.storeData(dispatch, '@currentGroup', group)
+			const updateSchedule = await ApiService.full_schedule(group)
+			const tmp = parsSchedule(mainWeek, updateSchedule)
+			dispatch(addScheduleParsToRedux(tmp))
 		} catch (e) {
-			// saving error
+			console.log(e)
 		}
 	}
+
+	const getSaveParsDchedule = () => {
+		console.log(finalPars)
+	}
+
 	return (
 		<View>
-			<Text style={{ fontSize: 30, textAlign: 'center' }}>
-				ТУТ БУДУТ НАСТРОЙКИ
-			</Text>
-			<Text style={{ fontSize: 30 }}>Группа в Redux: {value}</Text>
-			<Button title='Стереть кэш' onPress={delData} />
+			<TextInput
+				placeholder={value}
+				onChangeText={setGroup}
+				style={{ fontSize: 50 }}
+			/>
+			<Button title='Изменить группу' onPress={changeGroup} />
+			<Button title='Стереть кэш' onPress={StorageService.delData} />
+			<Button
+				title='Печать в консоль'
+				onPress={getSaveParsDchedule}
+				color='green'
+			></Button>
+			{/* <ButtonParser /> */}
 		</View>
 	)
 }
