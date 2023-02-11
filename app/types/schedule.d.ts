@@ -1,3 +1,9 @@
+// Record - Создает тип объекта, ключами свойств которого являются Keys, а значениями свойств являются Type. 
+// Эту утилиту можно использовать для отображения свойств одного типа на другой тип.
+
+// Пример есть в tsLearning/utility-types 
+
+//интерфейс для ответа Api
 export interface ScheduleResponse {
     group: string
     schedule: Record<number, Day>

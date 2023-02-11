@@ -14,7 +14,8 @@ interface InitialState {
     group:string;
     week:number;
     schedule:ScheduleResponse;
-    schedulePars:Array<object>
+    schedulePars:Array<object>;
+    isScheduleFromCache:boolean;
 }
 
 
@@ -26,7 +27,8 @@ const initialState:InitialState = {
         group:"",
         schedule:[]
     },
-    schedulePars:[]
+    schedulePars:[],
+    isScheduleFromCache:false
 }
 
 
@@ -45,9 +47,12 @@ const counterSlice = createSlice({
         },
         addScheduleParsToRedux: (state, action: PayloadAction<any>) => {
             state.schedulePars = action.payload
+        },
+        addIsScheduleFromCache: (state, action: PayloadAction<boolean>) => {
+            state.isScheduleFromCache = action.payload
         }
     },
 })
 
-export const { addGroupToRedux, addWeekToRedux, addScheduleToRedux, addScheduleParsToRedux } = counterSlice.actions //экспортируем функцию
+export const { addGroupToRedux, addWeekToRedux, addScheduleToRedux, addScheduleParsToRedux, addIsScheduleFromCache } = counterSlice.actions //экспортируем функцию
 export default counterSlice.reducer // экспортируем редусеры

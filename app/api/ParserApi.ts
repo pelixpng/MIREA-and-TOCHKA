@@ -1,5 +1,5 @@
 import { ScheduleResponse } from "../types/schedule"
-
+import AlertModalService from "../utilities/AlertModal"
 //TODO: почитать про еслинт и подключить его!
 
 
@@ -21,6 +21,7 @@ export function parsSchedule(mainWeek: number, mainScheduleJson: ScheduleRespons
 		const schedule: Pair[][] = []
 		const typeWeek = even(mainWeek)
 		if (mainScheduleJson.group == undefined) {
+            throw new Error('Группа не найдена');
 			// throw new
 			console.log(mainScheduleJson)
 		} else {

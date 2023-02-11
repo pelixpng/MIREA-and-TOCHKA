@@ -8,7 +8,7 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 import DaysNavigation from './DaysNavigation'
 
 const Tab = createBottomTabNavigator()
-
+//навигация между экранами приложения
 const BottomNavigation: FC = () => {
 	return (
 		<Tab.Navigator

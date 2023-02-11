@@ -25,35 +25,36 @@ import { parsSchedule } from './app/api/ParserApi'
 //import { current_week } from './app/api/MireaApi'
 
 export function RootApp() {
-	const [isAppLoading, setIsAppLoading] = useState(false)
-	const [isAuth, setIsAuth] = useState(false)
-	const dispatch = useReduxDispatch() //запись в хранилище
+	const [isAppLoading, setIsAppLoading] = useState(false) //статус загрузки приложения
+	const [isAuth, setIsAuth] = useState(false) //тип страницы при запуске
+	const dispatch = useReduxDispatch() //для записи в Redux
 	useEffect(() => {
-		getInitialRoute()
+		getInitialRoute() //функция для загрузки приложения (расписания и выбор стартового экрана)
 	}, [])
 
 	const getInitialRoute = async () => {
 		try {
-			const currentWeek = await ApiService.current_week()
-			dispatch(addWeekToRedux(currentWeek))
-			const cachedGroup = await AsyncStorage.getItem('@currentGroup')
-			if (cachedGroup !== null) {
-				const updateSchedule = await ApiService.full_schedule(cachedGroup)
-				const tmp = parsSchedule(currentWeek, updateSchedule)
-				dispatch(addScheduleParsToRedux(tmp))
-				dispatch(addGroupToRedux(cachedGroup))
-				return setIsAuth(true)
+			const currentWeek = await ApiService.current_week() //получаем учебную неделю
+			dispatch(addWeekToRedux(currentWeek)) //записываем учебную неделю в Redux
+			const nameGroup = await AsyncStorage.getItem('@currentGroup') //загружаем имя ранее выбранную группы из кэша
+			if (nameGroup !== null) {
+				const updateSchedule = await ApiService.full_schedule(nameGroup) //загружаем актуальное расписание
+				const tmp = parsSchedule(currentWeek, updateSchedule) //распарсим расписание на неделю из json файла
+				dispatch(addScheduleParsToRedux(tmp)) //добавляем все в Redux
+				dispatch(addGroupToRedux(nameGroup))
+				//await AsyncStorage.setItem('@cachedSchedule', updateSchedule.toString()) //спорная вещь...
+				return setIsAuth(true) //указываем что группа выбрана и можно переходить к просмотру расписания
 			}
 		} catch (e) {
 			console.log(e)
 		} finally {
-			setIsAppLoading(true)
+			setIsAppLoading(true) //указываем что приложение загрузилось
 		}
 	}
 
 	if (!isAppLoading) return <View style={styles.container} />
 
-	return <Navigation isAuth={isAuth} />
+	return <Navigation isAuth={isAuth} /> //передаем данные для навигации
 }
 
 const styles = StyleSheet.create({
