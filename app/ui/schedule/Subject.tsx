@@ -3,33 +3,41 @@ import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
 
 // type ElementProps = JSON
 
-const Subject: FC = () => {
-	let start = '10:40'
-	let end = '12:10'
-	let name = 'Разработка баз данных'
-	let teacher = 'Коваленко А.В.'
-	let room = 'A-420'
-	let typeSub = 'ПР'
+interface Props {
+	data: ItemProps
+}
+
+export interface ItemProps {
+	name: string
+	rooms: string
+	teachers: string
+	time_end: string
+	time_start: string
+	types: string
+}
+
+const Subject = (props: Props) => {
+	const { time_start, time_end, name, rooms, teachers, types } = props.data
 	return (
 		<TouchableOpacity style={styles.subject}>
 			<View style={styles.time}>
-				<Text>{start}</Text>
-				<Text>{end}</Text>
+				<Text>{props.data.time_start}</Text>
+				{/* <Text>{end}</Text> */}
 			</View>
 			<View style={styles.nameSubject}>
-				<Text>{name}</Text>
-				<Text>{teacher}</Text>
+				<Text>{props.data.name}</Text>
+				{/* <Text>{teacher}</Text> */}
 			</View>
 			<View style={styles.placeAndType}>
-				<Text>{room}</Text>
-				<Text>{typeSub}</Text>
+				<Text>{props.data.types}</Text>
+				{/* <Text>{typeSub}</Text> */}
 			</View>
 		</TouchableOpacity>
 	)
 }
 
 export default Subject
-
+// styled-components one ❤️
 const styles = StyleSheet.create({
 	subject: {
 		padding: 20,
@@ -38,21 +46,16 @@ const styles = StyleSheet.create({
 		marginTop: 20,
 		width: '97%',
 		alignSelf: 'center',
-		flexDirection: 'row'
+		flexDirection: 'row',
+		justifyContent: 'space-between'
 	},
 	time: {
-		textAlign: 'left',
-		flex: 1,
 		flexDirection: 'column'
 	},
 	nameSubject: {
-		textAlign: 'center',
-		flex: 1,
 		flexDirection: 'column'
 	},
 	placeAndType: {
-		textAlign: 'right',
-		flex: 1,
 		flexDirection: 'column'
 	}
 })

@@ -11,7 +11,10 @@ const DaysNavigation: FC = () => {
 	return (
 		<Tab.Navigator initialRouteName={getWeekDay()}>
 			{days.map((item, index) => (
-				<Tab.Screen name={item} component={() => Day(index)} key={index} />
+				// <Tab.Screen name={item} component={() => Day(index)} key={index} />
+				<Tab.Screen name={item} key={index}>
+					{props => <Day {...props} dayNumber={index} />}
+				</Tab.Screen>
 			))}
 		</Tab.Navigator>
 	)

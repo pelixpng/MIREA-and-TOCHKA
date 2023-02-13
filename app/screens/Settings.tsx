@@ -8,6 +8,8 @@ import ApiService from '../api/MireaApi'
 import { ButtonParser } from '../api/TestApiPars'
 //import { ButtonParser } from '../api/TestApiPars'
 import { parsSchedule } from '../api/ParserApi'
+import { Pair } from '../api/ParserApi'
+import AlertModalService from '../utilities/AlertModal'
 
 const Settings: FC = () => {
 	const [group, setGroup] = useState('')
@@ -23,12 +25,23 @@ const Settings: FC = () => {
 			const tmp = parsSchedule(mainWeek, updateSchedule)
 			dispatch(addScheduleParsToRedux(tmp))
 		} catch (e) {
+			AlertModalService.groupNotFound(group)
 			console.log(e)
 		}
 	}
 
+	interface MyPair {
+		name: string
+		//weeks: number[]
+		time_start: string
+		time_end: string
+		types: string
+		teachers: string[]
+		rooms: string[]
+	}
 	const getSaveParsDchedule = () => {
-		console.log(finalPars)
+		const tmp: any = finalPars[0][0]
+		console.log(tmp)
 	}
 
 	return (

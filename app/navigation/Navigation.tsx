@@ -6,7 +6,7 @@ import StartScreen from '../screens/StartScreen'
 import { MainRoutes } from './Routes'
 import DaysNavigation from './DaysNavigation'
 import { useReduxSelector } from '../redux'
-
+import { Text } from 'react-native'
 const Stack = createStackNavigator<RootStackParamList>()
 
 interface Props {
@@ -30,7 +30,10 @@ export function Navigation({ isAuth }: Props) {
 					name={MainRoutes.Shedule}
 					component={BottomNavigation}
 					options={{
-						title: mainGroup + '                        ' + mainWeek + ' неделя'
+						title: mainGroup,
+						headerRight: () => (
+							<Text style={{ marginRight: 16 }}>{mainWeek + ' неделя'}</Text>
+						)
 					}}
 				/>
 			</Stack.Navigator>

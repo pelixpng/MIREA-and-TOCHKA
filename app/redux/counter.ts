@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { ScheduleResponse } from '../types/schedule';
+import { ItemProps } from '../ui/schedule/Subject';
 
 
 //reducer — чистая функция которая будет отвечать за обновление состояния. 
@@ -14,7 +15,7 @@ interface InitialState {
     group:string;
     week:number;
     schedule:ScheduleResponse;
-    schedulePars:Array<object>;
+    schedulePars:[ItemProps[]]
     isScheduleFromCache:boolean;
 }
 
@@ -27,7 +28,7 @@ const initialState:InitialState = {
         group:"",
         schedule:[]
     },
-    schedulePars:[],
+    schedulePars:[[]],
     isScheduleFromCache:false
 }
 
@@ -49,6 +50,7 @@ const counterSlice = createSlice({
             state.schedulePars = action.payload
         },
         addIsScheduleFromCache: (state, action: PayloadAction<boolean>) => {
+            //вместо этого используй asyncThunk
             state.isScheduleFromCache = action.payload
         }
     },
