@@ -5,7 +5,9 @@ import { MainRoutes } from './Routes'
 //import { Ionicons } from '@expo/vector-icons';
 import Ionicons from '@expo/vector-icons/Ionicons'
 import DaysNavigation from './DaysNavigation'
-import UniversityMap from '../screens/MapMirea'
+import { SelectMireaMap } from './MapNavigation'
+import { OnlineMap } from '../components/MapMireaOnline'
+//import { UniversityMap } from '../screens/MapMirea'
 const Tab = createBottomTabNavigator()
 //навигация между экранами приложения
 const BottomNavigation: FC = () => {
@@ -26,8 +28,8 @@ const BottomNavigation: FC = () => {
 				options={{ headerShown: false, title: 'Bottom настройки' }}
 			/>
 			<Tab.Screen
-				name={MainRoutes.UniversityMap}
-				component={UniversityMap}
+				name={MainRoutes.SelectMireaMap}
+				component={SelectMireaMap}
 				options={{ headerShown: false, title: 'Карта' }}
 			/>
 		</Tab.Navigator>

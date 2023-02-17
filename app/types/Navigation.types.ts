@@ -3,3 +3,8 @@ export type RootStackParamList = {
     Shedule: undefined;
     StartScreen: undefined;
   };
+
+  export type MireaMapStackParamList = {
+    OnlineMap: undefined;
+    OfflineMap: undefined;
+  };

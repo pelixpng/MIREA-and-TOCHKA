@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { addGroupToRedux } from '../redux/counter'
 
 export default class StorageService {
+    //clear all storage
     static delData = async () => {
         try {
             await AsyncStorage.clear()

@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { Text, View } from 'react-native'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
-import Day from '../ui/schedule/Day'
+import Day from '../components/ui/schedule/Day'
 import { getWeekDay } from '../utilities/GetWeekDay'
 const Tab = createMaterialTopTabNavigator()
 

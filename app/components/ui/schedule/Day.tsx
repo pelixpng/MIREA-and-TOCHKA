@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 import { FlatList, Text, View } from 'react-native'
-import { useReduxSelector } from '../../redux'
+import { useReduxSelector } from '../../../redux'
 import Subject from './Subject'
 import { ItemProps } from './Subject'
 

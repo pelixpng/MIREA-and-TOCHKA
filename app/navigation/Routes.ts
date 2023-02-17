@@ -3,6 +3,11 @@ export enum MainRoutes {
     StartScreen = 'StartScreen',
     Shedule = 'Shedule',
     Settings = 'Settings',
-    UniversityMap = 'UniversityMap',
+    SelectMireaMap = 'SelectMireaMap',
     FindTeacher = 'FindTeacher'
+}
+
+export enum MapRoutes {
+    OnlineMap = 'Навигатор/Поиск',
+    OfflineMap = 'Карта'
 }

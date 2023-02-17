@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { ScheduleResponse } from '../types/schedule';
-import { ItemProps } from '../ui/schedule/Subject';
+import { ItemProps } from '../components/ui/schedule/Subject';
 
 
 //reducer — чистая функция которая будет отвечать за обновление состояния. 
