@@ -35,7 +35,7 @@ function Day({ dayNumber }: ComponentProps) {
 		})
 	}
 	useEffect(() => {
-		console.log(dayNumber)
+		//console.log(dayNumber)
 		setListOfSubject([])
 		if (!finalPairs?.[dayNumber]?.length) return
 		if (dayNumber != 6) {

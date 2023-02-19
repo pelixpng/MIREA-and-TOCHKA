@@ -1,14 +1,9 @@
-import React, { FC, useEffect, useState } from 'react'
-import { Button, TextInput, View, Alert } from 'react-native'
+import React, { FC, useState } from 'react'
+import { Button, TextInput, View } from 'react-native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../types/Navigation.types'
-import { StyleSheet, Text } from 'react-native'
-import { useReduxDispatch, useReduxSelector } from '../redux'
-import {
-	addGroupToRedux,
-	addScheduleParsToRedux,
-	addScheduleToRedux
-} from '../redux/counter'
+import { useReduxDispatch } from '../redux'
+import { addScheduleParsToRedux } from '../redux/counter'
 import StorageService from '../Storage/Storage'
 import ApiService from '../api/MireaApi'
 import { MainRoutes } from '../navigation/Routes'
@@ -27,11 +22,6 @@ const StartScreen: FC<Props> = ({ navigation }) => {
 		//тут нужно много проверок и всплыабщие окна
 		if (internetState.isConnected === false) {
 			AlertModalService.noInternet()
-			// Alert.alert(
-			// 	'Вы не подключены к интернету.',
-			// 	'Для загрузки расписания требуется подключение к интернету',
-			// 	[{ text: 'Ок' }]
-			// )
 		} else {
 			try {
 				await StorageService.storeData(dispatch, '@currentGroup', group) //сохраняем группу в кэш
@@ -53,19 +43,11 @@ const StartScreen: FC<Props> = ({ navigation }) => {
 				placeholder={'Напиши группу...'}
 				onChangeText={setGroup}
 				style={{ fontSize: 50 }}
+				maxLength={10}
 			/>
 			<Button title='Далее' onPress={setStatrGroup} />
 		</View>
 	)
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: '#fff',
-		alignItems: 'center',
-		justifyContent: 'center'
-	}
-})
 
 export default StartScreen
