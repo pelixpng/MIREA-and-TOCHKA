@@ -1,13 +1,10 @@
-import { FC } from 'react'
+import React, { FC } from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Settings from '../screens/Settings'
 import { MainRoutes } from './Routes'
-//import { Ionicons } from '@expo/vector-icons';
-import Ionicons from '@expo/vector-icons/Ionicons'
 import DaysNavigation from './DaysNavigation'
 import { SelectMireaMap } from './MapNavigation'
-import { OnlineMap } from '../components/MapMireaOnline'
-//import { UniversityMap } from '../screens/MapMirea'
+import { FindTeacher } from '../screens/FindTeacher'
 const Tab = createBottomTabNavigator()
 //навигация между экранами приложения
 const BottomNavigation: FC = () => {
@@ -23,14 +20,19 @@ const BottomNavigation: FC = () => {
 				options={{ headerShown: false, title: 'Bottom расписание' }}
 			/>
 			<Tab.Screen
-				name={MainRoutes.Settings}
-				component={Settings}
-				options={{ headerShown: false, title: 'Bottom настройки' }}
+				name={MainRoutes.FindTeacher}
+				component={FindTeacher}
+				options={{ headerShown: false, title: 'Поиск препода' }}
 			/>
 			<Tab.Screen
 				name={MainRoutes.SelectMireaMap}
 				component={SelectMireaMap}
 				options={{ headerShown: false, title: 'Карта' }}
+			/>
+			<Tab.Screen
+				name={MainRoutes.Settings}
+				component={Settings}
+				options={{ headerShown: false, title: 'Настройки' }}
 			/>
 		</Tab.Navigator>
 	)

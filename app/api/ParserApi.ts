@@ -1,5 +1,4 @@
 import { ScheduleResponse } from "../types/schedule"
-import AlertModalService from "../utilities/AlertModal"
 //TODO: почитать про еслинт и подключить его!
 
 export interface Pair {
@@ -9,6 +8,7 @@ export interface Pair {
 	types: string
 	teachers: string[]
 	rooms: string[]
+	weeks: number[]
 }
 
 
@@ -35,9 +35,10 @@ export function parsSchedule(mainWeek: number, mainScheduleJson: ScheduleRespons
 							time_end: lesson?.[typeWeek]?.time_end,
 							types: lesson?.[typeWeek]?.types,
 							teachers: lesson?.[typeWeek]?.teachers,
-							rooms: lesson?.[typeWeek]?.rooms
+							rooms: lesson?.[typeWeek]?.rooms,
+							weeks: lesson?.[typeWeek]?.weeks
 						}
-						if (title) {
+						if (lesson?.[typeWeek]?.weeks.includes(mainWeek)) {
 							acc.push(dayPair)
 						}
 						return acc

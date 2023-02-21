@@ -30,7 +30,9 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.pelixpng.MireaTypeScript",
-      "runtimeVersion": "1.0.0"
+      "runtimeVersion": {
+        "policy": "sdkVersion"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"

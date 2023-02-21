@@ -1,8 +1,7 @@
-import { FC, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FlatList, Text, View } from 'react-native'
 import { useReduxSelector } from '../../../redux'
-import Subject from './Subject'
-import { ItemProps } from './Subject'
+import Subject, { ItemProps } from './Subject'
 
 interface ComponentProps {
 	dayNumber: number
@@ -39,7 +38,7 @@ function Day({ dayNumber }: ComponentProps) {
 		setListOfSubject([])
 		if (!finalPairs?.[dayNumber]?.length) return
 		if (dayNumber != 6) {
-			for (let i = 0; i < finalPairs[dayNumber].length; i++) {
+			for (let i = finalPairs[dayNumber].length - 1; i >= 0; i--) {
 				//не используй эни
 				const tmp = finalPairs[dayNumber][i]
 				addSubject(
@@ -56,7 +55,6 @@ function Day({ dayNumber }: ComponentProps) {
 
 	return (
 		<View>
-			<Text>{dayNumber}</Text>
 			<FlatList
 				data={listOfSubject}
 				renderItem={({ item }) => <Subject data={item} />}

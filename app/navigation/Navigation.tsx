@@ -4,9 +4,10 @@ import { NavigationContainer } from '@react-navigation/native'
 import BottomNavigation from './BottomNavigation'
 import StartScreen from '../screens/StartScreen'
 import { MainRoutes } from './Routes'
-import DaysNavigation from './DaysNavigation'
 import { useReduxSelector } from '../redux'
 import { Text } from 'react-native'
+import React from 'react'
+
 const Stack = createStackNavigator<RootStackParamList>()
 
 interface Props {

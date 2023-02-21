@@ -1,5 +1,5 @@
-import { FC } from 'react'
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
+import React from 'react'
 
 // type ElementProps = JSON
 

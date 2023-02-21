@@ -24,14 +24,20 @@ const StartScreen: FC<Props> = ({ navigation }) => {
 			AlertModalService.noInternet()
 		} else {
 			try {
-				await StorageService.storeData(dispatch, '@currentGroup', group) //сохраняем группу в кэш
-				const updateSchedule = await ApiService.full_schedule(group) //получаем расписание
+				await StorageService.storeData(
+					dispatch,
+					'@currentGroup',
+					group.toLocaleUpperCase()
+				) //сохраняем группу в кэш
+				const updateSchedule = await ApiService.full_schedule(
+					group.toLocaleUpperCase()
+				) //получаем расписание
 				const mainWeek = await ApiService.current_week() //получаем неделю
 				const tmp = parsSchedule(mainWeek, updateSchedule) //парсим json файл расписания
 				dispatch(addScheduleParsToRedux(tmp)) //запись расписания в Redux
 				navigation.navigate(MainRoutes.Shedule) //переходим на экран с расписанием
 			} catch (e) {
-				AlertModalService.groupNotFound(group)
+				AlertModalService.groupNotFound(group.toLocaleUpperCase())
 				console.log(e)
 			}
 		}

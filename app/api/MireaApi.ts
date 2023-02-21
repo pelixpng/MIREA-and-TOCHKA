@@ -1,4 +1,4 @@
-import { ScheduleResponse } from "../types/schedule";
+import { ScheduleResponse, teacherScheduleReasponse } from "../types/schedule";
 
 export default class ApiService {
     static async current_week() {
@@ -21,7 +21,7 @@ export default class ApiService {
 
     static async teacher_schedule(name: string) {
         const res = await fetch(`https://schedule.mirea.ninja/api/schedule/teacher/${name}`);
-        const json = await res.json();
+        const json = await res.json() as teacherScheduleReasponse;
         return json
     }
 }

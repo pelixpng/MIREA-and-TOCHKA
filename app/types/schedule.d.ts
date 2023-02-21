@@ -3,22 +3,49 @@
 
 // Пример есть в tsLearning/utility-types 
 
-//интерфейс для ответа Api
+//интерфейс для ответа Api расписания
 export interface ScheduleResponse {
-    group: string
-    schedule: Record<number, Day>
-  }
-  export interface Day {
-    lessons: Lesson[][]
-  }
+  group: string
+  schedule: Record<number, Day>
+}
+
+export interface Day {
+  lessons: Lesson[][]
+}
   
-  export interface Lesson {
-    name: string
-    //weeks: number[]
-    time_start: string
-    time_end: string
-    types: string
-    teachers: string[]
-    rooms: string[]
-  }
-  
+export interface Lesson {
+  name: string
+  //weeks: number[]
+  time_start: string
+  time_end: string
+  types: string
+  teachers: string[]
+  rooms: string[]
+  weeks: number[]
+}
+
+
+
+//интерфейс для ответа Api поиск препода
+export interface InfoLesson {
+  name: string;
+  weeks: string[];
+  time_start: string;
+  time_end: string;
+  types: string;
+  teachers: string[];
+  rooms: string[];
+}
+
+export interface PairSchedule {
+  group: string;
+  weekday: string;
+  lesson_number: number;
+  lesson: InfoLesson;
+}
+
+export interface teacherScheduleReasponse {
+  schedules: PairSchedule[];
+}
+
+

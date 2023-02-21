@@ -25,6 +25,14 @@ export default class AlertModalService {
         )
     }
 
+    static teacherNotFound = (teacher: string) => {
+        Alert.alert(
+            `Расписание для: ${teacher} не найденно.`,
+            'Возможно оно появится позже.',
+            [{ text: 'Ок' }]
+        )
+    }
+
     // static storeData =  () => {
         
     // }
