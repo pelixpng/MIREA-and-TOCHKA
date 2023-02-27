@@ -1,7 +1,8 @@
 import 'react-native-gesture-handler'
 import { Provider } from 'react-redux'
-import store, { useReduxDispatch } from './app/redux'
+import store from './app/redux'
 import { RootApp } from './RunApp'
+import React from 'react'
 
 export default function App() {
 	return (

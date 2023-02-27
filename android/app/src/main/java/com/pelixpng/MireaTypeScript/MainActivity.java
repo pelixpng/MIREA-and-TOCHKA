@@ -1,4 +1,4 @@
-package com.mireatypescript;
+package com.pelixpng.MireaTypeScript;
 
 import android.os.Build;
 import android.os.Bundle;

@@ -26,7 +26,7 @@ export interface Lesson {
 
 
 
-//интерфейс для ответа Api поиск препода
+//интерфейс для ответа Api поиск расписания препода
 export interface InfoLesson {
   name: string;
   weeks: string[];
@@ -49,3 +49,8 @@ export interface teacherScheduleReasponse {
 }
 
 
+//интерфейс апи для поиска группы
+export interface groupSearcheResponse {
+  count: number;
+  groups: string[];
+}

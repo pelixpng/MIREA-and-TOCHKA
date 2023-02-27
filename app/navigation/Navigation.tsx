@@ -4,9 +4,22 @@ import { NavigationContainer } from '@react-navigation/native'
 import BottomNavigation from './BottomNavigation'
 import StartScreen from '../screens/StartScreen'
 import { MainRoutes } from './Routes'
-import { useReduxSelector } from '../redux'
+import { useReduxDispatch, useReduxSelector } from '../redux'
 import { Text } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
+import { NetInfoState, useNetInfo } from '@react-native-community/netinfo'
+import { addIsAppOfflineToRedux } from '../redux/counter'
+import { FeedBack } from '../screens/Feedback'
+import { HeaderSchedule } from '../components/ui/HeaderSchedule'
+import {
+	SafeAreaView,
+	SafeAreaProvider,
+	SafeAreaInsetsContext,
+	useSafeAreaInsets,
+	initialWindowMetrics
+} from 'react-native-safe-area-context'
+import Settings from '../screens/Settings'
+import { SettingsNavigation } from './SettingsNavigation'
 
 const Stack = createStackNavigator<RootStackParamList>()
 
@@ -15,8 +28,18 @@ interface Props {
 }
 
 export function Navigation({ isAuth }: Props) {
+	const dispatch = useReduxDispatch() // для записи в Redux
+	const internetState: NetInfoState = useNetInfo() //проверка подключения к интернету
 	const mainGroup = useReduxSelector(state => state.counter.group)
 	const mainWeek = useReduxSelector(state => state.counter.week)
+	useEffect(() => {
+		if (internetState.isConnected == true) {
+			dispatch(addIsAppOfflineToRedux(false))
+		} else if (internetState.isConnected == false) {
+			dispatch(addIsAppOfflineToRedux(true))
+		}
+	}, [internetState.isConnected])
+
 	return (
 		<NavigationContainer>
 			<Stack.Navigator
@@ -31,9 +54,10 @@ export function Navigation({ isAuth }: Props) {
 					name={MainRoutes.Shedule}
 					component={BottomNavigation}
 					options={{
-						title: mainGroup,
-						headerRight: () => (
-							<Text style={{ marginRight: 16 }}>{mainWeek + ' неделя'}</Text>
+						header: () => (
+							<SafeAreaView>
+								<HeaderSchedule />
+							</SafeAreaView>
 						)
 					}}
 				/>
@@ -41,11 +65,3 @@ export function Navigation({ isAuth }: Props) {
 		</NavigationContainer>
 	)
 }
-
-// export function Navigation({ isAuth }: Props) {
-// 	return (
-// 		<NavigationContainer>
-// 			<DaysNavigation />
-// 		</NavigationContainer>
-// 	)
-// }

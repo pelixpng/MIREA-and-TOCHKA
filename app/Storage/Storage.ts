@@ -19,4 +19,13 @@ export default class StorageService {
             // saving error
         }
     }
+
+    static storeScheduleWeekData = async (week:string, scheduleCache:string ) => {
+        try {
+            await AsyncStorage.setItem('weekKey', week)
+            await AsyncStorage.setItem('scheduleCache', scheduleCache)
+        } catch (e) {
+            // saving error
+        }
+    }
 }

@@ -1,57 +1,96 @@
-import React, { FC, useState } from 'react'
-import { Button, TextInput, View } from 'react-native'
+import React, { FC, useEffect, useState } from 'react'
+import { Button, View } from 'react-native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../types/Navigation.types'
-import { useReduxDispatch } from '../redux'
-import { addScheduleParsToRedux } from '../redux/counter'
+import { useReduxDispatch, useReduxSelector } from '../redux'
+import { addScheduleParsToRedux, addWeekToRedux } from '../redux/counter'
 import StorageService from '../Storage/Storage'
 import ApiService from '../api/MireaApi'
 import { MainRoutes } from '../navigation/Routes'
 import { parsSchedule } from '../api/ParserApi'
 import { useNetInfo, NetInfoState } from '@react-native-community/netinfo'
 import AlertModalService from '../utilities/AlertModal'
+import { StatusBar } from 'expo-status-bar'
+import DropDownPicker from 'react-native-dropdown-picker'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'StartScreen'>
 
 const StartScreen: FC<Props> = ({ navigation }) => {
+	const ifOffline = useReduxSelector(state => state.counter.isAppOffline)
 	const [group, setGroup] = useState('') //тут хранится состояние инпут поля
+	const [collorButton, setCollorButto] = useState('green') //тут хранится состояние инпут поля
+	const [open, setOpen] = useState(true)
 	const dispatch = useReduxDispatch() //запись в хранилище
-	const internetState: NetInfoState = useNetInfo() //проверка подключения к интернету
+	const allGroups = useReduxSelector(state => state.counter.allGroupsList)
+
+	//если не было интернета а потом он появился, то потом надо подгрузить все группы попробовать
+	useEffect(() => {
+		if (ifOffline || group == '') {
+			setCollorButto('grey')
+		} else {
+			setCollorButto('green')
+		}
+	}, [ifOffline, group])
 
 	const setStatrGroup = async () => {
-		//тут нужно много проверок и всплыабщие окна
-		if (internetState.isConnected === false) {
-			AlertModalService.noInternet()
-		} else {
-			try {
-				await StorageService.storeData(
-					dispatch,
-					'@currentGroup',
-					group.toLocaleUpperCase()
-				) //сохраняем группу в кэш
-				const updateSchedule = await ApiService.full_schedule(
-					group.toLocaleUpperCase()
-				) //получаем расписание
-				const mainWeek = await ApiService.current_week() //получаем неделю
-				const tmp = parsSchedule(mainWeek, updateSchedule) //парсим json файл расписания
-				dispatch(addScheduleParsToRedux(tmp)) //запись расписания в Redux
-				navigation.navigate(MainRoutes.Shedule) //переходим на экран с расписанием
-			} catch (e) {
-				AlertModalService.groupNotFound(group.toLocaleUpperCase())
-				console.log(e)
-			}
+		try {
+			await StorageService.storeData(dispatch, '@currentGroup', group) //сохраняем группу в кэш
+			const updateSchedule = await ApiService.full_schedule(group) //получаем расписание
+			const mainWeek = await ApiService.current_week() //получаем неделю
+			dispatch(addWeekToRedux(mainWeek))
+			const tmp = parsSchedule(mainWeek, updateSchedule) //парсим json файл расписания
+			dispatch(addScheduleParsToRedux(tmp)) //запись расписания в Redux
+			StorageService.storeScheduleWeekData(
+				//тут возможен баг с сохранением не найденной группы
+				mainWeek.toString(),
+				JSON.stringify(tmp)
+			)
+			navigation.navigate(MainRoutes.Shedule) //переходим на экран с расписанием
+		} catch (e) {
+			//надо добавить проверку на причину ошибки
+			AlertModalService.groupNotFound(group)
+			console.log(e)
 		}
 	}
 
 	return (
 		<View>
-			<TextInput
-				placeholder={'Напиши группу...'}
-				onChangeText={setGroup}
-				style={{ fontSize: 50 }}
-				maxLength={10}
+			<Button
+				title='Далее'
+				onPress={() => {
+					if (ifOffline) {
+						AlertModalService.noInternet()
+					} else if (group == '') {
+						AlertModalService.groupNotSelect()
+					} else {
+						setStatrGroup()
+					}
+				}}
+				color={collorButton}
 			/>
-			<Button title='Далее' onPress={setStatrGroup} />
+			<DropDownPicker
+				open={open}
+				value={group}
+				items={allGroups}
+				setOpen={setOpen}
+				setValue={setGroup}
+				searchable={true}
+				theme='LIGHT'
+				multiple={false}
+				mode='BADGE'
+				dropDownDirection='AUTO'
+				language='RU'
+				placeholder='Выбери группу'
+				searchTextInputProps={{
+					maxLength: 10
+				}}
+				searchPlaceholder='Напишите группу в формате: XXXX-00-00'
+				style={{
+					minHeight: 50,
+					paddingVertical: 3
+				}}
+			/>
+			<StatusBar style='auto' />
 		</View>
 	)
 }

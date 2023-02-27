@@ -22,6 +22,7 @@ export const TeacherSubject = (props: Props) => {
 	return (
 		<TouchableOpacity style={styles.subject}>
 			<View>
+				<Text>{props.data.group}</Text>
 				<Text>
 					{props.data.dayWeek +
 						'    ' +
@@ -51,13 +52,4 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between'
 	}
-	// time: {
-	// 	flexDirection: 'column'
-	// },
-	// nameSubject: {
-	// 	flexDirection: 'column'
-	// },
-	// placeAndType: {
-	// 	flexDirection: 'column'
-	// }
 })

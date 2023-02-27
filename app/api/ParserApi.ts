@@ -1,5 +1,4 @@
 import { ScheduleResponse } from "../types/schedule"
-//TODO: почитать про еслинт и подключить его!
 
 export interface Pair {
 	name: string
@@ -16,9 +15,6 @@ export function parsSchedule(mainWeek: number, mainScheduleJson: ScheduleRespons
     function even(week: number) {
 		return week % 2 == 0 ? 1 : 0
 	}
-
-	
-	
 	function MYparsing() {
 		const schedule: Pair[][] = []
 		const typeWeek = even(mainWeek)
@@ -52,3 +48,6 @@ export function parsSchedule(mainWeek: number, mainScheduleJson: ScheduleRespons
 	}
 	return MYparsing()
 }
+
+
+

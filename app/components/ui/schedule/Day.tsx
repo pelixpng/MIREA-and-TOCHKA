@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { FlatList, Text, View } from 'react-native'
+import { FlatList, Text, View, StyleSheet } from 'react-native'
 import { useReduxSelector } from '../../../redux'
 import Subject, { ItemProps } from './Subject'
 
@@ -34,12 +34,11 @@ function Day({ dayNumber }: ComponentProps) {
 		})
 	}
 	useEffect(() => {
-		//console.log(dayNumber)
 		setListOfSubject([])
+		//когда в дне нет пар поставить заглушку
 		if (!finalPairs?.[dayNumber]?.length) return
 		if (dayNumber != 6) {
 			for (let i = finalPairs[dayNumber].length - 1; i >= 0; i--) {
-				//не используй эни
 				const tmp = finalPairs[dayNumber][i]
 				addSubject(
 					tmp.name,
@@ -54,7 +53,7 @@ function Day({ dayNumber }: ComponentProps) {
 	}, [finalPairs])
 
 	return (
-		<View>
+		<View style={styles.day}>
 			<FlatList
 				data={listOfSubject}
 				renderItem={({ item }) => <Subject data={item} />}
@@ -63,5 +62,11 @@ function Day({ dayNumber }: ComponentProps) {
 		</View>
 	)
 }
+
+const styles = StyleSheet.create({
+	day: {
+		backgroundColor: '#e9e9e9'
+	}
+})
 
 export default Day

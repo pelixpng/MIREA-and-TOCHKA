@@ -33,7 +33,27 @@ export default class AlertModalService {
         )
     }
 
-    // static storeData =  () => {
-        
-    // }
+    static groupNotSelect = () => {
+        Alert.alert(
+            `Ошибка!`,
+            'Вначале выбери группу из списка.',
+            [{ text: 'Ок' }]
+        )
+    }
+
+    static noInternetForMap = () => {
+        Alert.alert(
+            `Внимание!`,
+            'Нет подключения к интернету, оналйн карта может не рабоать или не отображать все этажи. Воспользуйтесь офлайн картой либо подключитесь к интернету.',
+            [{ text: 'Ок' }]
+        )
+    }
+
+    static noInternetForFindTeacher = () => {
+        Alert.alert(
+            'Вы не подключены к интернету.',
+            'Для поиска преподавателя требуется подключение к интернету',
+            [{ text: 'Ок' }]
+        )
+    }
 }

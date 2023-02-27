@@ -1,4 +1,4 @@
-import { ScheduleResponse, teacherScheduleReasponse } from "../types/schedule";
+import { ScheduleResponse, teacherScheduleReasponse, groupSearcheResponse } from "../types/schedule";
 
 export default class ApiService {
     static async current_week() {
@@ -15,7 +15,7 @@ export default class ApiService {
 
     static async all_groups() {
         const res = await fetch(`https://schedule.mirea.ninja/api/schedule/groups`);
-        const json = await res.json();
+        const json = await res.json() as groupSearcheResponse;
         return json
     }
 
@@ -25,28 +25,3 @@ export default class ApiService {
         return json
     }
 }
-
-
-
-
-
-
-
-
-// export async function current_week() {
-//     const res = await fetch(`http://schedule.mirea.ninja/api/schedule/current_week`);
-//     const json = await res.json();
-//     return json.week + ""
-// }
-
-
-// useEffect(() => {
-    
-//     (async () =>{
-//         const currentWeek = await current_week();
-
-//         // dispatch(setWeek(currentWeek))
-//     })
-// }, []);
-
-

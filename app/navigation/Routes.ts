@@ -4,10 +4,17 @@ export enum MainRoutes {
     Shedule = 'Shedule',
     Settings = 'Settings',
     SelectMireaMap = 'SelectMireaMap',
-    FindTeacher = 'FindTeacher',
+    FindTeacher = 'FindTeacher'
 }
 
 export enum MapRoutes {
     OnlineMap = 'Навигатор/Поиск',
     OfflineMap = 'Карта'
+}
+
+export enum SettingsRoutes {
+    AboutApp = 'AboutApp',
+    ChangeTheme = 'ChangeTheme',
+    FeedBack = 'FeedBack',
+    Settings = 'Settings'
 }

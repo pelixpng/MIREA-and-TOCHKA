@@ -1,8 +1,6 @@
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
 
-// type ElementProps = JSON
-
 interface Props {
 	data: ItemProps
 }

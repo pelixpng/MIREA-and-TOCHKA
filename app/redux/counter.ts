@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 import { ScheduleResponse } from '../types/schedule';
 import { ItemProps } from '../components/ui/schedule/Subject';
 
@@ -16,7 +16,8 @@ interface InitialState {
     week:number;
     schedule:ScheduleResponse;
     schedulePars:[ItemProps[]]
-    isScheduleFromCache:boolean;
+    allGroupsList:Array<Object>;
+    isAppOffline:boolean
 }
 
 
@@ -29,9 +30,16 @@ const initialState:InitialState = {
         schedule:[]
     },
     schedulePars:[[]],
-    isScheduleFromCache:false
+    allGroupsList:[],
+    isAppOffline:false
 }
 
+export const getAllGroups = createAsyncThunk(
+    'groupState/getAllGroups',
+    async function() {
+        
+    }
+)
 
 const counterSlice = createSlice({
     name: 'groupState', 
@@ -49,12 +57,18 @@ const counterSlice = createSlice({
         addScheduleParsToRedux: (state, action: PayloadAction<any>) => {
             state.schedulePars = action.payload
         },
-        addIsScheduleFromCache: (state, action: PayloadAction<boolean>) => {
-            //вместо этого используй asyncThunk
-            state.isScheduleFromCache = action.payload
+        // addIsScheduleFromCache: (state, action: PayloadAction<boolean>) => {
+        //     //вместо этого используй asyncThunk
+        //     state.isScheduleFromCache = action.payload
+        // },
+        addAllgroupToRedux: (state, action: PayloadAction<Array<Object>>) => {
+            state.allGroupsList = action.payload
+        },
+        addIsAppOfflineToRedux: (state, action: PayloadAction<boolean>) => {
+            state.isAppOffline = action.payload
         }
     },
 })
 
-export const { addGroupToRedux, addWeekToRedux, addScheduleToRedux, addScheduleParsToRedux, addIsScheduleFromCache } = counterSlice.actions //экспортируем функцию
+export const { addGroupToRedux, addWeekToRedux, addScheduleToRedux, addScheduleParsToRedux, addAllgroupToRedux, addIsAppOfflineToRedux } = counterSlice.actions //экспортируем функцию
 export default counterSlice.reducer // экспортируем редусеры

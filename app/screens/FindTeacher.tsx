@@ -1,18 +1,25 @@
-import { useNetInfo } from '@react-native-community/netinfo'
-import { NetInfoState } from '@react-native-community/netinfo/lib/typescript/src/internal/types'
-import React, { FC, useState } from 'react'
-import { View, StyleSheet, TextInput, Button, FlatList } from 'react-native'
-import { isSearchBarAvailableForCurrentPlatform } from 'react-native-screens'
+import React, { FC, useEffect, useState } from 'react'
+import { View, TextInput, Button, FlatList } from 'react-native'
 import ApiService from '../api/MireaApi'
 import { parsTeacherSchedule } from '../api/TestTeacherParser'
 import { TescherItemProps } from '../components/ui/scheduleTeacher/SubjectTeacher'
 import AlertModalService from '../utilities/AlertModal'
 import { TeacherSubject } from '../components/ui/scheduleTeacher/SubjectTeacher'
+import { useReduxSelector } from '../redux'
 
 export const FindTeacher: FC = () => {
 	const [nameTeacher, setNameTeacher] = useState('')
 	const [listOfTeacher, setListOfTeacher] = useState<TescherItemProps[]>([])
-	const internetState: NetInfoState = useNetInfo() //проверка подключения к интернету
+	const ifOffline = useReduxSelector(state => state.counter.isAppOffline)
+	const [collorButton, setCollorButto] = useState('green')
+
+	useEffect(() => {
+		if (ifOffline || nameTeacher.length <= 3) {
+			setCollorButto('grey')
+		} else {
+			setCollorButto('green')
+		}
+	}, [ifOffline, nameTeacher])
 
 	const addTeacherSubjectToList = (
 		name: string,
@@ -44,14 +51,15 @@ export const FindTeacher: FC = () => {
 	}
 
 	const findScheduleTeacher = async () => {
-		//тут нужно много проверок и всплыабщие окна
-		if (internetState.isConnected === false) {
+		if (ifOffline == true) {
 			AlertModalService.noInternet()
 		} else {
 			try {
 				setListOfTeacher([])
 				const updateSchedule = await ApiService.teacher_schedule(nameTeacher) //получаем расписание
-				const sch = parsTeacherSchedule(updateSchedule) //парсим json файл расписания
+				console.log(updateSchedule)
+				const sch = parsTeacherSchedule(updateSchedule, nameTeacher) //парсим json файл расписания
+				console.log(sch)
 				for (let i = 0; i < sch.length; i++) {
 					const tmp = sch[i]
 					addTeacherSubjectToList(
@@ -67,7 +75,6 @@ export const FindTeacher: FC = () => {
 					)
 				}
 			} catch (e) {
-				AlertModalService.teacherNotFound(nameTeacher)
 				console.log(e)
 			}
 		}
@@ -80,7 +87,19 @@ export const FindTeacher: FC = () => {
 				onChangeText={setNameTeacher}
 				style={{ fontSize: 50 }}
 			/>
-			<Button title='Поиск' onPress={findScheduleTeacher} />
+			<Button
+				title='Далее'
+				onPress={() => {
+					if (ifOffline) {
+						AlertModalService.noInternet()
+					} else if (nameTeacher.length <= 3) {
+						AlertModalService.groupNotSelect()
+					} else {
+						findScheduleTeacher()
+					}
+				}}
+				color={collorButton}
+			/>
 			<FlatList
 				data={listOfTeacher}
 				renderItem={({ item }) => <TeacherSubject data={item} />}
@@ -89,16 +108,3 @@ export const FindTeacher: FC = () => {
 		</View>
 	)
 }
-
-const styles = StyleSheet.create({
-	subject: {
-		padding: 20,
-		borderRadius: 5,
-		backgroundColor: 'white',
-		marginTop: 20,
-		width: '97%',
-		alignSelf: 'center',
-		flexDirection: 'row',
-		justifyContent: 'space-between'
-	}
-})

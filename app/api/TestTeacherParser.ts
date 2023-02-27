@@ -1,4 +1,5 @@
 import { teacherScheduleReasponse } from '../types/schedule'
+import AlertModalService from '../utilities/AlertModal'
 
 export interface TeacherPair {
 	group: string
@@ -29,23 +30,28 @@ function convertWeekDay(day: number) {
 
 
 export function parsTeacherSchedule(
-	teacherScheduleJson: teacherScheduleReasponse
+	teacherScheduleJson: teacherScheduleReasponse,
+	nameTeacher: string
 ) {
 	const schedule: TeacherPair[] = []
-	for (let i = 0; i < teacherScheduleJson.schedules.length; i++) {
-		const dayPair: TeacherPair = {
-			name: teacherScheduleJson.schedules[i]?.lesson?.name,
-			time_start: teacherScheduleJson.schedules[i]?.lesson?.time_start,
-			time_end: teacherScheduleJson.schedules[i]?.lesson?.time_end,
-			types: teacherScheduleJson.schedules[i]?.lesson?.types,
-			teachers: teacherScheduleJson.schedules[i]?.lesson?.teachers,
-			rooms: teacherScheduleJson.schedules[i]?.lesson?.rooms,
-			dayWeek: convertWeekDay(Number(teacherScheduleJson.schedules[i]?.weekday)),
-			weeks: teacherScheduleJson.schedules[i]?.lesson?.weeks,
-			group: teacherScheduleJson.schedules[i]?.group
-		}
-		schedule.push(dayPair)
-		
+	try {
+			for (let i = 0; i < teacherScheduleJson.schedules.length; i++) {
+				const dayPair: TeacherPair = {
+				name: teacherScheduleJson.schedules[i]?.lesson?.name,
+				time_start: teacherScheduleJson.schedules[i]?.lesson?.time_start,
+				time_end: teacherScheduleJson.schedules[i]?.lesson?.time_end,
+				types: teacherScheduleJson.schedules[i]?.lesson?.types,
+				teachers: teacherScheduleJson.schedules[i]?.lesson?.teachers,
+				rooms: teacherScheduleJson.schedules[i]?.lesson?.rooms,
+				dayWeek: convertWeekDay(Number(teacherScheduleJson.schedules[i]?.weekday)),
+				weeks: teacherScheduleJson.schedules[i]?.lesson?.weeks,
+				group: teacherScheduleJson.schedules[i]?.group
+			}
+			schedule.push(dayPair)
+			}
+		}	
+	catch (error) {
+		AlertModalService.teacherNotFound(nameTeacher)
 	}
 	return schedule;
 }
