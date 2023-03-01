@@ -24,18 +24,22 @@ export function parsSchedule(mainWeek: number, mainScheduleJson: ScheduleRespons
 			for (let day = 1; day < 7; day++) {
 				const dayPairs = mainScheduleJson?.schedule[day]?.lessons?.reduce(
 					(acc, lesson) => {
-						const title = lesson?.[typeWeek]?.name
-						const dayPair: Pair = {
-							name: title,
-							time_start: lesson?.[typeWeek]?.time_start,
-							time_end: lesson?.[typeWeek]?.time_end,
-							types: lesson?.[typeWeek]?.types,
-							teachers: lesson?.[typeWeek]?.teachers,
-							rooms: lesson?.[typeWeek]?.rooms,
-							weeks: lesson?.[typeWeek]?.weeks
-						}
-						if (lesson?.[typeWeek]?.weeks.includes(mainWeek)) {
-							acc.push(dayPair)
+						//починить парсер
+						for (let i = 0; i < lesson.length; i++) {
+							const title = lesson?.[i]?.name
+							const dayPair: Pair = {
+								name: title,
+								time_start: lesson?.[i]?.time_start,
+								time_end: lesson?.[i]?.time_end,
+								types: lesson?.[i]?.types,
+								teachers: lesson?.[i]?.teachers,
+								rooms: lesson?.[i]?.rooms,
+								weeks: lesson?.[i]?.weeks
+							}
+							console.log(title)
+							if (lesson?.[i]?.weeks.includes(mainWeek)) {
+								acc.push(dayPair)
+							}
 						}
 						return acc
 					},
