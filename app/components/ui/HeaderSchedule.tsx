@@ -8,29 +8,40 @@ import styled from 'styled-components/native'
 import { MainRoutes } from '../../navigation/Routes'
 import { useReduxSelector } from '../../redux'
 import { RootStackParamList } from '../../types/Navigation.types'
+import AlertModalService from '../../utilities/AlertModal'
+
+const CachComponent: FC = () => {
+	return (
+		<ButtonCacheContainer
+			onPress={() => AlertModalService.noInternetForHeaderSchedule()}
+		>
+			<ButtonCacheText>КЭШ</ButtonCacheText>
+		</ButtonCacheContainer>
+	)
+}
 
 export const HeaderSchedule: FC = () => {
 	const mainGroup = useReduxSelector(state => state.counter.group)
 	const mainWeek = useReduxSelector(state => state.counter.week)
+	const isAppOfline = useReduxSelector(state => state.counter.isAppOffline)
 	const nav = useNavigation()
 	return (
 		<HView>
 			<StyledView>
 				<WeekText>{mainWeek}</WeekText>
 				<DopWeekText>Неделя Семестра</DopWeekText>
-				<ButtonContainer
+				{isAppOfline ? <CachComponent /> : null}
+				<ButtonGroupContainer
 					onPress={() =>
 						console.log('Переход в режим смены группы еще не готов')
 					}
 				>
-					<ButtonText>{mainGroup}</ButtonText>
-				</ButtonContainer>
+					<ButtonGroupText>{mainGroup}</ButtonGroupText>
+				</ButtonGroupContainer>
 			</StyledView>
 		</HView>
 	)
 }
-
-// Create a Title component that'll render an <h1> tag with some styles
 
 const HView = styled.View`
 	height: 60px;
@@ -66,21 +77,41 @@ const WeekText = styled.Text`
 	line-height: 66px;
 `
 
-const ButtonContainer = styled.TouchableOpacity`
+const ButtonGroupContainer = styled.TouchableOpacity`
 	top: 5px;
-	width: 120px;
+	width: auto;
 	height: 43px;
 	border-radius: 10px;
 	background-color: rgba(0, 255, 144, 0.2);
 	margin-left: auto;
 	right: 1px;
 `
-const ButtonText = styled.Text`
+const ButtonGroupText = styled.Text`
 	font-size: 23px;
 	text-align: center;
 	color: #4dc591;
-	opacity: 1;
 	font-weight: 500;
 	line-height: 45px;
+	margin-right: 1%;
+	margin-left: 1%;
 `
-// Create a Wrapper component that'll render a <section> tag with some styles
+const ButtonCacheContainer = styled.TouchableOpacity`
+	top: 5px;
+	width: auto;
+	height: 43px;
+	border-radius: 10px;
+	background-color: rgba(0, 255, 144, 0.2);
+	margin-left: auto;
+	margin-right: auto;
+	right: 1px;
+	align-items: center;
+`
+const ButtonCacheText = styled.Text`
+	font-size: 23px;
+	text-align: center;
+	color: #4dc591;
+	font-weight: 500;
+	line-height: 45px;
+	margin-right: 1%;
+	margin-left: 1%;
+`

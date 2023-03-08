@@ -1,15 +1,11 @@
 import React, { FC } from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import Settings from '../screens/Settings'
 import { MainRoutes } from './Routes'
 import DaysNavigation from './DaysNavigation'
 import { SelectMireaMap } from './MapNavigation'
 import { FindTeacher } from '../screens/FindTeacher'
-import { NetInfoState, useNetInfo } from '@react-native-community/netinfo'
 import { SettingsNavigation } from './SettingsNavigation'
 import { AntDesign } from '@expo/vector-icons'
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import { Entypo } from '@expo/vector-icons'
 import { Ionicons } from '@expo/vector-icons'
 const Tab = createBottomTabNavigator()
 //навигация между экранами приложения
@@ -39,7 +35,7 @@ const BottomNavigation: FC = () => {
 				component={FindTeacher}
 				options={{
 					headerShown: false,
-					title: 'Поиск препода',
+					title: 'Поиск',
 					tabBarIcon: ({ color }) => (
 						<AntDesign name='search1' size={24} color={color} />
 					)

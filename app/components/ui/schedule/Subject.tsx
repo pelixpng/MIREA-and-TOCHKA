@@ -1,4 +1,3 @@
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
 import styled from 'styled-components/native'
 import { Ionicons } from '@expo/vector-icons'
@@ -65,53 +64,13 @@ export const Subject = (props: Props) => {
 						<Ionicons name='person-outline' size={16} color='black' />
 						<TeacherText>{teachers}</TeacherText>
 					</TeacherContainer>
-					{/* <Ionicons name='location-outline' size={18} color='black' />
-					<RoomText>{rooms.split('.')[1]}</RoomText>
-					<Ionicons name='person-outline' size={18} color='black' />
-					<RoomText>{teachers}</RoomText> */}
 				</RoomAndTeacherContainer>
 			</InfoContainer>
 		</SubjectContainer>
-		// <TouchableOpacity style={styles.subject}>
-		// 	<View style={styles.time}>
-		// 		<Text>{props.data.time_start}</Text>
-		// 		{/* <Text>{end}</Text> */}
-		// 	</View>
-		// 	<View style={styles.nameSubject}>
-		// 		<Text>{props.data.name}</Text>
-		// 		{/* <Text>{teacher}</Text> */}
-		// 	</View>
-		// 	<View style={styles.placeAndType}>
-		// 		<Text>{props.data.types}</Text>
-		// 		{/* <Text>{typeSub}</Text> */}
-		// 	</View>
-		// </TouchableOpacity>
 	)
 }
 
 export default Subject
-// styled-components one ❤️
-const styles = StyleSheet.create({
-	subject: {
-		padding: 20,
-		borderRadius: 5,
-		backgroundColor: 'white',
-		marginTop: 20,
-		width: '97%',
-		alignSelf: 'center',
-		flexDirection: 'row',
-		justifyContent: 'space-between'
-	},
-	time: {
-		flexDirection: 'column'
-	},
-	nameSubject: {
-		flexDirection: 'column'
-	},
-	placeAndType: {
-		flexDirection: 'column'
-	}
-})
 
 const SubjectContainer = styled.View`
 	padding: 10px;

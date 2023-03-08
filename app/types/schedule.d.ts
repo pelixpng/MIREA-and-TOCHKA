@@ -29,7 +29,7 @@ export interface Lesson {
 //интерфейс для ответа Api поиск расписания препода
 export interface InfoLesson {
   name: string;
-  weeks: string[];
+  weeks: number[];
   time_start: string;
   time_end: string;
   types: string;

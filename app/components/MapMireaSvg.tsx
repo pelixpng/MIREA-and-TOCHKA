@@ -2,6 +2,7 @@ import { Button, StyleSheet, View } from 'react-native'
 import SvgPanZoom from 'react-native-svg-pan-zoom'
 import React, { FC, useState } from 'react'
 import { FLOOR_0, FLOOR_1, FLOOR_2, FLOOR_3, FLOOR_4 } from './FloorMireaMap'
+import { HeaderSchedule } from './ui/HeaderSchedule'
 
 const floorsComponents = {
 	'0': <FLOOR_0 />,
@@ -14,7 +15,7 @@ const floorsComponents = {
 const floors = ['0', '1', '2', '3', '4'] as const
 
 export const OfflineMap: FC = () => {
-	const [currentFloor, setCurrentFloor] = useState<(typeof floors)[number]>('2')
+	const [currentFloor, setCurrentFloor] = useState<typeof floors[number]>('2')
 
 	return (
 		<View style={{ width: '100%', height: '100%' }}>
@@ -34,7 +35,7 @@ export const OfflineMap: FC = () => {
 				minScale={0.35}
 				maxScale={1}
 				initialZoom={0.5}
-				viewStyle={{ backgroundColor: 'white' }}
+				viewStyle={{ backgroundColor: '#ffffff' }}
 			>
 				{floorsComponents[currentFloor]}
 			</SvgPanZoom>

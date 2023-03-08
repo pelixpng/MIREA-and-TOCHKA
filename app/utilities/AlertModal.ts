@@ -56,4 +56,21 @@ export default class AlertModalService {
             [{ text: 'Ок' }]
         )
     }
+
+    static noInternetForHeaderSchedule = () => {
+        Alert.alert(
+            'Вы не подключены к интернету.',
+            'Расписание может быть не актуально.',
+            [{ text: 'Ок' }]
+        )
+    }
+
+    static teacherNameFormatError = () => {
+        Alert.alert(
+            'Запрос не соответствует формату: "Xxxxx X.X."',
+            'Пример корректного запроса: "Расулов М.М." ',
+            [{ text: 'Ок' }]
+        )
+    }
+
 }

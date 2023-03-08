@@ -1,78 +1,84 @@
 import React, { FC, useEffect, useState } from 'react'
-import { View, TextInput, Button, FlatList } from 'react-native'
+import { View, TextInput, Button } from 'react-native'
 import ApiService from '../api/MireaApi'
-import { parsTeacherSchedule } from '../api/TestTeacherParser'
-import { TescherItemProps } from '../components/ui/scheduleTeacher/SubjectTeacher'
+import { parsTeacherSchedule, TeacherPair } from '../api/TestTeacherParser'
 import AlertModalService from '../utilities/AlertModal'
-import { TeacherSubject } from '../components/ui/scheduleTeacher/SubjectTeacher'
 import { useReduxSelector } from '../redux'
+import { Keyboard } from 'react-native'
+import { SearchLoading } from '../components/ui/scheduleTeacher/SearchLoading'
+import { AntDesign } from '@expo/vector-icons'
+import { SearceListComponent } from '../components/ui/scheduleTeacher/SearchResponce'
+import styled from 'styled-components/native'
+import { Ionicons } from '@expo/vector-icons'
 
 export const FindTeacher: FC = () => {
+	const [showFilter, setShowFilter] = useState(false)
+	const [triggerUseEffect, setTriggerUseEffect] = useState('')
+	const [isSearchToDay, setIsSearchToDay] = useState(false)
+	const [isSearchInThisWeek, setisSearchInThisWeek] = useState(false)
+	const [textForLoading, setTextForLoading] = useState(
+		'Здесь появятся результаты поиска'
+	)
+	const [isSearchLoading, setIsSearchLoading] = useState(false) // статус загрузки приложения
 	const [nameTeacher, setNameTeacher] = useState('')
-	const [listOfTeacher, setListOfTeacher] = useState<TescherItemProps[]>([])
+	const [listOfTeacher, setListOfTeacher] = useState<Array<Array<TeacherPair>>>(
+		[[], [], [], [], [], []]
+	)
 	const ifOffline = useReduxSelector(state => state.counter.isAppOffline)
-	const [collorButton, setCollorButto] = useState('green')
+	const week = useReduxSelector(state => state.counter.week)
+	const regex = /^[А-Яа-я]+\s+[А-Яа-я]\.\s*[А-Яа-я]\.?$/
+	const testForEmty: Array<Array<TeacherPair>> = [[], [], [], [], [], []]
+	const date = new Date()
 
 	useEffect(() => {
-		if (ifOffline || nameTeacher.length <= 3) {
-			setCollorButto('grey')
-		} else {
-			setCollorButto('green')
+		setIsSearchLoading(false)
+		if (ifOffline) {
+			setTextForLoading('Нет подключеения к интернету')
+		} else if (regex.test(nameTeacher) == false && nameTeacher.length != 0) {
+			setTextForLoading('Запрос не соответствует формату: Xxxx X.X.')
+		} else if (nameTeacher.length == 0) {
+			setTextForLoading('Здесь появятся результаты поиска')
+		} else if (regex.test(nameTeacher) == true && ifOffline == false) {
+			if (isSearchInThisWeek && isSearchToDay == false) {
+				console.log('Поиск на этой неделе')
+				findScheduleTeacher(null, week)
+				Keyboard.dismiss()
+			} else if (isSearchToDay && isSearchInThisWeek == false) {
+				console.log('Поиск сегодня')
+				findScheduleTeacher(date.getDay(), week)
+				Keyboard.dismiss()
+			} else {
+				findScheduleTeacher(null, null)
+				Keyboard.dismiss()
+			}
 		}
-	}, [ifOffline, nameTeacher])
+	}, [ifOffline, nameTeacher, triggerUseEffect])
 
-	const addTeacherSubjectToList = (
-		name: string,
-		time_start: string,
-		time_end: string,
-		types: string,
-		teachers: string,
-		rooms: string,
-		dayWeek: string,
-		weeks: string,
-		group: string
+	const findScheduleTeacher = async (
+		toDay: number | null,
+		toWeek: number | null
 	) => {
-		setListOfTeacher(list => {
-			return [
-				{
-					name: name,
-					time_start: time_start,
-					time_end: time_end,
-					types: types,
-					teachers: teachers,
-					rooms: rooms,
-					dayWeek: dayWeek,
-					weeks: weeks,
-					group: group
-				},
-				...list
-			]
-		})
-	}
-
-	const findScheduleTeacher = async () => {
 		if (ifOffline == true) {
 			AlertModalService.noInternet()
 		} else {
 			try {
+				setTextForLoading('Ищу: ' + nameTeacher)
+				setIsSearchLoading(false)
 				setListOfTeacher([])
 				const updateSchedule = await ApiService.teacher_schedule(nameTeacher) //получаем расписание
-				console.log(updateSchedule)
-				const sch = parsTeacherSchedule(updateSchedule, nameTeacher) //парсим json файл расписания
-				console.log(sch)
-				for (let i = 0; i < sch.length; i++) {
-					const tmp = sch[i]
-					addTeacherSubjectToList(
-						tmp.name,
-						tmp.time_start,
-						tmp.time_end,
-						tmp.types,
-						tmp.teachers.toString(),
-						tmp.rooms.toString(),
-						tmp.dayWeek,
-						tmp.weeks.toString(),
-						tmp.group
-					)
+				const sch = parsTeacherSchedule(
+					updateSchedule,
+					nameTeacher,
+					toDay,
+					toWeek
+				) //парсим json файл расписания
+				if (sch.toString() == testForEmty.toString()) {
+					console.log('ПУСТОЙ')
+					setTextForLoading('Преподавателя нету сегодня.')
+				} else {
+					setListOfTeacher(sch)
+					setIsSearchLoading(true)
+					setTextForLoading('Здесь появятся результаты поиска')
 				}
 			} catch (e) {
 				console.log(e)
@@ -80,31 +86,143 @@ export const FindTeacher: FC = () => {
 		}
 	}
 
-	return (
-		<View>
-			<TextInput
-				placeholder={'Напиши фамилию препода...'}
-				onChangeText={setNameTeacher}
-				style={{ fontSize: 50 }}
-			/>
-			<Button
-				title='Далее'
-				onPress={() => {
-					if (ifOffline) {
-						AlertModalService.noInternet()
-					} else if (nameTeacher.length <= 3) {
-						AlertModalService.groupNotSelect()
-					} else {
-						findScheduleTeacher()
-					}
+	const FilterComponent: FC = () => {
+		return (
+			<View
+				style={{
+					flexDirection: 'row',
+					width: '94%',
+					height: 'auto',
+					marginTop: 20
 				}}
-				color={collorButton}
-			/>
-			<FlatList
-				data={listOfTeacher}
-				renderItem={({ item }) => <TeacherSubject data={item} />}
-				key={Math.random().toString(36).substring(7)}
-			/>
+			>
+				<ThisDayContainer>
+					<ButtonContainer
+						testID={isSearchToDay ? '#fa9292' : 'white'}
+						onPress={() => {
+							if (isSearchToDay) {
+								setIsSearchToDay(false)
+							} else {
+								setIsSearchToDay(true)
+								setisSearchInThisWeek(false)
+							}
+							setTriggerUseEffect(Math.random().toString().substring(3, 8))
+						}}
+					>
+						<ButtonText testID={isSearchToDay ? '#212525' : '#adadae'}>
+							Сегодня
+						</ButtonText>
+					</ButtonContainer>
+				</ThisDayContainer>
+				<ThisWeekContainer>
+					<ButtonContainer
+						testID={isSearchInThisWeek ? '#fa9292' : 'white'}
+						onPress={() => {
+							if (isSearchInThisWeek) {
+								setisSearchInThisWeek(false)
+							} else {
+								setisSearchInThisWeek(true)
+								setIsSearchToDay(false)
+							}
+							setTriggerUseEffect(Math.random().toString().substring(3, 8))
+						}}
+					>
+						<ButtonText testID={isSearchInThisWeek ? '#212525' : '#adadae'}>
+							{week.toString() + ' неделя'}
+						</ButtonText>
+					</ButtonContainer>
+				</ThisWeekContainer>
+			</View>
+		)
+	}
+
+	return (
+		<View
+			style={{
+				backgroundColor: '#e9e9e9',
+				alignItems: 'center',
+				width: '100%'
+			}}
+		>
+			<View style={{ width: '94%', flexDirection: 'row' }}>
+				<View
+					style={{
+						//margin: 10,
+						width: '100%',
+						borderRadius: 20,
+						backgroundColor: '#ffffff',
+						alignItems: 'center',
+						flexDirection: 'row',
+						height: 35
+					}}
+				>
+					<AntDesign
+						name='search1'
+						size={23}
+						color={'#adadae'}
+						style={{ left: 10 }}
+					/>
+					<TextInput
+						placeholderTextColor={'#adadae'}
+						placeholder={'Имя преподавателя...'}
+						onChangeText={setNameTeacher}
+						style={{
+							fontSize: 25,
+							width: '83%',
+							margin: 0,
+							left: 15,
+							color: '#212525;'
+						}}
+					/>
+					<FilterContainer
+						onPress={() => {
+							setShowFilter(!showFilter)
+						}}
+					>
+						<AntDesign name='setting' size={23} color={'#adadae'} />
+					</FilterContainer>
+				</View>
+			</View>
+			{showFilter ? <FilterComponent /> : null}
+			{isSearchLoading ? (
+				<SearceListComponent listOfTeacher={listOfTeacher} />
+			) : (
+				<SearchLoading state={textForLoading} />
+			)}
 		</View>
 	)
 }
+
+const ThisDayContainer = styled.View`
+	width: 50%;
+	height: auto;
+	align-items: center;
+`
+
+const ThisWeekContainer = styled.View`
+	width: 50%;
+	height: auto;
+	align-items: center;
+`
+
+const ButtonContainer = styled.TouchableOpacity`
+	width: 70%;
+	height: auto;
+	border-radius: 20px;
+	background-color: ${props => props.testID};
+	//margin-left: auto;
+`
+const ButtonText = styled.Text`
+	font-size: 25px;
+	text-align: center;
+	color: ${props => props.testID};
+	//line-height: 45px;
+	margin-right: 1%;
+	margin-left: 1%;
+`
+const FilterContainer = styled.TouchableOpacity`
+	width: auto;
+	height: auto;
+	align-items: center;
+	//margin-left: auto;
+`
