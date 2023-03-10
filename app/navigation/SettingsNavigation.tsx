@@ -11,11 +11,21 @@ const SettingsStack = createStackNavigator<SettingsStackParamList>()
 
 export const SettingsNavigation: FC = () => {
 	return (
-		<SettingsStack.Navigator initialRouteName={SettingsRoutes.Settings}>
+		<SettingsStack.Navigator
+			initialRouteName={SettingsRoutes.Settings}
+			screenOptions={{
+				headerStyle: { backgroundColor: '#e9e9e9' },
+				headerTitleStyle: {
+					color: '#adadae',
+					fontSize: 30,
+					fontWeight: '100'
+				}
+			}}
+		>
 			<SettingsStack.Screen
 				name={MainRoutes.Settings}
 				component={Settings}
-				options={{ title: 'Настройки' }}
+				options={{ title: 'Настройки', headerShown: false }}
 			/>
 			<SettingsStack.Screen
 				name={SettingsRoutes.FeedBack}

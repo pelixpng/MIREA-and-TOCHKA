@@ -65,7 +65,8 @@ function Day({ dayNumber }: ComponentProps) {
 
 const styles = StyleSheet.create({
 	day: {
-		backgroundColor: '#e9e9e9'
+		backgroundColor: '#e9e9e9',
+		height: '100%'
 	}
 })
 

@@ -19,13 +19,15 @@ import { MainRoutes, SettingsRoutes } from '../navigation/Routes'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import DropDownPicker from 'react-native-dropdown-picker'
 import { GroupListParser } from '../api/AllGroupListParser'
+import { SettingsButton } from '../components/ui/settings/ButtonSettings'
+import styled from 'styled-components/native'
 
 type settingsNavProps = NativeStackScreenProps<
 	SettingsStackParamList,
 	'Settings'
 >
 
-const Settings: FC<settingsNavProps> = ({ navigation }) => {
+const Settings: FC<settingsNavProps> = ({ navigation, route }) => {
 	const nav = useNavigation()
 	const [group, setGroup] = useState('')
 	const [collorButton, setCollorButto] = useState('green')
@@ -34,6 +36,13 @@ const Settings: FC<settingsNavProps> = ({ navigation }) => {
 	const mainWeek = useReduxSelector(state => state.counter.week)
 	const dispatch = useReduxDispatch() //запись в хранилище
 	const allGroups = useReduxSelector(state => state.counter.allGroupsList)
+	const nameButton: string[] = [
+		'Сменить тему',
+		'Обратная связь',
+		'О приложении'
+	]
+	type routeNameType = 'AboutApp' | 'ChangeTheme' | 'FeedBack' | 'Settings'
+	const routes: routeNameType[] = ['ChangeTheme', 'FeedBack', 'AboutApp']
 
 	useEffect(() => {
 		if (ifOffline || group == '') {
@@ -69,8 +78,28 @@ const Settings: FC<settingsNavProps> = ({ navigation }) => {
 		}
 	}
 
+	const ChangeGroupButton: FC = () => {
+		return (
+			<ButtonContainer
+				testID={
+					ifOffline ? 'rgba(172, 172, 172, 0.2)' : 'rgba(0, 255, 144, 0.2)'
+				}
+				onPress={() => {
+					if (ifOffline) {
+						AlertModalService.noInternet()
+					} else {
+						changeGroup()
+						setGroup('')
+					}
+				}}
+			>
+				<Title>Сменить группу</Title>
+			</ButtonContainer>
+		)
+	}
+
 	return (
-		<View>
+		<View style={{ backgroundColor: '#e9e9e9', height: '100%' }}>
 			<DropDownPicker
 				open={open}
 				value={group}
@@ -89,11 +118,24 @@ const Settings: FC<settingsNavProps> = ({ navigation }) => {
 				}}
 				searchPlaceholder='Напишите группу в формате: XXXX-00-00'
 				style={{
+					marginTop: 10,
 					minHeight: 50,
-					paddingVertical: 3
+					paddingVertical: 3,
+					borderRadius: 20,
+					borderColor: 'white'
+					// width: '97%',
+					// alignSelf: 'center'
 				}}
+				containerStyle={{
+					width: '97%',
+					alignSelf: 'center'
+					//borderColor: 'white'
+				}}
+				dropDownContainerStyle={{ borderColor: 'white', borderRadius: 20 }}
 			/>
-			<Button
+
+			{group != '' ? <ChangeGroupButton /> : null}
+			{/* <Button
 				title='Далее'
 				onPress={() => {
 					if (ifOffline) {
@@ -105,22 +147,38 @@ const Settings: FC<settingsNavProps> = ({ navigation }) => {
 					}
 				}}
 				color={collorButton}
-			/>
-			<Button title='Стереть кэш' onPress={StorageService.delData} />
-			<Button
-				title='Сменить тему'
-				onPress={() => navigation.navigate(SettingsRoutes.ChangeTheme)}
-			/>
-			<Button
-				title='Обратная связь'
-				onPress={() => navigation.navigate(SettingsRoutes.FeedBack)}
-			/>
-			<Button
-				title='О приложении'
-				onPress={() => navigation.navigate(SettingsRoutes.AboutApp)}
-			/>
+			/> */}
+			{/* <Button title='Стереть кэш' onPress={StorageService.delData} /> */}
+			{open == false
+				? nameButton.map((name, index) => (
+						<SettingsButton
+							navigation={navigation}
+							route={route}
+							name={name}
+							routeName={routes[index]}
+						/>
+				  ))
+				: null}
 		</View>
 	)
 }
+
+const ButtonContainer = styled.TouchableOpacity`
+	padding: 10px;
+	border-radius: 20px;
+	background-color: ${props => props.testID};
+	margin-top: 20px;
+	width: 97%;
+	align-self: center;
+	align-items: center;
+`
+const Title = styled.Text`
+	width: auto;
+	height: auto;
+	font-weight: 600;
+	font-size: 20px;
+	//line-height: 23px;
+	color: rgba(33, 37, 37, 0.83);
+`
 
 export default Settings
