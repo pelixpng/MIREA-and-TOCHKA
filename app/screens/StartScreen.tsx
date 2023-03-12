@@ -4,7 +4,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../types/Navigation.types'
 import { useReduxDispatch, useReduxSelector } from '../redux'
 import { addScheduleParsToRedux, addWeekToRedux } from '../redux/counter'
-import StorageService from '../Storage/Storage'
+import StorageService, { Storage } from '../Storage/Storage'
 import ApiService from '../api/MireaApi'
 import { MainRoutes } from '../navigation/Routes'
 import { parsSchedule } from '../api/ParserApi'
@@ -38,6 +38,7 @@ const StartScreen: FC<Props> = ({ navigation }) => {
 			const updateSchedule = await ApiService.full_schedule(group) //получаем расписание
 			const mainWeek = await ApiService.current_week() //получаем неделю
 			dispatch(addWeekToRedux(mainWeek))
+			Storage.set('group', '123')
 			const tmp = parsSchedule(mainWeek, updateSchedule) //парсим json файл расписания
 			dispatch(addScheduleParsToRedux(tmp)) //запись расписания в Redux
 			StorageService.storeScheduleWeekData(

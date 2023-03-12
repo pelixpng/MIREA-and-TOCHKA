@@ -1,10 +1,13 @@
-import { FC } from 'react'
-import { Text, View } from 'react-native'
+import React, { FC } from 'react'
+import { Button, Linking, Text, View } from 'react-native'
 
 export const FeedBack: FC = () => {
 	return (
 		<View>
-			<Text>FeedBack</Text>
+			<Button
+				title='telegram'
+				onPress={() => Linking.openURL('https://t.me/paveldur0')}
+			></Button>
 		</View>
 	)
 }

@@ -16,9 +16,9 @@ const floorsComponents = {
 const floors = ['0', '1', '2', '3', '4'] as const
 
 export const OfflineMap: FC = () => {
-	const [currentFloor, setCurrentFloor] = useState<typeof floors[number]>('2')
+	const [currentFloor, setCurrentFloor] = useState<(typeof floors)[number]>('2')
 	const FloorsSelector: FC<{
-		floor: typeof floors[number]
+		floor: (typeof floors)[number]
 	}> = ({ floor }) => {
 		return (
 			<FlorComponent
@@ -49,7 +49,7 @@ export const OfflineMap: FC = () => {
 					/>
 				))} */}
 				{floors.map(floor => (
-					<FloorsSelector floor={floor} />
+					<FloorsSelector key={floor} floor={floor} />
 				))}
 			</SelectFloorContainer>
 			<SvgPanZoom
@@ -76,6 +76,7 @@ const SelectFloorContainer = styled.View`
 	width: 100%;
 	height: auto;
 	background-color: white;
+	z-index: 1;
 `
 const FlorComponent = styled.TouchableOpacity`
 	margin: 5px;

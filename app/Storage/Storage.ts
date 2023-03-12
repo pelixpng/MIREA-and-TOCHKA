@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { MMKV } from 'react-native-mmkv'
 import { addGroupToRedux } from '../redux/counter'
 
 export default class StorageService {
@@ -29,3 +30,5 @@ export default class StorageService {
         }
     }
 }
+
+export const Storage = new MMKV()

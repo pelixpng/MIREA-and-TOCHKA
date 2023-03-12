@@ -5,7 +5,7 @@ import { StackScreenProps } from '@react-navigation/stack'
 import { FC } from 'react'
 import { Text, View, TouchableOpacity } from 'react-native'
 import styled from 'styled-components/native'
-import { MainRoutes } from '../../navigation/Routes'
+import { MainRoutes, SettingsRoutes } from '../../navigation/Routes'
 import { useReduxSelector } from '../../redux'
 import { RootStackParamList } from '../../types/Navigation.types'
 import AlertModalService from '../../utilities/AlertModal'
@@ -33,7 +33,9 @@ export const HeaderSchedule: FC = () => {
 				{isAppOfline ? <CachComponent /> : null}
 				<ButtonGroupContainer
 					onPress={() =>
-						console.log('Переход в режим смены группы еще не готов')
+						nav.navigate(SettingsRoutes.Settings, {
+							screen: MainRoutes.Settings
+						})
 					}
 				>
 					<ButtonGroupText>{mainGroup}</ButtonGroupText>

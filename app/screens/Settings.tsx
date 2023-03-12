@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react'
 import { View, Button, TextInput } from 'react-native'
 import { useReduxSelector, useReduxDispatch } from '../redux'
 import { addAllgroupToRedux, addScheduleParsToRedux } from '../redux/counter'
-import StorageService from '../Storage/Storage'
+import StorageService, { Storage } from '../Storage/Storage'
 import ApiService from '../api/MireaApi'
 import { parsSchedule } from '../api/ParserApi'
 import AlertModalService from '../utilities/AlertModal'
@@ -43,7 +43,7 @@ const Settings: FC<settingsNavProps> = ({ navigation, route }) => {
 	]
 	type routeNameType = 'AboutApp' | 'ChangeTheme' | 'FeedBack' | 'Settings'
 	const routes: routeNameType[] = ['ChangeTheme', 'FeedBack', 'AboutApp']
-
+	const groupMMKV = Storage.getString('group')
 	useEffect(() => {
 		if (ifOffline || group == '') {
 			if (ifOffline == false) {
@@ -93,7 +93,7 @@ const Settings: FC<settingsNavProps> = ({ navigation, route }) => {
 					}
 				}}
 			>
-				<Title>Сменить группу</Title>
+				<Title>Сменить группу {groupMMKV}</Title>
 			</ButtonContainer>
 		)
 	}
@@ -148,7 +148,7 @@ const Settings: FC<settingsNavProps> = ({ navigation, route }) => {
 				}}
 				color={collorButton}
 			/> */}
-			{/* <Button title='Стереть кэш' onPress={StorageService.delData} /> */}
+			<Button title='Стереть кэш' onPress={StorageService.delData} />
 			{open == false
 				? nameButton.map((name, index) => (
 						<SettingsButton

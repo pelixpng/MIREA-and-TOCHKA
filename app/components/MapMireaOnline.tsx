@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react'
+import { FC, useEffect } from 'react'
 import { WebView } from 'react-native-webview'
 import { useReduxSelector } from '../redux'
 import AlertModalService from '../utilities/AlertModal'
