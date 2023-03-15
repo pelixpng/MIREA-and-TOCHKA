@@ -1,6 +1,5 @@
 import * as React from 'react'
 import Svg, { Path, G, Rect, Circle } from 'react-native-svg'
-/* SVGR has dropped some elements not supported by react-native-svg: title */
 
 export const FLOOR_0 = () => (
 	<Svg width={3070} height={938} xmlns='http://www.w3.org/2000/svg'>

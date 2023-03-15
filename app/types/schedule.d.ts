@@ -54,3 +54,10 @@ export interface groupSearcheResponse {
   count: number;
   groups: string[];
 }
+
+//интерфейс апи для даты последнего обновления
+
+export interface lastUpdateResponse {
+  //groups: string[];
+  updated_at: string;
+}

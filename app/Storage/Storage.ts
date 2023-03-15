@@ -1,34 +1,24 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { MMKV } from 'react-native-mmkv'
 import { addGroupToRedux } from '../redux/counter'
 
-export default class StorageService {
-    //clear all storage
-    static delData = async () => {
-        try {
-            await AsyncStorage.clear()
-        } catch (e) {
-            // saving error
-        }
+export const Storage = new MMKV()
+
+export default class StorageServiceMMKV{
+    static clearData = () => {
+       Storage.clearAll()
     }
 
-    static storeData = async (dispatch:any, key:string, value:string ) => {
-        try {
-            dispatch(addGroupToRedux(value))
-            await AsyncStorage.setItem(key, value)
-        } catch (e) {
-            // saving error
-        }
+    static saveGroup = (group: string, dispatch: any) => {
+        dispatch(addGroupToRedux(group))
+        Storage.set('group', group)
     }
 
-    static storeScheduleWeekData = async (week:string, scheduleCache:string ) => {
-        try {
-            await AsyncStorage.setItem('weekKey', week)
-            await AsyncStorage.setItem('scheduleCache', scheduleCache)
-        } catch (e) {
-            // saving error
-        }
+    static saveSchedule = (week: string, scheduleCache: string) => {
+        Storage.set('week', week)
+        Storage.set('schedule', scheduleCache)
+    }
+
+    static saveLastUpdate = (dateUpdate: string) => {
+        Storage.set('dateUpdate', dateUpdate)
     }
 }
-
-export const Storage = new MMKV()

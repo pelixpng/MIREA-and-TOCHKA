@@ -1,8 +1,6 @@
-import { Button, StyleSheet, View } from 'react-native'
 import SvgPanZoom from 'react-native-svg-pan-zoom'
 import React, { FC, useState } from 'react'
 import { FLOOR_0, FLOOR_1, FLOOR_2, FLOOR_3, FLOOR_4 } from './FloorMireaMap'
-import { HeaderSchedule } from './ui/HeaderSchedule'
 import styled from 'styled-components/native'
 
 const floorsComponents = {
@@ -40,14 +38,6 @@ export const OfflineMap: FC = () => {
 	return (
 		<ViewScreen>
 			<SelectFloorContainer>
-				{/* {floors.map(floor => (
-					<Button
-						title={floor}
-						onPress={() => setCurrentFloor(floor)}
-						color={currentFloor == floor ? 'green' : 'black'}
-						key={floor}
-					/>
-				))} */}
 				{floors.map(floor => (
 					<FloorsSelector key={floor} floor={floor} />
 				))}
@@ -93,9 +83,6 @@ const FloorText = styled.Text`
 	min-width: auto;
 	font-weight: 600;
 	font-size: 30px;
-	/* font-size: 20;
-	font-weight: bold; */
-	//color: ;
 	color: ${props => props.testID};
 	margin-right: 4%;
 	margin-left: 4%;

@@ -79,7 +79,6 @@ export function parsTeacherSchedule(
 			}
 		}	
 	catch (error) {
-		console.log(error)
 		AlertModalService.teacherNotFound(nameTeacher)
 	}
 	return weekSched;

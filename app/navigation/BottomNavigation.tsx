@@ -5,8 +5,7 @@ import DaysNavigation from './DaysNavigation'
 import { SelectMireaMap } from './MapNavigation'
 import { FindTeacher } from '../screens/FindTeacher'
 import { SettingsNavigation } from './SettingsNavigation'
-import { AntDesign } from '@expo/vector-icons'
-import { Ionicons } from '@expo/vector-icons'
+import { AntDesign, Ionicons } from '@expo/vector-icons'
 const Tab = createBottomTabNavigator()
 //навигация между экранами приложения
 

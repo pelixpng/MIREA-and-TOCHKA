@@ -7,8 +7,6 @@ import { LabelNav } from '../components/ui/Map/MapNavComponent'
 
 const MapNav = createMaterialTopTabNavigator()
 export const SelectMireaMap: FC = () => {
-	//не удается сделать маршрут по умолчанию онлайн карта, при переключении на офлайн краш, хз это баг экспо или на апк тоже самое
-	//надо проверить потом
 	return (
 		<MapNav.Navigator
 			initialRouteName={MapRoutes.OfflineMap}

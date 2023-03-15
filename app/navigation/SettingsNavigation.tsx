@@ -3,7 +3,7 @@ import { FeedBack } from '../screens/Feedback'
 import Settings from '../screens/Settings'
 import { SettingsStackParamList } from '../types/Navigation.types'
 import { MainRoutes, SettingsRoutes } from './Routes'
-import { FC } from 'react'
+import React, { FC } from 'react'
 import { AboutApp } from '../screens/AboutApp'
 import { ChangeTheme } from '../screens/ChangeTheme'
 
@@ -30,12 +30,26 @@ export const SettingsNavigation: FC = () => {
 			<SettingsStack.Screen
 				name={SettingsRoutes.FeedBack}
 				component={FeedBack}
-				options={{ title: 'Обратная связь' }}
+				options={{
+					title: 'Обратная связь',
+					headerTitleStyle: {
+						fontSize: 25,
+						fontWeight: '600',
+						color: '#adadae'
+					}
+				}}
 			/>
 			<SettingsStack.Screen
 				name={SettingsRoutes.AboutApp}
 				component={AboutApp}
-				options={{ title: 'О приложении' }}
+				options={{
+					title: 'О приложении',
+					headerTitleStyle: {
+						fontSize: 25,
+						fontWeight: '600',
+						color: '#adadae'
+					}
+				}}
 			/>
 			<SettingsStack.Screen
 				name={SettingsRoutes.ChangeTheme}

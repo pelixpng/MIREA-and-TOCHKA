@@ -4,22 +4,12 @@ import { NavigationContainer } from '@react-navigation/native'
 import BottomNavigation from './BottomNavigation'
 import StartScreen from '../screens/StartScreen'
 import { MainRoutes } from './Routes'
-import { useReduxDispatch, useReduxSelector } from '../redux'
-import { Text } from 'react-native'
+import { useReduxDispatch } from '../redux'
 import React, { useEffect } from 'react'
 import { NetInfoState, useNetInfo } from '@react-native-community/netinfo'
 import { addIsAppOfflineToRedux } from '../redux/counter'
-import { FeedBack } from '../screens/Feedback'
 import { HeaderSchedule } from '../components/ui/HeaderSchedule'
-import {
-	SafeAreaView,
-	SafeAreaProvider,
-	SafeAreaInsetsContext,
-	useSafeAreaInsets,
-	initialWindowMetrics
-} from 'react-native-safe-area-context'
-import Settings from '../screens/Settings'
-import { SettingsNavigation } from './SettingsNavigation'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const Stack = createStackNavigator<RootStackParamList>()
 
@@ -30,8 +20,6 @@ interface Props {
 export function Navigation({ isAuth }: Props) {
 	const dispatch = useReduxDispatch() // для записи в Redux
 	const internetState: NetInfoState = useNetInfo() //проверка подключения к интернету
-	const mainGroup = useReduxSelector(state => state.counter.group)
-	const mainWeek = useReduxSelector(state => state.counter.week)
 	useEffect(() => {
 		if (internetState.isConnected == true) {
 			dispatch(addIsAppOfflineToRedux(false))
@@ -48,7 +36,14 @@ export function Navigation({ isAuth }: Props) {
 				<Stack.Screen
 					name={MainRoutes.StartScreen}
 					component={StartScreen}
-					options={{ title: 'Выбор группы' }}
+					options={{
+						title: 'Выбор группы',
+						headerTitleStyle: {
+							color: 'rgba(33, 37, 37, 0.83)',
+							fontSize: 20,
+							fontWeight: '600'
+						}
+					}}
 				/>
 				<Stack.Screen
 					name={MainRoutes.Shedule}

@@ -1,6 +1,4 @@
 import 'react-native-gesture-handler'
-import { StyleSheet, View, Text } from 'react-native'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Navigation } from './app/navigation/Navigation'
 import React, { useState, useEffect } from 'react'
 import { useReduxDispatch } from './app/redux'
@@ -13,10 +11,9 @@ import {
 } from './app/redux/counter'
 import ApiService from './app/api/MireaApi'
 import { parsSchedule } from './app/api/ParserApi'
-import StorageService from './app/Storage/Storage'
-import { StatusBar } from 'expo-status-bar'
 import { GroupListParser } from './app/api/AllGroupListParser'
 import * as SplashScreen from 'expo-splash-screen'
+import StorageServiceMMKV, { Storage } from './app/Storage/Storage'
 
 //ПЕРЕЙТИ НА НОРМ ХРАНИЛИЩЕ когда будет готов дизайн
 
@@ -30,19 +27,30 @@ export function RootApp() {
 	}, [])
 
 	const getInitialRoute = async () => {
-		const nameGroup = await AsyncStorage.getItem('@currentGroup') // загружаем имя ранее выбранную группы из кэша
+		const nameGroup = Storage.getString('group')
 		try {
-			if (nameGroup !== null) {
+			if (nameGroup !== undefined) {
+				const lastUpdateApi = await ApiService.getLastUpdate(nameGroup)
 				const currentWeek = await ApiService.current_week()
-				dispatch(addWeekToRedux(currentWeek))
-				const updateSchedule = await ApiService.full_schedule(nameGroup) // загружаем актуальное расписание
-				const tmp = parsSchedule(currentWeek, updateSchedule) // распарсим расписание на неделю из json файла
-				dispatch(addScheduleParsToRedux(tmp)) // добавляем все в Redux
-				dispatch(addGroupToRedux(nameGroup))
-				StorageService.storeScheduleWeekData(
-					currentWeek.toString(),
-					JSON.stringify(tmp)
-				)
+				if (Storage.getString('dateUpdate') == lastUpdateApi.updated_at) {
+					const cachedSchedule = Storage.getString('schedule')
+					dispatch(addGroupToRedux(nameGroup))
+					dispatch(addWeekToRedux(Number(currentWeek)))
+					if (cachedSchedule !== undefined) {
+						dispatch(addScheduleParsToRedux(JSON.parse(cachedSchedule)))
+					}
+				} else {
+					dispatch(addWeekToRedux(currentWeek))
+					const updateSchedule = await ApiService.full_schedule(nameGroup) // загружаем актуальное расписание
+					const tmp = parsSchedule(currentWeek, updateSchedule) // распарсим расписание на неделю из json файла
+					dispatch(addScheduleParsToRedux(tmp)) // добавляем все в Redux
+					dispatch(addGroupToRedux(nameGroup))
+					StorageServiceMMKV.saveLastUpdate(lastUpdateApi.updated_at)
+					StorageServiceMMKV.saveSchedule(
+						currentWeek.toString(),
+						JSON.stringify(tmp)
+					)
+				}
 				dispatch(addAllgroupToRedux(await GroupListParser()))
 				return setIsAuth(true) // указываем что группа выбрана и можно переходить к просмотру расписания
 			} else {
@@ -50,12 +58,12 @@ export function RootApp() {
 			}
 		} catch (e) {
 			console.log(e)
-			if (nameGroup !== null) {
-				const cachedWeek = await AsyncStorage.getItem('weekKey')
-				const cachedSchedule = await AsyncStorage.getItem('scheduleCache')
+			if (nameGroup !== undefined) {
+				const cachedWeek = Storage.getString('week')
+				const cachedSchedule = Storage.getString('schedule')
 				dispatch(addGroupToRedux(nameGroup))
 				dispatch(addWeekToRedux(Number(cachedWeek)))
-				if (cachedSchedule !== null) {
+				if (cachedSchedule !== undefined) {
 					dispatch(addScheduleParsToRedux(JSON.parse(cachedSchedule)))
 				}
 				dispatch(addIsAppOfflineToRedux(true))
@@ -69,22 +77,7 @@ export function RootApp() {
 
 	if (!isAppLoading) {
 		return null
-		// return (
-		// 	<View style={styles.container}>
-		// 		<Text>ЭКРАН ЗАГРУЗКИ</Text>
-		// 		<StatusBar style='auto' />
-		// 	</View>
-		// )
 	}
 
 	return <Navigation isAuth={isAuth} /> // передаем данные для навигации
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: '#fff',
-		alignItems: 'center',
-		justifyContent: 'center'
-	}
-})

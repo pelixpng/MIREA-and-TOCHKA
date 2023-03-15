@@ -1,26 +1,18 @@
 import React, { FC, useEffect, useState } from 'react'
-import { View, Button, TextInput } from 'react-native'
+import { Button, View } from 'react-native'
 import { useReduxSelector, useReduxDispatch } from '../redux'
 import { addAllgroupToRedux, addScheduleParsToRedux } from '../redux/counter'
-import StorageService, { Storage } from '../Storage/Storage'
 import ApiService from '../api/MireaApi'
 import { parsSchedule } from '../api/ParserApi'
 import AlertModalService from '../utilities/AlertModal'
-
-import { RouteProp, useNavigation } from '@react-navigation/native'
-import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
-import {
-	RootStackParamList,
-	SettingsStackParamList
-} from '../types/Navigation.types'
-import { SelectMireaMap } from '../navigation/MapNavigation'
-import { OnlineMap } from '../components/MapMireaOnline'
-import { MainRoutes, SettingsRoutes } from '../navigation/Routes'
+import { useNavigation } from '@react-navigation/native'
+import { SettingsStackParamList } from '../types/Navigation.types'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import DropDownPicker from 'react-native-dropdown-picker'
 import { GroupListParser } from '../api/AllGroupListParser'
 import { SettingsButton } from '../components/ui/settings/ButtonSettings'
 import styled from 'styled-components/native'
+import StorageServiceMMKV, { Storage } from '../Storage/Storage'
 
 type settingsNavProps = NativeStackScreenProps<
 	SettingsStackParamList,
@@ -30,28 +22,20 @@ type settingsNavProps = NativeStackScreenProps<
 const Settings: FC<settingsNavProps> = ({ navigation, route }) => {
 	const nav = useNavigation()
 	const [group, setGroup] = useState('')
-	const [collorButton, setCollorButto] = useState('green')
 	const [open, setOpen] = useState(false)
 	const ifOffline = useReduxSelector(state => state.counter.isAppOffline)
 	const mainWeek = useReduxSelector(state => state.counter.week)
 	const dispatch = useReduxDispatch() //запись в хранилище
 	const allGroups = useReduxSelector(state => state.counter.allGroupsList)
-	const nameButton: string[] = [
-		'Сменить тему',
-		'Обратная связь',
-		'О приложении'
-	]
-	type routeNameType = 'AboutApp' | 'ChangeTheme' | 'FeedBack' | 'Settings'
-	const routes: routeNameType[] = ['ChangeTheme', 'FeedBack', 'AboutApp']
-	const groupMMKV = Storage.getString('group')
+	const nameButton: string[] = ['Обратная связь', 'О приложении']
+	type routeNameType = 'AboutApp' | 'FeedBack' | 'Settings'
+	const routes: routeNameType[] = ['FeedBack', 'AboutApp']
+
 	useEffect(() => {
 		if (ifOffline || group == '') {
 			if (ifOffline == false) {
 				getListParser()
 			}
-			setCollorButto('grey')
-		} else {
-			setCollorButto('green')
 		}
 	}, [ifOffline, group])
 
@@ -62,16 +46,13 @@ const Settings: FC<settingsNavProps> = ({ navigation, route }) => {
 	const changeGroup = async () => {
 		try {
 			const updateSchedule = await ApiService.full_schedule(group) //получаем расписание
-			await StorageService.storeData(dispatch, '@currentGroup', group) //сохраняем группу в кэш
+			const lastUpdate = await ApiService.getLastUpdate(group)
+			StorageServiceMMKV.saveGroup(group, dispatch)
+			StorageServiceMMKV.saveLastUpdate(lastUpdate.updated_at)
 			const tmp = parsSchedule(mainWeek, updateSchedule) //парсим json файл расписания
 			dispatch(addScheduleParsToRedux(tmp)) //запись расписания в Redux
-			StorageService.storeScheduleWeekData(
-				//тут возможен баг с сохранением не найденной группы
-				mainWeek.toString(),
-				JSON.stringify(tmp)
-			)
+			StorageServiceMMKV.saveSchedule(mainWeek.toString(), JSON.stringify(tmp))
 			nav.goBack()
-			//сделать автоматичекскую навигацию на расписание после удачной смены группы
 		} catch (e) {
 			AlertModalService.groupNotFound(group)
 			console.log(e)
@@ -93,13 +74,14 @@ const Settings: FC<settingsNavProps> = ({ navigation, route }) => {
 					}
 				}}
 			>
-				<Title>Сменить группу {groupMMKV}</Title>
+				<Title>Сменить группу </Title>
 			</ButtonContainer>
 		)
 	}
 
 	return (
 		<View style={{ backgroundColor: '#e9e9e9', height: '100%' }}>
+			<Button title='f' onPress={() => Storage.clearAll()} />
 			<DropDownPicker
 				open={open}
 				value={group}
@@ -112,11 +94,11 @@ const Settings: FC<settingsNavProps> = ({ navigation, route }) => {
 				mode='BADGE'
 				dropDownDirection='AUTO'
 				language='RU'
-				placeholder='Нажми для изменения группы...'
+				placeholder='Нажмите для смены группы...'
 				searchTextInputProps={{
 					maxLength: 10
 				}}
-				searchPlaceholder='Напишите группу в формате: XXXX-00-00'
+				searchPlaceholder='Напишите группу...'
 				style={{
 					marginTop: 10,
 					minHeight: 50,
@@ -131,27 +113,28 @@ const Settings: FC<settingsNavProps> = ({ navigation, route }) => {
 					alignSelf: 'center'
 					//borderColor: 'white'
 				}}
-				dropDownContainerStyle={{ borderColor: 'white', borderRadius: 20 }}
+				dropDownContainerStyle={{
+					borderColor: 'white',
+					borderRadius: 20
+				}}
+				textStyle={{
+					color: 'rgba(33, 37, 37, 0.83)',
+					fontSize: 20,
+					fontWeight: '600'
+				}}
+				searchTextInputStyle={{
+					borderColor: 'grey',
+					borderRadius: 10,
+					fontSize: 20,
+					color: 'rgba(33, 37, 37, 0.83)'
+				}}
 			/>
 
 			{group != '' ? <ChangeGroupButton /> : null}
-			{/* <Button
-				title='Далее'
-				onPress={() => {
-					if (ifOffline) {
-						AlertModalService.noInternet()
-					} else if (group == '') {
-						AlertModalService.groupNotSelect()
-					} else {
-						changeGroup()
-					}
-				}}
-				color={collorButton}
-			/> */}
-			<Button title='Стереть кэш' onPress={StorageService.delData} />
 			{open == false
 				? nameButton.map((name, index) => (
 						<SettingsButton
+							key={index}
 							navigation={navigation}
 							route={route}
 							name={name}

@@ -14,7 +14,7 @@ const DaysNavigation: FC = () => {
 	const tmpNumbers = GetCurrentDayWeek()
 	const finalPairs = useReduxSelector(state => state.counter.schedulePars)
 	function getArrayColors(index: number) {
-		let colors: string[] = []
+		const colors: string[] = []
 		for (let i = 0; i < finalPairs?.[index]?.length; i++) {
 			colors.push(getColor(finalPairs[index][i].types))
 		}

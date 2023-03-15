@@ -10,14 +10,9 @@ export interface Pair {
 	weeks: number[]
 }
 
-
 export function parsSchedule(mainWeek: number, mainScheduleJson: ScheduleResponse) {
-    function even(week: number) {
-		return week % 2 == 0 ? 1 : 0
-	}
 	function MYparsing() {
 		const schedule: Pair[][] = []
-		const typeWeek = even(mainWeek)
 		if (mainScheduleJson.group == undefined) {
             throw new Error('Группа не найдена');
 		} else {
@@ -36,7 +31,6 @@ export function parsSchedule(mainWeek: number, mainScheduleJson: ScheduleRespons
 								rooms: lesson?.[i]?.rooms,
 								weeks: lesson?.[i]?.weeks
 							}
-							console.log(title)
 							if (lesson?.[i]?.weeks.includes(mainWeek)) {
 								acc.push(dayPair)
 							}

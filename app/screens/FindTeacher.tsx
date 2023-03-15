@@ -1,15 +1,13 @@
 import React, { FC, useEffect, useState } from 'react'
-import { View, TextInput, Button } from 'react-native'
+import { View, TextInput, Keyboard } from 'react-native'
 import ApiService from '../api/MireaApi'
 import { parsTeacherSchedule, TeacherPair } from '../api/TestTeacherParser'
 import AlertModalService from '../utilities/AlertModal'
 import { useReduxSelector } from '../redux'
-import { Keyboard } from 'react-native'
 import { SearchLoading } from '../components/ui/scheduleTeacher/SearchLoading'
 import { AntDesign } from '@expo/vector-icons'
 import { SearceListComponent } from '../components/ui/scheduleTeacher/SearchResponce'
 import styled from 'styled-components/native'
-import { Ionicons } from '@expo/vector-icons'
 
 export const FindTeacher: FC = () => {
 	const [showFilter, setShowFilter] = useState(false)
