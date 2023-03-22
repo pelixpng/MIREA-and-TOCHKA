@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef } from 'react'
+import React, { FC, useEffect, useRef } from 'react'
 import { Animated, Text, View } from 'react-native'
 import styled from 'styled-components/native'
 import { Ionicons } from '@expo/vector-icons'
@@ -73,4 +73,5 @@ const SearchText = styled.Text`
 	height: auto;
 	font-weight: 500;
 	font-size: 20px;
+	text-align: center;
 `

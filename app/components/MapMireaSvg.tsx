@@ -43,12 +43,15 @@ export const OfflineMap: FC = () => {
 				))}
 			</SelectFloorContainer>
 			<SvgPanZoom
-				canvasWidth={3000}
-				canvasHeight={1900}
+				canvasWidth={2600}
+				canvasHeight={1250}
 				minScale={0.35}
 				maxScale={1}
 				initialZoom={0.5}
-				viewStyle={{ backgroundColor: 'white' }}
+				viewStyle={{
+					backgroundColor: 'white'
+				}}
+				canvasStyle={{ backgroundColor: 'white' }}
 			>
 				{floorsComponents[currentFloor]}
 			</SvgPanZoom>
@@ -57,7 +60,8 @@ export const OfflineMap: FC = () => {
 }
 
 const ViewScreen = styled.View`
-	width: 100%;
+	// justify-items: left;
+	//width: 100%;
 	height: 100%;
 `
 const SelectFloorContainer = styled.View`

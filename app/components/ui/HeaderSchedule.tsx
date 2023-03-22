@@ -2,7 +2,7 @@ import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
 import { CompositeScreenProps, useNavigation } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { StackScreenProps } from '@react-navigation/stack'
-import { FC } from 'react'
+import React, { FC } from 'react'
 import { Text, View, TouchableOpacity } from 'react-native'
 import styled from 'styled-components/native'
 import { MainRoutes, SettingsRoutes } from '../../navigation/Routes'
@@ -25,11 +25,12 @@ export const HeaderSchedule: FC = () => {
 	const mainWeek = useReduxSelector(state => state.counter.week)
 	const isAppOfline = useReduxSelector(state => state.counter.isAppOffline)
 	const nav = useNavigation()
+	const title = 'Неделя\nСеместра'
 	return (
 		<HView>
 			<StyledView>
 				<WeekText>{mainWeek}</WeekText>
-				<DopWeekText>Неделя Семестра</DopWeekText>
+				<DopWeekText>{title}</DopWeekText>
 				{isAppOfline ? <CachComponent /> : null}
 				<ButtonGroupContainer
 					onPress={() =>
@@ -59,9 +60,9 @@ const StyledView = styled.View`
 `
 
 const DopWeekText = styled.Text`
-	width: 115px;
-	height: 50px;
-	left: 1px;
+	width: auto;
+	height: auto;
+	left: 4px;
 	top: 2px;
 	font-weight: 400;
 	font-size: 25px;
@@ -71,8 +72,8 @@ const DopWeekText = styled.Text`
 
 const WeekText = styled.Text`
 	color: #212525;
-	width: 32px;
-	height: 50px;
+	width: auto;
+	height: auto;
 	top: 1px;
 	font-weight: 500;
 	font-size: 64px;

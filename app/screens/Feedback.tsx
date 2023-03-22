@@ -1,12 +1,19 @@
 import React, { FC } from 'react'
 import { Button, Linking, View } from 'react-native'
 import styled from 'styled-components/native'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 export const FeedBack: FC = () => {
 	const description =
-		'		Если у вас возникли проблемы при использовании приложения, вы можете связаться с разработчиком через почту или телеграмм.'
+		'		Если у вас возникли проблемы во время использования приложения, вы можете связаться с разработчиком через почту или телеграмм.'
 	return (
-		<View>
+		<View style={{ backgroundColor: '#e9e9e9' }}>
+			<MaterialCommunityIcons
+				name='chat-question'
+				size={100}
+				color='#adadae'
+				style={{ alignSelf: 'center' }}
+			/>
 			<TextInfoContainer>
 				<TextInfo>{description}</TextInfo>
 			</TextInfoContainer>
@@ -48,7 +55,7 @@ const TextInfo = styled.Text`
 	color: rgba(33, 37, 37, 0.83);
 `
 
-const ButtonContainer = styled.TouchableOpacity`
+export const ButtonContainer = styled.TouchableOpacity`
 	padding: 10px;
 	border-radius: 20px;
 	background-color: #ffffff;
@@ -57,7 +64,7 @@ const ButtonContainer = styled.TouchableOpacity`
 	align-self: center;
 	align-items: center;
 `
-const Title = styled.Text`
+export const Title = styled.Text`
 	width: auto;
 	height: auto;
 	font-weight: 600;

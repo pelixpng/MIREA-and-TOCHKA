@@ -30,27 +30,17 @@ export function RootApp() {
 		const nameGroup = Storage.getString('group')
 		try {
 			if (nameGroup !== undefined) {
-				const lastUpdateApi = await ApiService.getLastUpdate(nameGroup)
 				const currentWeek = await ApiService.current_week()
-				if (Storage.getString('dateUpdate') == lastUpdateApi.updated_at) {
-					const cachedSchedule = Storage.getString('schedule')
-					dispatch(addGroupToRedux(nameGroup))
-					dispatch(addWeekToRedux(Number(currentWeek)))
-					if (cachedSchedule !== undefined) {
-						dispatch(addScheduleParsToRedux(JSON.parse(cachedSchedule)))
-					}
-				} else {
-					dispatch(addWeekToRedux(currentWeek))
-					const updateSchedule = await ApiService.full_schedule(nameGroup) // загружаем актуальное расписание
-					const tmp = parsSchedule(currentWeek, updateSchedule) // распарсим расписание на неделю из json файла
-					dispatch(addScheduleParsToRedux(tmp)) // добавляем все в Redux
-					dispatch(addGroupToRedux(nameGroup))
-					StorageServiceMMKV.saveLastUpdate(lastUpdateApi.updated_at)
-					StorageServiceMMKV.saveSchedule(
-						currentWeek.toString(),
-						JSON.stringify(tmp)
-					)
-				}
+				dispatch(addWeekToRedux(currentWeek))
+				const updateSchedule = await ApiService.full_schedule(nameGroup) // загружаем актуальное расписание
+				const tmp = parsSchedule(currentWeek, updateSchedule) // распарсим расписание на неделю из json файла
+				dispatch(addScheduleParsToRedux(tmp)) // добавляем все в Redux
+				dispatch(addGroupToRedux(nameGroup))
+				StorageServiceMMKV.saveSchedule(
+					currentWeek.toString(),
+					JSON.stringify(tmp)
+				)
+
 				dispatch(addAllgroupToRedux(await GroupListParser()))
 				return setIsAuth(true) // указываем что группа выбрана и можно переходить к просмотру расписания
 			} else {

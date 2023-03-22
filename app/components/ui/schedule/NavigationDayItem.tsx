@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import React, { FC } from 'react'
 import styled from 'styled-components/native'
 
 export const HeaderDay: FC<{
@@ -24,7 +24,7 @@ export const HeaderDay: FC<{
 
 const Headercontainer = styled.View`
 	align-items: center;
-	width: 54px;
+	min-width: 54px;
 	min-height: auto;
 `
 
@@ -40,7 +40,7 @@ const BallsContainer = styled.View`
 	margin-top: 3px;
 	flex-direction: row;
 	max-width: 60;
-	min-height: auto;
+	min-height: 7px;
 	justify-content: space-between;
 `
 const Ball = styled.View`

@@ -18,7 +18,7 @@ type Props = NativeStackScreenProps<RootStackParamList, 'StartScreen'>
 const StartScreen: FC<Props> = ({ navigation }) => {
 	const ifOffline = useReduxSelector(state => state.counter.isAppOffline)
 	const [group, setGroup] = useState('') //тут хранится состояние инпут поля
-	const [open, setOpen] = useState(true)
+	const [open, setOpen] = useState(false)
 	const dispatch = useReduxDispatch() //запись в хранилище
 	const allGroups = useReduxSelector(state => state.counter.allGroupsList)
 
@@ -26,9 +26,7 @@ const StartScreen: FC<Props> = ({ navigation }) => {
 		try {
 			const updateSchedule = await ApiService.full_schedule(group) //получаем расписание
 			const mainWeek = await ApiService.current_week() //получаем неделю
-			const lastUpdateSchedule = await ApiService.getLastUpdate(group)
 			StorageServiceMMKV.saveGroup(group, dispatch)
-			StorageServiceMMKV.saveLastUpdate(lastUpdateSchedule.updated_at)
 			dispatch(addWeekToRedux(mainWeek))
 			const tmp = parsSchedule(mainWeek, updateSchedule) //парсим json файл расписания
 			dispatch(addScheduleParsToRedux(tmp)) //запись расписания в Redux
@@ -61,20 +59,8 @@ const StartScreen: FC<Props> = ({ navigation }) => {
 	}
 
 	return (
-		<View>
-			{/* <Button
-				title='Далее'
-				onPress={() => {
-					if (ifOffline) {
-						AlertModalService.noInternet()
-					} else if (group == '') {
-						AlertModalService.groupNotSelect()
-					} else {
-						setStatrGroup()
-					}
-				}}
-				color={collorButton}
-			/> */}
+		<View style={{ marginTop: 50 }}>
+			<HeaderText>Привет!</HeaderText>
 			<DropDownPicker
 				open={open}
 				value={group}
@@ -88,6 +74,7 @@ const StartScreen: FC<Props> = ({ navigation }) => {
 				dropDownDirection='AUTO'
 				language='RU'
 				placeholder='Выбери группу...'
+				searchPlaceholderTextColor='rgba(128, 128, 128, 0.83)'
 				searchTextInputProps={{
 					maxLength: 10
 				}}
@@ -98,13 +85,10 @@ const StartScreen: FC<Props> = ({ navigation }) => {
 					paddingVertical: 3,
 					borderRadius: 20,
 					borderColor: 'white'
-					// width: '97%',
-					// alignSelf: 'center'
 				}}
 				containerStyle={{
 					width: '97%',
 					alignSelf: 'center'
-					//borderColor: 'white'
 				}}
 				dropDownContainerStyle={{
 					borderColor: 'white',
@@ -116,10 +100,11 @@ const StartScreen: FC<Props> = ({ navigation }) => {
 					fontWeight: '600'
 				}}
 				searchTextInputStyle={{
-					borderColor: 'grey',
+					borderColor: '#e9e9e9',
 					borderRadius: 10,
 					fontSize: 20,
-					color: 'rgba(33, 37, 37, 0.83)'
+					color: 'rgba(33, 37, 37, 0.83)',
+					backgroundColor: '#e9e9e9'
 				}}
 			/>
 			{group != '' ? <SelectGroupButton /> : null}
@@ -142,6 +127,15 @@ const Title = styled.Text`
 	height: auto;
 	font-weight: 600;
 	font-size: 20px;
+	//line-height: 23px;
+	color: rgba(33, 37, 37, 0.83);
+`
+const HeaderText = styled.Text`
+	width: auto;
+	height: auto;
+	font-weight: 600;
+	font-size: 40px;
+	align-self: center;
 	//line-height: 23px;
 	color: rgba(33, 37, 37, 0.83);
 `

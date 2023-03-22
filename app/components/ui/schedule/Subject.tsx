@@ -16,7 +16,7 @@ export interface ItemProps {
 }
 
 export function getColor(typePair: string) {
-	let color: string = ''
+	let color = ''
 	switch (typePair) {
 		case 'пр':
 			color = 'rgba(115, 120, 255, 0.69)'
@@ -58,7 +58,8 @@ export const Subject = (props: Props) => {
 				<RoomAndTeacherContainer>
 					<RoomContainer>
 						<Ionicons name='location-outline' size={16} color='black' />
-						<RoomText>{rooms.split('.')[1]}</RoomText>
+						<RoomText>{rooms == undefined ? '' : rooms.split('.')[1]}</RoomText>
+						{/* <RoomText>{rooms.split('.')[1]}</RoomText> */}
 					</RoomContainer>
 					<TeacherContainer>
 						<Ionicons name='person-outline' size={16} color='black' />
@@ -86,8 +87,8 @@ const TimeAndNameContainer = styled.View`
 `
 
 const Time = styled.Text`
-	width: 65%;
-	height: 40px;
+	width: auto;
+	height: auto;
 	font-weight: 500;
 	font-size: 16px;
 	line-height: 23px;
@@ -99,7 +100,7 @@ const Name = styled.Text`
 	font-weight: 600;
 	font-size: 20px;
 	line-height: 23px;
-	color: #212525; ;
+	color: #212525;
 `
 
 const TimeContainer = styled.View`
@@ -131,11 +132,11 @@ const TypePair = styled.View`
 
 const TypePairText = styled.Text`
 	text-align: center;
-	width: 100%;
-	height: 100%;
+	width: auto;
+	height: auto;
 	font-weight: 600;
 	font-size: 19px;
-	color: #212525; ;
+	color: #212525;
 `
 
 const RoomAndTeacherContainer = styled.View`

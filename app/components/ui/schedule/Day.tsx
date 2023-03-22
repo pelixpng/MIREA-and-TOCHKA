@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { FlatList, Text, View, StyleSheet } from 'react-native'
+import { FlatList } from 'react-native'
 import { useReduxSelector } from '../../../redux'
 import Subject, { ItemProps } from './Subject'
+import styled from 'styled-components/native'
+import { NoPair } from './NoPairDay'
 
 interface ComponentProps {
 	dayNumber: number
@@ -53,21 +55,20 @@ function Day({ dayNumber }: ComponentProps) {
 	}, [finalPairs])
 
 	return (
-		<View style={styles.day}>
+		<ViewDay>
+			{listOfSubject.length == 0 ? <NoPair /> : null}
 			<FlatList
 				data={listOfSubject}
 				renderItem={({ item }) => <Subject data={item} />}
 				keyExtractor={item => item.time_start}
 			/>
-		</View>
+		</ViewDay>
 	)
 }
 
-const styles = StyleSheet.create({
-	day: {
-		backgroundColor: '#e9e9e9',
-		height: '100%'
-	}
-})
+const ViewDay = styled.View`
+	background-color: '#e9e9e9';
+	height: 100%;
+`
 
 export default Day

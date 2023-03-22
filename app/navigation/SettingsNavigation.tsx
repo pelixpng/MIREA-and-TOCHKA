@@ -31,24 +31,14 @@ export const SettingsNavigation: FC = () => {
 				name={SettingsRoutes.FeedBack}
 				component={FeedBack}
 				options={{
-					title: 'Обратная связь',
-					headerTitleStyle: {
-						fontSize: 25,
-						fontWeight: '600',
-						color: '#adadae'
-					}
+					title: ''
 				}}
 			/>
 			<SettingsStack.Screen
 				name={SettingsRoutes.AboutApp}
 				component={AboutApp}
 				options={{
-					title: 'О приложении',
-					headerTitleStyle: {
-						fontSize: 25,
-						fontWeight: '600',
-						color: '#adadae'
-					}
+					title: ''
 				}}
 			/>
 			<SettingsStack.Screen

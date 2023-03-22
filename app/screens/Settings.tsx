@@ -46,9 +46,7 @@ const Settings: FC<settingsNavProps> = ({ navigation, route }) => {
 	const changeGroup = async () => {
 		try {
 			const updateSchedule = await ApiService.full_schedule(group) //получаем расписание
-			const lastUpdate = await ApiService.getLastUpdate(group)
 			StorageServiceMMKV.saveGroup(group, dispatch)
-			StorageServiceMMKV.saveLastUpdate(lastUpdate.updated_at)
 			const tmp = parsSchedule(mainWeek, updateSchedule) //парсим json файл расписания
 			dispatch(addScheduleParsToRedux(tmp)) //запись расписания в Redux
 			StorageServiceMMKV.saveSchedule(mainWeek.toString(), JSON.stringify(tmp))
@@ -81,7 +79,7 @@ const Settings: FC<settingsNavProps> = ({ navigation, route }) => {
 
 	return (
 		<View style={{ backgroundColor: '#e9e9e9', height: '100%' }}>
-			<Button title='f' onPress={() => Storage.clearAll()} />
+			<Button title='Стереть кэш' onPress={() => Storage.clearAll()} />
 			<DropDownPicker
 				open={open}
 				value={group}
@@ -95,6 +93,7 @@ const Settings: FC<settingsNavProps> = ({ navigation, route }) => {
 				dropDownDirection='AUTO'
 				language='RU'
 				placeholder='Нажмите для смены группы...'
+				searchPlaceholderTextColor='rgba(128, 128, 128, 0.83)'
 				searchTextInputProps={{
 					maxLength: 10
 				}}
@@ -111,7 +110,6 @@ const Settings: FC<settingsNavProps> = ({ navigation, route }) => {
 				containerStyle={{
 					width: '97%',
 					alignSelf: 'center'
-					//borderColor: 'white'
 				}}
 				dropDownContainerStyle={{
 					borderColor: 'white',
@@ -123,10 +121,11 @@ const Settings: FC<settingsNavProps> = ({ navigation, route }) => {
 					fontWeight: '600'
 				}}
 				searchTextInputStyle={{
-					borderColor: 'grey',
+					borderColor: '#e9e9e9',
 					borderRadius: 10,
 					fontSize: 20,
-					color: 'rgba(33, 37, 37, 0.83)'
+					color: 'rgba(33, 37, 37, 0.83)',
+					backgroundColor: '#e9e9e9'
 				}}
 			/>
 

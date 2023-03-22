@@ -33,7 +33,7 @@ export const FindTeacher: FC = () => {
 		if (ifOffline) {
 			setTextForLoading('Нет подключеения к интернету')
 		} else if (regex.test(nameTeacher) == false && nameTeacher.length != 0) {
-			setTextForLoading('Запрос не соответствует формату: Xxxx X.X.')
+			setTextForLoading('Запрос не соответствует \n формату: Xxxx X.X.')
 		} else if (nameTeacher.length == 0) {
 			setTextForLoading('Здесь появятся результаты поиска')
 		} else if (regex.test(nameTeacher) == true && ifOffline == false) {

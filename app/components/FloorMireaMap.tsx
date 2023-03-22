@@ -2,7 +2,12 @@ import * as React from 'react'
 import Svg, { Path, G, Rect, Circle } from 'react-native-svg'
 
 export const FLOOR_0 = () => (
-	<Svg width={3070} height={938} xmlns='http://www.w3.org/2000/svg'>
+	<Svg
+		// width={3070}
+		// height={938}
+		viewBox='0 0 3070 938'
+		xmlns='http://www.w3.org/2000/svg'
+	>
 		<Path fill='none' d='M-1-1h582v402H-1z' />
 		<Path
 			fill='#F2F2F5'
@@ -416,7 +421,12 @@ export const FLOOR_0 = () => (
 )
 
 export const FLOOR_1 = () => (
-	<Svg width={3070} height={1371} xmlns='http://www.w3.org/2000/svg'>
+	<Svg
+		// width={3070}
+		// height={1371}
+		viewBox='0 0 3070 1371'
+		xmlns='http://www.w3.org/2000/svg'
+	>
 		<Path fill='none' d='M-1-1h582v402H-1z' />
 		<Path
 			fill='#E8E8EC'
@@ -2332,7 +2342,12 @@ export const FLOOR_1 = () => (
 )
 
 export const FLOOR_2 = () => (
-	<Svg width={3050} height={1249} xmlns='http://www.w3.org/2000/svg'>
+	<Svg
+		// width={3050}
+		// height={1249}
+		viewBox='0 0 3050 1249'
+		xmlns='http://www.w3.org/2000/svg'
+	>
 		<Path fill='none' d='M-1-1h582v402H-1z' />
 		<G fill='#E8E8EC'>
 			<Path d='M254 1114h-10v30h45v5h10v-5h85v5h10v-5h60v5h10v-5h180v15h-5v10h5v10h10v5h10v-5h95v5h10v-5h35v-25H674v-15h5v-10h-5v-40h-75v-5h4v-35h-48v35h4v5h-75v25h-25v-5h-10v5h-55v-5h-10v5h-70v-5h-10v5h-40v-5h-10v5z' />
@@ -4063,7 +4078,12 @@ export const FLOOR_2 = () => (
 )
 
 export const FLOOR_3 = () => (
-	<Svg width={3055} height={1020} xmlns='http://www.w3.org/2000/svg'>
+	<Svg
+		// width={3055}
+		// height={1020}
+		viewBox='0 0 3055 1020'
+		xmlns='http://www.w3.org/2000/svg'
+	>
 		<Path fill='none' d='M-1-1h582v402H-1z' />
 		<Path
 			fill='#686868'
@@ -5347,7 +5367,12 @@ export const FLOOR_3 = () => (
 )
 
 export const FLOOR_4 = () => (
-	<Svg width={2865} height={328} xmlns='http://www.w3.org/2000/svg'>
+	<Svg
+		// width={2865}
+		// height={328}
+		viewBox='0 0 2865 328'
+		xmlns='http://www.w3.org/2000/svg'
+	>
 		<Path fill='none' d='M-1-1h582v402H-1z' />
 		<Rect
 			fill='#D9DFEF'

@@ -37,12 +37,7 @@ export function Navigation({ isAuth }: Props) {
 					name={MainRoutes.StartScreen}
 					component={StartScreen}
 					options={{
-						title: 'Выбор группы',
-						headerTitleStyle: {
-							color: 'rgba(33, 37, 37, 0.83)',
-							fontSize: 20,
-							fontWeight: '600'
-						}
+						headerShown: false
 					}}
 				/>
 				<Stack.Screen
