@@ -9,7 +9,7 @@ import { useNavigation } from '@react-navigation/native'
 import { SettingsStackParamList } from '../types/Navigation.types'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import DropDownPicker from 'react-native-dropdown-picker'
-import { GroupListParser } from '../api/AllGroupListParser'
+import { groupListParser } from '../api/AllGroupListParser'
 import { SettingsButton } from '../components/ui/settings/ButtonSettings'
 import styled from 'styled-components/native'
 import StorageServiceMMKV, { Storage } from '../Storage/Storage'
@@ -40,7 +40,7 @@ const Settings: FC<settingsNavProps> = ({ navigation, route }) => {
 	}, [ifOffline, group])
 
 	const getListParser = async () => {
-		dispatch(addAllgroupToRedux(await GroupListParser()))
+		dispatch(addAllgroupToRedux(await groupListParser()))
 	}
 
 	const changeGroup = async () => {
@@ -79,7 +79,7 @@ const Settings: FC<settingsNavProps> = ({ navigation, route }) => {
 
 	return (
 		<View style={{ backgroundColor: '#e9e9e9', height: '100%' }}>
-			<Button title='Стереть кэш' onPress={() => Storage.clearAll()} />
+			{/* <Button title='Стереть кэш' onPress={() => Storage.clearAll()} /> */}
 			<DropDownPicker
 				open={open}
 				value={group}
@@ -104,8 +104,6 @@ const Settings: FC<settingsNavProps> = ({ navigation, route }) => {
 					paddingVertical: 3,
 					borderRadius: 20,
 					borderColor: 'white'
-					// width: '97%',
-					// alignSelf: 'center'
 				}}
 				containerStyle={{
 					width: '97%',
@@ -159,7 +157,6 @@ const Title = styled.Text`
 	height: auto;
 	font-weight: 600;
 	font-size: 20px;
-	//line-height: 23px;
 	color: rgba(33, 37, 37, 0.83);
 `
 

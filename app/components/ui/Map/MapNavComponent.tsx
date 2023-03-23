@@ -26,8 +26,6 @@ const TypeMapText = styled.Text`
 	min-width: auto;
 	font-weight: 600;
 	font-size: 20px;
-	/* font-size: 20;
-	font-weight: bold; */
 	color: ${props => props.testID};
 	margin-right: 4%;
 	margin-left: 4%;

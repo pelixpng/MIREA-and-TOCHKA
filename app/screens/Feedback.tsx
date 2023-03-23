@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { Button, Linking, View } from 'react-native'
+import { Linking, View } from 'react-native'
 import styled from 'styled-components/native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
@@ -27,10 +27,6 @@ export const FeedBack: FC = () => {
 			>
 				<Title>Почта </Title>
 			</ButtonContainer>
-			{/* <Button
-				title='telegram'
-				onPress={() => Linking.openURL('https://t.me/paveldur0')}
-			></Button> */}
 		</View>
 	)
 }
@@ -51,7 +47,6 @@ const TextInfo = styled.Text`
 	font-weight: 500;
 	font-size: 17px;
 	text-align: justify;
-	//line-height: 23px;
 	color: rgba(33, 37, 37, 0.83);
 `
 
@@ -69,7 +64,5 @@ export const Title = styled.Text`
 	height: auto;
 	font-weight: 600;
 	font-size: 20px;
-
-	//line-height: 23px;
 	color: rgba(33, 37, 37, 0.83);
 `

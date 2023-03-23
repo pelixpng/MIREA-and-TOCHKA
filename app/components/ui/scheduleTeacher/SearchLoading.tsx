@@ -1,23 +1,19 @@
 import React, { FC, useEffect, useRef } from 'react'
-import { Animated, Text, View } from 'react-native'
+import { Animated } from 'react-native'
 import styled from 'styled-components/native'
 import { Ionicons } from '@expo/vector-icons'
 
 export const SearchLoading: FC<{ state: string }> = ({ state }) => {
 	const anim = useRef(new Animated.Value(1))
 	useEffect(() => {
-		// makes the sequence loop
 		if (state.includes('Ищу')) {
 			Animated.loop(
-				// runs given animations in a sequence
 				Animated.sequence([
-					// increase size
 					Animated.timing(anim.current, {
 						toValue: 1.2,
 						duration: 700,
 						useNativeDriver: true
 					}),
-					// decrease size
 					Animated.timing(anim.current, {
 						toValue: 1,
 						duration: 700,
@@ -27,15 +23,12 @@ export const SearchLoading: FC<{ state: string }> = ({ state }) => {
 			).start()
 		} else {
 			Animated.loop(
-				// runs given animations in a sequence
 				Animated.sequence([
-					// increase size
 					Animated.timing(anim.current, {
 						toValue: 1.2,
 						duration: 800,
 						useNativeDriver: true
 					}),
-					// decrease size
 					Animated.timing(anim.current, {
 						toValue: 1,
 						duration: 800,
@@ -68,7 +61,7 @@ const SearchContainer = styled.View`
 `
 const SearchText = styled.Text`
 	margin-top: 2%;
-	color: #212525;
+	color: #adadae;
 	width: auto;
 	height: auto;
 	font-weight: 500;

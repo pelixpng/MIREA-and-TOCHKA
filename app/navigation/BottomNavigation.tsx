@@ -1,16 +1,13 @@
 import React, { FC } from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { MainRoutes, MapRoutes } from './Routes'
+import { MainRoutes } from './Routes'
 import DaysNavigation from './DaysNavigation'
 import { SelectMireaMap } from './MapNavigation'
 import { FindTeacher } from '../screens/FindTeacher'
 import { SettingsNavigation } from './SettingsNavigation'
 import { AntDesign, Ionicons } from '@expo/vector-icons'
-import { OnlineMap } from '../components/MapMireaOnline'
-import { OfflineMap } from '../components/MapMireaSvg'
-const Tab = createBottomTabNavigator()
-//навигация между экранами приложения
 
+const Tab = createBottomTabNavigator()
 const BottomNavigation: FC = () => {
 	return (
 		<Tab.Navigator
@@ -53,17 +50,6 @@ const BottomNavigation: FC = () => {
 					)
 				}}
 			/>
-			{/* <Tab.Screen
-				name={MapRoutes.OfflineMap}
-				component={OfflineMap}
-				options={{
-					headerShown: false,
-					tabBarShowLabel: false,
-					tabBarIcon: ({ color }) => (
-						<Ionicons name='map-outline' size={24} color={color} />
-					)
-				}}
-			/> */}
 			<Tab.Screen
 				name={MainRoutes.Settings}
 				component={SettingsNavigation}

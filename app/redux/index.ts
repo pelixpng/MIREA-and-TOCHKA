@@ -4,11 +4,6 @@ import rootReducer from './rootReducer'
 
 export type RootState = ReturnType<typeof rootReducer>
 
-// Нам нужно настроить магазин с удобной функцией инструментария, добавить наш 
-// rootReducer (где мы собираем все редукторы в одном централизованном месте) и экспортировать созданный нами магазин.
-
-//добавить  rootReducer, где мы регистрируем все наши редюсеры.
-
 const store = configureStore({
     reducer: rootReducer,
 })

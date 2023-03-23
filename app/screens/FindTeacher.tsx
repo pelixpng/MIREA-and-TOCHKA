@@ -38,11 +38,9 @@ export const FindTeacher: FC = () => {
 			setTextForLoading('Здесь появятся результаты поиска')
 		} else if (regex.test(nameTeacher) == true && ifOffline == false) {
 			if (isSearchInThisWeek && isSearchToDay == false) {
-				console.log('Поиск на этой неделе')
 				findScheduleTeacher(null, week)
 				Keyboard.dismiss()
 			} else if (isSearchToDay && isSearchInThisWeek == false) {
-				console.log('Поиск сегодня')
 				findScheduleTeacher(date.getDay(), week)
 				Keyboard.dismiss()
 			} else {
@@ -71,7 +69,6 @@ export const FindTeacher: FC = () => {
 					toWeek
 				) //парсим json файл расписания
 				if (sch.toString() == testForEmty.toString()) {
-					console.log('ПУСТОЙ')
 					setTextForLoading('Преподавателя нету сегодня.')
 				} else {
 					setListOfTeacher(sch)
@@ -91,7 +88,8 @@ export const FindTeacher: FC = () => {
 					flexDirection: 'row',
 					width: '94%',
 					height: 'auto',
-					marginTop: 20
+					//marginTop: 20,
+					margin: 20
 				}}
 			>
 				<ThisDayContainer>
@@ -139,13 +137,13 @@ export const FindTeacher: FC = () => {
 			style={{
 				backgroundColor: '#e9e9e9',
 				alignItems: 'center',
-				width: '100%'
+				width: '100%',
+				height: '100%'
 			}}
 		>
 			<View style={{ width: '94%', flexDirection: 'row' }}>
 				<View
 					style={{
-						//margin: 10,
 						width: '100%',
 						borderRadius: 20,
 						backgroundColor: '#ffffff',
@@ -208,13 +206,11 @@ const ButtonContainer = styled.TouchableOpacity`
 	height: auto;
 	border-radius: 20px;
 	background-color: ${props => props.testID};
-	//margin-left: auto;
 `
 const ButtonText = styled.Text`
 	font-size: 25px;
 	text-align: center;
 	color: ${props => props.testID};
-	//line-height: 45px;
 	margin-right: 1%;
 	margin-left: 1%;
 `
@@ -222,5 +218,4 @@ const FilterContainer = styled.TouchableOpacity`
 	width: auto;
 	height: auto;
 	align-items: center;
-	//margin-left: auto;
 `

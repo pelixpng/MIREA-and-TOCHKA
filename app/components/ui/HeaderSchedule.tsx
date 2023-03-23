@@ -1,13 +1,8 @@
-import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
-import { CompositeScreenProps, useNavigation } from '@react-navigation/native'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { StackScreenProps } from '@react-navigation/stack'
+import { useNavigation } from '@react-navigation/native'
 import React, { FC } from 'react'
-import { Text, View, TouchableOpacity } from 'react-native'
 import styled from 'styled-components/native'
 import { MainRoutes, SettingsRoutes } from '../../navigation/Routes'
 import { useReduxSelector } from '../../redux'
-import { RootStackParamList } from '../../types/Navigation.types'
 import AlertModalService from '../../utilities/AlertModal'
 
 const CachComponent: FC = () => {

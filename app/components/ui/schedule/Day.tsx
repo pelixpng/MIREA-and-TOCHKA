@@ -11,7 +11,6 @@ interface ComponentProps {
 
 function Day({ dayNumber }: ComponentProps) {
 	const [listOfSubject, setListOfSubject] = useState<ItemProps[]>([])
-	// const params = {}
 	const finalPairs = useReduxSelector(state => state.counter.schedulePars)
 	const addSubject = (
 		name: string,
@@ -37,7 +36,6 @@ function Day({ dayNumber }: ComponentProps) {
 	}
 	useEffect(() => {
 		setListOfSubject([])
-		//когда в дне нет пар поставить заглушку
 		if (!finalPairs?.[dayNumber]?.length) return
 		if (dayNumber != 6) {
 			for (let i = finalPairs[dayNumber].length - 1; i >= 0; i--) {

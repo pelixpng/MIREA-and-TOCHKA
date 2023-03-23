@@ -1,6 +1,6 @@
 export function GetCurrentDayWeek() {
     const curr = new Date();
-    let dataWeek: string[] = []
+    const dataWeek: string[] = []
     if(curr.getDay()!=0){
         const first = curr.getDate() - curr.getDay() + 1; // Start from Monday
         const FirstDate = new Date(curr.setDate(first));

@@ -1,4 +1,4 @@
-//маршруты всех экранов прилдожения
+//маршруты всех экранов приложения
 export enum MainRoutes {
     StartScreen = 'StartScreen',
     Shedule = 'Shedule',

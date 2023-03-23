@@ -1,10 +1,7 @@
-import { TouchableOpacity, StyleSheet, View, Text } from 'react-native'
 import React from 'react'
 import styled from 'styled-components/native'
 import { getColor } from '../schedule/Subject'
-import { Ionicons } from '@expo/vector-icons'
-import { AntDesign } from '@expo/vector-icons'
-import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { Ionicons, AntDesign } from '@expo/vector-icons'
 
 interface Props {
 	data: TescherItemProps
@@ -23,17 +20,8 @@ export interface TescherItemProps {
 }
 
 export const TeacherSubject = (props: Props) => {
-	const {
-		time_start,
-		time_end,
-		name,
-		rooms,
-		teachers,
-		types,
-		group,
-		weeks,
-		dayWeek
-	} = props.data
+	const { time_start, time_end, name, rooms, teachers, types, group, weeks } =
+		props.data
 	return (
 		<SubjectContainer>
 			<TypeGroupRoomContainer>
@@ -90,11 +78,11 @@ const SubjectContainer = styled.View`
 
 const TimeAndNameContainer = styled.View`
 	flex-direction: row;
+	//height: auto;
 `
-
 const Time = styled.Text`
 	width: 65%;
-	height: 40px;
+	height: auto;
 	font-weight: 500;
 	font-size: 16px;
 	line-height: 23px;
@@ -106,14 +94,12 @@ const Name = styled.Text`
 	font-weight: 600;
 	font-size: 20px;
 	line-height: 23px;
-	color: #212525; ;
+	color: #212525;
 `
-
 const TimeContainer = styled.View`
 	width: 19%;
 	min-height: 50px;
 `
-
 const NameContainer = styled.View`
 	width: 81%;
 `
@@ -121,7 +107,6 @@ const TypeContainer = styled.View`
 	width: 19%;
 	height: 30px;
 `
-
 const TypePair = styled.View`
 	align-items: center;
 	width: 65%;
@@ -129,16 +114,14 @@ const TypePair = styled.View`
 	background-color: ${props => props.testID};
 	border-radius: 23px;
 `
-
 const TypePairText = styled.Text`
 	text-align: center;
 	width: 100%;
 	height: 100%;
 	font-weight: 600;
 	font-size: 19px;
-	color: #212525; ;
+	color: #212525;
 `
-
 const DayAndGroupContainer = styled.View`
 	align-items: center;
 	width: 81%;
@@ -159,14 +142,12 @@ const TeacherText = styled.Text`
 	color: rgba(33, 37, 37, 0.83);
 	margin-left: 5px;
 `
-
 const TeacherContainer = styled.View`
 	flex-direction: row;
 	align-items: center;
 	min-height: 20px;
 	width: 100%;
 `
-
 const WeeksContainer = styled.View`
 	align-items: center;
 	flex-direction: row;
@@ -179,7 +160,6 @@ const RoomContainer = styled.View`
 	min-height: 20px;
 	width: 60%;
 `
-
 const GroupContainer = styled.View`
 	align-items: center;
 	flex-direction: row;
@@ -187,21 +167,6 @@ const GroupContainer = styled.View`
 	width: 50%;
 	left: 10px;
 `
-const DayContainer = styled.View`
-	align-items: center;
-	flex-direction: row;
-	min-height: 20px;
-	width: 50%;
-`
-
-const DayText = styled.Text`
-	font-weight: 400;
-	font-size: 16px;
-	text-align: center;
-	color: rgba(33, 37, 37, 0.83);
-	margin-left: 4px;
-`
-
 const GroupText = styled.Text`
 	font-weight: 400;
 	font-size: 16px;

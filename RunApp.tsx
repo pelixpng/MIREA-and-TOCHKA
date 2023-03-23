@@ -11,11 +11,9 @@ import {
 } from './app/redux/counter'
 import ApiService from './app/api/MireaApi'
 import { parsSchedule } from './app/api/ParserApi'
-import { GroupListParser } from './app/api/AllGroupListParser'
+import { groupListParser } from './app/api/AllGroupListParser'
 import * as SplashScreen from 'expo-splash-screen'
 import StorageServiceMMKV, { Storage } from './app/Storage/Storage'
-
-//ПЕРЕЙТИ НА НОРМ ХРАНИЛИЩЕ когда будет готов дизайн
 
 SplashScreen.preventAutoHideAsync()
 export function RootApp() {
@@ -30,7 +28,7 @@ export function RootApp() {
 		const nameGroup = Storage.getString('group')
 		try {
 			if (nameGroup !== undefined) {
-				const currentWeek = await ApiService.current_week()
+				const currentWeek = await ApiService.getCurrentWeek()
 				dispatch(addWeekToRedux(currentWeek))
 				const updateSchedule = await ApiService.full_schedule(nameGroup) // загружаем актуальное расписание
 				const tmp = parsSchedule(currentWeek, updateSchedule) // распарсим расписание на неделю из json файла
@@ -41,10 +39,10 @@ export function RootApp() {
 					JSON.stringify(tmp)
 				)
 
-				dispatch(addAllgroupToRedux(await GroupListParser()))
+				dispatch(addAllgroupToRedux(await groupListParser()))
 				return setIsAuth(true) // указываем что группа выбрана и можно переходить к просмотру расписания
 			} else {
-				dispatch(addAllgroupToRedux(await GroupListParser()))
+				dispatch(addAllgroupToRedux(await groupListParser()))
 			}
 		} catch (e) {
 			console.log(e)

@@ -1,8 +1,7 @@
-import { FC } from 'react'
+import React, { FC } from 'react'
 import styled from 'styled-components/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { SettingsStackParamList } from '../../../types/Navigation.types'
-import { SettingsRoutes } from '../../../navigation/Routes'
 
 type settingsNavProps = NativeStackScreenProps<
 	SettingsStackParamList,
@@ -35,6 +34,5 @@ const Title = styled.Text`
 	height: auto;
 	font-weight: 600;
 	font-size: 20px;
-	//line-height: 23px;
 	color: rgba(33, 37, 37, 0.83);
 `

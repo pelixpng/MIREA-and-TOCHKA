@@ -44,20 +44,13 @@ export interface PairSchedule {
   lesson: InfoLesson;
 }
 
-export interface teacherScheduleReasponse {
+export interface TeacherScheduleReasponse {
   schedules: PairSchedule[];
 }
 
 
 //интерфейс апи для поиска группы
-export interface groupSearcheResponse {
+export interface GroupSearcheResponse {
   count: number;
   groups: string[];
-}
-
-//интерфейс апи для даты последнего обновления
-
-export interface lastUpdateResponse {
-  //groups: string[];
-  updated_at: string;
 }

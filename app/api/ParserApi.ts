@@ -10,16 +10,15 @@ export interface Pair {
 	weeks: number[]
 }
 
-export function parsSchedule(mainWeek: number, mainScheduleJson: ScheduleResponse) {
-	function MYparsing() {
+export function parsSchedule(currentWeek: number, scheduleJson: ScheduleResponse) {
+	function parsing() {
 		const schedule: Pair[][] = []
-		if (mainScheduleJson.group == undefined) {
+		if (scheduleJson.group == undefined) {
             throw new Error('Группа не найдена');
 		} else {
 			for (let day = 1; day < 7; day++) {
-				const dayPairs = mainScheduleJson?.schedule[day]?.lessons?.reduce(
+				const dayPairs = scheduleJson?.schedule[day]?.lessons?.reduce(
 					(acc, lesson) => {
-						//починить парсер
 						for (let i = 0; i < lesson.length; i++) {
 							const title = lesson?.[i]?.name
 							const dayPair: Pair = {
@@ -31,7 +30,7 @@ export function parsSchedule(mainWeek: number, mainScheduleJson: ScheduleRespons
 								rooms: lesson?.[i]?.rooms,
 								weeks: lesson?.[i]?.weeks
 							}
-							if (lesson?.[i]?.weeks.includes(mainWeek)) {
+							if (lesson?.[i]?.weeks.includes(currentWeek)) {
 								acc.push(dayPair)
 							}
 						}
@@ -44,7 +43,7 @@ export function parsSchedule(mainWeek: number, mainScheduleJson: ScheduleRespons
 		}
 		return schedule
 	}
-	return MYparsing()
+	return parsing()
 }
 
 

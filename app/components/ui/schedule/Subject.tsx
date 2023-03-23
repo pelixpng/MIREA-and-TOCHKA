@@ -59,7 +59,6 @@ export const Subject = (props: Props) => {
 					<RoomContainer>
 						<Ionicons name='location-outline' size={16} color='black' />
 						<RoomText>{rooms == undefined ? '' : rooms.split('.')[1]}</RoomText>
-						{/* <RoomText>{rooms.split('.')[1]}</RoomText> */}
 					</RoomContainer>
 					<TeacherContainer>
 						<Ionicons name='person-outline' size={16} color='black' />

@@ -12,9 +12,6 @@ export const NoPair: FC = () => {
 }
 
 const NoPairContainer = styled.View`
-	//align-items: center;
-	/* position: absolute;
-	top: 50%; */
 	align-items: center;
 	margin-top: 40%;
 `

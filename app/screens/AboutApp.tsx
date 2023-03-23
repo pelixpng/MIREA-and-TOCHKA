@@ -1,8 +1,7 @@
 import React, { FC } from 'react'
 import { Linking, View } from 'react-native'
 import styled from 'styled-components/native'
-import { ButtonContainer } from './Feedback'
-import { Title } from './Feedback'
+import { ButtonContainer, Title } from './Feedback'
 
 export const AboutApp: FC = () => {
 	return (
@@ -13,7 +12,7 @@ export const AboutApp: FC = () => {
 					//C:\mirea\MireaTypeScript\assets\adaptive-icon.png
 					source={require('../../assets/icon.png')}
 				/>
-				<VersionText>Версия 1.0.0 от 1 апреля 2023 г.</VersionText>
+				<VersionText>Версия 1.0.0 от 22 марта 2023 г.</VersionText>
 				<HeaderContainer>
 					<HeaderName>Используемые ресурсы</HeaderName>
 				</HeaderContainer>
@@ -77,6 +76,5 @@ const HeaderName = styled.Text`
 	height: auto;
 	font-weight: 600;
 	font-size: 20px;
-	//line-height: 23px;
 	color: rgba(33, 37, 37, 0.83);
 `

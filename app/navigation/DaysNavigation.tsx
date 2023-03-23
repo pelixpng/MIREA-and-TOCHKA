@@ -21,7 +21,6 @@ const DaysNavigation: FC = () => {
 		return colors
 	}
 
-	//вывод расписания на неделю
 	return (
 		<Tab.Navigator
 			initialRouteName={getWeekDay()}

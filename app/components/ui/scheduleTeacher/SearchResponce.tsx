@@ -1,5 +1,5 @@
-import { FC } from 'react'
-import { ScrollView, Text, View } from 'react-native'
+import React, { FC } from 'react'
+import { ScrollView } from 'react-native'
 import { TeacherPair } from '../../../api/TestTeacherParser'
 import { TeacherSubject } from './SubjectTeacher'
 import { WeekDayItem } from './WeekDay'

@@ -57,10 +57,6 @@ const counterSlice = createSlice({
         addScheduleParsToRedux: (state, action: PayloadAction<any>) => {
             state.schedulePars = action.payload
         },
-        // addIsScheduleFromCache: (state, action: PayloadAction<boolean>) => {
-        //     //вместо этого используй asyncThunk
-        //     state.isScheduleFromCache = action.payload
-        // },
         addAllgroupToRedux: (state, action: PayloadAction<Array<Object>>) => {
             state.allGroupsList = action.payload
         },

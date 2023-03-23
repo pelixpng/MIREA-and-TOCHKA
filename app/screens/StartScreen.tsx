@@ -25,7 +25,7 @@ const StartScreen: FC<Props> = ({ navigation }) => {
 	const setStatrGroup = async () => {
 		try {
 			const updateSchedule = await ApiService.full_schedule(group) //получаем расписание
-			const mainWeek = await ApiService.current_week() //получаем неделю
+			const mainWeek = await ApiService.getCurrentWeek() //получаем неделю
 			StorageServiceMMKV.saveGroup(group, dispatch)
 			dispatch(addWeekToRedux(mainWeek))
 			const tmp = parsSchedule(mainWeek, updateSchedule) //парсим json файл расписания
@@ -127,7 +127,6 @@ const Title = styled.Text`
 	height: auto;
 	font-weight: 600;
 	font-size: 20px;
-	//line-height: 23px;
 	color: rgba(33, 37, 37, 0.83);
 `
 const HeaderText = styled.Text`
@@ -136,7 +135,6 @@ const HeaderText = styled.Text`
 	font-weight: 600;
 	font-size: 40px;
 	align-self: center;
-	//line-height: 23px;
 	color: rgba(33, 37, 37, 0.83);
 `
 

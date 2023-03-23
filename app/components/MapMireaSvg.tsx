@@ -60,8 +60,6 @@ export const OfflineMap: FC = () => {
 }
 
 const ViewScreen = styled.View`
-	// justify-items: left;
-	//width: 100%;
 	height: 100%;
 `
 const SelectFloorContainer = styled.View`

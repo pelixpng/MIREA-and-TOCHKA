@@ -1,5 +1,4 @@
-import { FC } from 'react'
-import { Text, View } from 'react-native'
+import React, { FC } from 'react'
 import styled from 'styled-components/native'
 
 export const WeekDayItem: FC<{ Day: string }> = ({ Day }) => {
@@ -24,6 +23,5 @@ const DayName = styled.Text`
 	height: auto;
 	font-weight: 600;
 	font-size: 20px;
-	//line-height: 23px;
 	color: rgba(33, 37, 37, 0.83);
 `

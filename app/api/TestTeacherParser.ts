@@ -1,4 +1,4 @@
-import { teacherScheduleReasponse } from '../types/schedule'
+import { TeacherScheduleReasponse } from '../types/schedule'
 import AlertModalService from '../utilities/AlertModal'
 
 export interface TeacherPair {
@@ -14,26 +14,26 @@ export interface TeacherPair {
 }
 
 function convertWeekDay(day: number) {
-	let tmp="?"
+	let convertDay="?"
 	switch (day) {
-		case 1: tmp="ПОНЕДЕЛЬНИК"; break;
-		case 2: tmp="ВТОРНИК"; break;
-		case 3: tmp="СРЕДА"; break;
-		case 4: tmp="ЧЕТВЕРГ"; break;
-		case 5: tmp="ПЯТНИЦА"; break;
-		case 6: tmp="СУББОТА"; break;
-		default: tmp="ОШИБКА КОНВЕРТИРОВАНИЯ ДНЯ"; break;
+		case 1: convertDay="ПОНЕДЕЛЬНИК"; break;
+		case 2: convertDay="ВТОРНИК"; break;
+		case 3: convertDay="СРЕДА"; break;
+		case 4: convertDay="ЧЕТВЕРГ"; break;
+		case 5: convertDay="ПЯТНИЦА"; break;
+		case 6: convertDay="СУББОТА"; break;
+		default: convertDay="ОШИБКА КОНВЕРТИРОВАНИЯ ДНЯ"; break;
 	}
-	return tmp
+	return convertDay
 }
 
 export function parsTeacherSchedule(
-	teacherScheduleJson: teacherScheduleReasponse,
+	teacherScheduleJson: TeacherScheduleReasponse,
 	nameTeacher: string,
 	dayWeekSettings: number | null,
 	weekSettings: number | null,
 ) {
-	const weekSched: Array<Array<TeacherPair>> = [[],[],[],[],[],[]]
+	const weekSchedule: Array<Array<TeacherPair>> = [[],[],[],[],[],[]]
 	try {
 			for (let i = 0; i < teacherScheduleJson.schedules.length; i++) {
 				const dayPair: TeacherPair = {
@@ -49,30 +49,30 @@ export function parsTeacherSchedule(
 				}
 				if(dayWeekSettings==Number(teacherScheduleJson.schedules[i]?.weekday) && weekSettings!=null){
 					if (teacherScheduleJson.schedules[i]?.lesson?.weeks.includes(weekSettings)) {
-						weekSched[dayWeekSettings-1].push(dayPair)
+						weekSchedule[dayWeekSettings-1].push(dayPair)
 					}
 				}
 				else if(weekSettings!=null && dayWeekSettings==null){
 					if (teacherScheduleJson.schedules[i]?.lesson?.weeks.includes(weekSettings)) {
 						switch (Number(teacherScheduleJson.schedules[i]?.weekday)) {
-							case 1: weekSched[0].push(dayPair); break;
-							case 2: weekSched[1].push(dayPair); break;
-							case 3: weekSched[2].push(dayPair); break;
-							case 4: weekSched[3].push(dayPair); break;
-							case 5: weekSched[4].push(dayPair); break;
-							case 6: weekSched[5].push(dayPair); break;
+							case 1: weekSchedule[0].push(dayPair); break;
+							case 2: weekSchedule[1].push(dayPair); break;
+							case 3: weekSchedule[2].push(dayPair); break;
+							case 4: weekSchedule[3].push(dayPair); break;
+							case 5: weekSchedule[4].push(dayPair); break;
+							case 6: weekSchedule[5].push(dayPair); break;
 							default: console.log("error"); break;
 						}
 					}
 				}
 				else if(dayWeekSettings==null && weekSettings==null){
 					switch (Number(teacherScheduleJson.schedules[i]?.weekday)) {
-						case 1: weekSched[0].push(dayPair); break;
-						case 2: weekSched[1].push(dayPair); break;
-						case 3: weekSched[2].push(dayPair); break;
-						case 4: weekSched[3].push(dayPair); break;
-						case 5: weekSched[4].push(dayPair); break;
-						case 6: weekSched[5].push(dayPair); break;
+						case 1: weekSchedule[0].push(dayPair); break;
+						case 2: weekSchedule[1].push(dayPair); break;
+						case 3: weekSchedule[2].push(dayPair); break;
+						case 4: weekSchedule[3].push(dayPair); break;
+						case 5: weekSchedule[4].push(dayPair); break;
+						case 6: weekSchedule[5].push(dayPair); break;
 						default: console.log("error"); break;
 					}
 				}
@@ -81,5 +81,5 @@ export function parsTeacherSchedule(
 	catch (error) {
 		AlertModalService.teacherNotFound(nameTeacher)
 	}
-	return weekSched;
+	return weekSchedule;
 }
