@@ -1,6 +1,12 @@
 import React, { FC } from 'react'
 import { Linking, View } from 'react-native'
 import styled from 'styled-components/native'
+import {
+	documentationApi,
+	feedBack,
+	offlineMap,
+	onlineMap
+} from '../constant/links'
 import { ButtonContainer, Title } from './Feedback'
 
 export const AboutApp: FC = () => {
@@ -9,36 +15,25 @@ export const AboutApp: FC = () => {
 			<ScrollContainer>
 				<LogoContainer
 					style={{ marginTop: 10 }}
-					//C:\mirea\MireaTypeScript\assets\adaptive-icon.png
 					source={require('../../assets/icon.png')}
 				/>
 				<VersionText>Версия 1.0.0 от 22 марта 2023 г.</VersionText>
 				<HeaderContainer>
 					<HeaderName>Используемые ресурсы</HeaderName>
 				</HeaderContainer>
-				<ButtonContainer
-					onPress={() => Linking.openURL('https://schedule.mirea.ninja/docs')}
-				>
+				<ButtonContainer onPress={() => Linking.openURL(documentationApi)}>
 					<Title>API by Mirea Ninja</Title>
 				</ButtonContainer>
-				<ButtonContainer
-					onPress={() =>
-						Linking.openURL('https://ischemes.ru/group/rtu-mirea/vern78')
-					}
-				>
+				<ButtonContainer onPress={() => Linking.openURL(onlineMap)}>
 					<Title>Онлайн карта</Title>
 				</ButtonContainer>
-				<ButtonContainer
-					onPress={() => Linking.openURL('https://mirea.xyz/scheme')}
-				>
+				<ButtonContainer onPress={() => Linking.openURL(offlineMap)}>
 					<Title>Офлайн карта</Title>
 				</ButtonContainer>
 				<HeaderContainer>
 					<HeaderName>Разработчики</HeaderName>
 				</HeaderContainer>
-				<ButtonContainer
-					onPress={() => Linking.openURL('https://t.me/paveldur0')}
-				>
+				<ButtonContainer onPress={() => Linking.openURL(feedBack)}>
 					<Title>Семён Кузьмин</Title>
 				</ButtonContainer>
 			</ScrollContainer>

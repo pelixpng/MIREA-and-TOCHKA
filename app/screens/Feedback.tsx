@@ -2,6 +2,7 @@ import React, { FC } from 'react'
 import { Linking, View } from 'react-native'
 import styled from 'styled-components/native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { feedBack } from '../constant/links'
 
 export const FeedBack: FC = () => {
 	const description =
@@ -17,9 +18,7 @@ export const FeedBack: FC = () => {
 			<TextInfoContainer>
 				<TextInfo>{description}</TextInfo>
 			</TextInfoContainer>
-			<ButtonContainer
-				onPress={() => Linking.openURL('https://t.me/paveldur0')}
-			>
+			<ButtonContainer onPress={() => Linking.openURL(feedBack)}>
 				<Title>Telegram </Title>
 			</ButtonContainer>
 			<ButtonContainer

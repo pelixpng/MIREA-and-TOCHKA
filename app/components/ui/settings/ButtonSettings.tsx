@@ -9,7 +9,7 @@ type settingsNavProps = NativeStackScreenProps<
 >
 
 type routeNameType = 'AboutApp' | 'ChangeTheme' | 'FeedBack' | 'Settings'
-
+//TODO: понять
 export const SettingsButton: FC<
 	settingsNavProps & { name: string; routeName: routeNameType }
 > = ({ navigation, name, routeName }) => {

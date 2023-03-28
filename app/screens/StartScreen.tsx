@@ -1,5 +1,5 @@
-import React, { FC, useEffect, useState } from 'react'
-import { Button, View } from 'react-native'
+import React, { FC, useState } from 'react'
+import { View } from 'react-native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../types/Navigation.types'
 import { useReduxDispatch, useReduxSelector } from '../redux'
@@ -10,7 +10,7 @@ import { parsSchedule } from '../api/ParserApi'
 import AlertModalService from '../utilities/AlertModal'
 import { StatusBar } from 'expo-status-bar'
 import DropDownPicker from 'react-native-dropdown-picker'
-import StorageServiceMMKV from '../Storage/Storage'
+import StorageServiceMMKV from '../storage/Storage'
 import styled from 'styled-components/native'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'StartScreen'>
@@ -24,7 +24,7 @@ const StartScreen: FC<Props> = ({ navigation }) => {
 
 	const setStatrGroup = async () => {
 		try {
-			const updateSchedule = await ApiService.full_schedule(group) //получаем расписание
+			const updateSchedule = await ApiService.getFullSchedule(group) //получаем расписание
 			const mainWeek = await ApiService.getCurrentWeek() //получаем неделю
 			StorageServiceMMKV.saveGroup(group, dispatch)
 			dispatch(addWeekToRedux(mainWeek))

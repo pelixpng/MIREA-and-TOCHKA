@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components/native'
 import { Ionicons } from '@expo/vector-icons'
+import { getColor } from '../../../utilities/ColorPair'
+import { StyledColor } from '../../../types/styled'
 
 interface Props {
 	data: ItemProps
@@ -15,30 +17,8 @@ export interface ItemProps {
 	types: string
 }
 
-export function getColor(typePair: string) {
-	let color = ''
-	switch (typePair) {
-		case 'пр':
-			color = 'rgba(115, 120, 255, 0.69)'
-			break
-		case 'лк':
-			color = 'rgba(143, 31, 255, 0.69)'
-			break
-		case 'с/р':
-			color = 'rgba(255, 74, 139, 0.69)'
-			break
-		case 'лаб':
-			color = 'rgba(255, 92, 0, 0.7)'
-			break
-		default:
-			color = 'rgba(255, 0, 0, 0.69)'
-			break
-	}
-	return color
-}
-
-export const Subject = (props: Props) => {
-	const { time_start, time_end, name, rooms, teachers, types } = props.data
+export const Subject = ({ data }: Props) => {
+	const { time_start, time_end, name, rooms, teachers, types } = data
 	return (
 		<SubjectContainer>
 			<TimeAndNameContainer>
@@ -51,13 +31,20 @@ export const Subject = (props: Props) => {
 			</TimeAndNameContainer>
 			<InfoContainer>
 				<TypeContainer>
-					<TypePair testID={getColor(types)}>
+					<TypePair bg={getColor(types)}>
 						<TypePairText>{types}</TypePairText>
 					</TypePair>
 				</TypeContainer>
 				<RoomAndTeacherContainer>
 					<RoomContainer>
 						<Ionicons name='location-outline' size={16} color='black' />
+						{/* кондишнл рендеринг и всегда используй === вместо == */}
+						{rooms ? (
+							<RoomText>
+								{rooms == undefined ? '' : rooms.split('.')[1]}
+							</RoomText>
+						) : null}
+
 						<RoomText>{rooms == undefined ? '' : rooms.split('.')[1]}</RoomText>
 					</RoomContainer>
 					<TeacherContainer>
@@ -121,11 +108,11 @@ const TypeContainer = styled.View`
 	height: 30px;
 `
 
-const TypePair = styled.View`
+const TypePair = styled.View<StyledColor>`
 	align-items: center;
 	width: 65%;
 	height: 25px;
-	background-color: ${props => props.testID};
+	background-color: ${props => props.bg};
 	border-radius: 23px;
 `
 

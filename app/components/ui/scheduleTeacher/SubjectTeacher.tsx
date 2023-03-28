@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components/native'
-import { getColor } from '../schedule/Subject'
+import { getColor } from '../../../utilities/ColorPair'
 import { Ionicons, AntDesign } from '@expo/vector-icons'
 
 interface Props {
@@ -19,9 +19,9 @@ export interface TescherItemProps {
 	weeks: number[]
 }
 
-export const TeacherSubject = (props: Props) => {
+export const TeacherSubject = ({ data }: Props) => {
 	const { time_start, time_end, name, rooms, teachers, types, group, weeks } =
-		props.data
+		data
 	return (
 		<SubjectContainer>
 			<TypeGroupRoomContainer>

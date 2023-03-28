@@ -2,8 +2,9 @@ import React, { FC, useEffect, useRef } from 'react'
 import { Animated } from 'react-native'
 import styled from 'styled-components/native'
 import { Ionicons } from '@expo/vector-icons'
+import { TextForLoading } from '../../../types/FindTeacher.types'
 
-export const SearchLoading: FC<{ state: string }> = ({ state }) => {
+export const SearchLoading: FC<{ state: TextForLoading }> = ({ state }) => {
 	const anim = useRef(new Animated.Value(1))
 	useEffect(() => {
 		if (state.includes('Ищу')) {

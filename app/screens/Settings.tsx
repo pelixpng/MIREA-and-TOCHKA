@@ -9,10 +9,10 @@ import { useNavigation } from '@react-navigation/native'
 import { SettingsStackParamList } from '../types/Navigation.types'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import DropDownPicker from 'react-native-dropdown-picker'
-import { groupListParser } from '../api/AllGroupListParser'
+
 import { SettingsButton } from '../components/ui/settings/ButtonSettings'
 import styled from 'styled-components/native'
-import StorageServiceMMKV, { Storage } from '../Storage/Storage'
+import StorageServiceMMKV, { Storage } from '../storage/Storage'
 
 type settingsNavProps = NativeStackScreenProps<
 	SettingsStackParamList,
@@ -40,12 +40,12 @@ const Settings: FC<settingsNavProps> = ({ navigation, route }) => {
 	}, [ifOffline, group])
 
 	const getListParser = async () => {
-		dispatch(addAllgroupToRedux(await groupListParser()))
+		dispatch(addAllgroupToRedux(await ApiService.getAllGroups()))
 	}
 
 	const changeGroup = async () => {
 		try {
-			const updateSchedule = await ApiService.full_schedule(group) //получаем расписание
+			const updateSchedule = await ApiService.getFullSchedule(group) //получаем расписание
 			StorageServiceMMKV.saveGroup(group, dispatch)
 			const tmp = parsSchedule(mainWeek, updateSchedule) //парсим json файл расписания
 			dispatch(addScheduleParsToRedux(tmp)) //запись расписания в Redux

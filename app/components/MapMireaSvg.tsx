@@ -9,12 +9,14 @@ const floorsComponents = {
 	'2': <FLOOR_2 />,
 	'3': <FLOOR_3 />,
 	'4': <FLOOR_4 />
-}
+} as const
 
-const floors = ['0', '1', '2', '3', '4'] as const
+type FloorType = keyof typeof floorsComponents
+
+const floors = Object.keys(floorsComponents) as FloorType[]
 
 export const OfflineMap: FC = () => {
-	const [currentFloor, setCurrentFloor] = useState<(typeof floors)[number]>('2')
+	const [currentFloor, setCurrentFloor] = useState<FloorType>('2')
 	const FloorsSelector: FC<{
 		floor: (typeof floors)[number]
 	}> = ({ floor }) => {

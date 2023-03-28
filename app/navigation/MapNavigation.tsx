@@ -3,7 +3,7 @@ import { OnlineMap } from '../components/MapMireaOnline'
 import React, { FC } from 'react'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import { OfflineMap } from '../components/MapMireaSvg'
-import { LabelNav } from '../components/ui/Map/MapNavComponent'
+import { LabelNavigator } from '../components/ui/Map/MapNavComponent'
 
 const MapNav = createMaterialTopTabNavigator()
 export const SelectMireaMap: FC = () => {
@@ -26,7 +26,7 @@ export const SelectMireaMap: FC = () => {
 				key='1'
 				options={{
 					tabBarLabel: ({ focused }) => (
-						<LabelNav name='НАВИГАТОР' focused={focused} />
+						<LabelNavigator name='НАВИГАТОР' focused={focused} />
 					),
 					tabBarPressColor: 'transparent',
 					tabBarIndicatorStyle: {
@@ -40,7 +40,7 @@ export const SelectMireaMap: FC = () => {
 				key='2'
 				options={{
 					tabBarLabel: ({ focused }) => (
-						<LabelNav name='КАРТА' focused={focused} />
+						<LabelNavigator name='КАРТА' focused={focused} />
 					),
 					tabBarPressColor: 'transparent',
 					tabBarIndicatorStyle: {

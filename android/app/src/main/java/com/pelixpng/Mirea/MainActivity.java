@@ -1,4 +1,4 @@
-package com.pelixpng.MireaTypeScript;
+package com.pelixpng.Mirea;
 
 import android.os.Build;
 import android.os.Bundle;

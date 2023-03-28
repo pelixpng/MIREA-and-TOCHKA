@@ -1,5 +1,6 @@
 import { TeacherScheduleReasponse } from '../types/schedule'
 import AlertModalService from '../utilities/AlertModal'
+import ApiService from './MireaApi'
 
 export interface TeacherPair {
 	group: string
@@ -27,12 +28,13 @@ function convertWeekDay(day: number) {
 	return convertDay
 }
 
-export function parsTeacherSchedule(
-	teacherScheduleJson: TeacherScheduleReasponse,
+export async function parsTeacherSchedule(
+	//teacherScheduleJson: TeacherScheduleReasponse,
 	nameTeacher: string,
 	dayWeekSettings: number | null,
 	weekSettings: number | null,
 ) {
+	const teacherScheduleJson = await ApiService.getTeacherSchedule(nameTeacher)
 	const weekSchedule: Array<Array<TeacherPair>> = [[],[],[],[],[],[]]
 	try {
 			for (let i = 0; i < teacherScheduleJson.schedules.length; i++) {
@@ -80,6 +82,7 @@ export function parsTeacherSchedule(
 		}	
 	catch (error) {
 		AlertModalService.teacherNotFound(nameTeacher)
+		console.log(error)
 	}
 	return weekSchedule;
 }

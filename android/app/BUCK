@@ -35,12 +35,12 @@ android_library(
 
 android_build_config(
     name = "build_config",
-    package = "com.pelixpng.MireaTypeScript",
+    package = "com.pelixpng.Mirea",
 )
 
 android_resource(
     name = "res",
-    package = "com.pelixpng.MireaTypeScript",
+    package = "com.pelixpng.Mirea",
     res = "src/main/res",
 )
 

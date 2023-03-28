@@ -11,7 +11,6 @@ export const OnlineMap: FC = () => {
 			AlertModalService.noInternetForMap()
 		}
 	}, [ifOffline])
-
 	return (
 		<WebView
 			source={{ uri: 'https://ischemes.ru/group/rtu-mirea/vern78' }}

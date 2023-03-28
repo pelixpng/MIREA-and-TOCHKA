@@ -26,6 +26,7 @@ export const HeaderSchedule: FC = () => {
 			<StyledView>
 				<WeekText>{mainWeek}</WeekText>
 				<DopWeekText>{title}</DopWeekText>
+				{/* кондишнл рендеринг */}
 				{isAppOfline ? <CachComponent /> : null}
 				<ButtonGroupContainer
 					onPress={() =>

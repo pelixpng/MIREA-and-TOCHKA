@@ -1,20 +1,17 @@
 import React, { FC, useEffect, useState } from 'react'
-import { View, TextInput, Keyboard } from 'react-native'
-import ApiService from '../api/MireaApi'
+import { TextInput, Keyboard } from 'react-native'
 import { parsTeacherSchedule, TeacherPair } from '../api/TestTeacherParser'
-import AlertModalService from '../utilities/AlertModal'
 import { useReduxSelector } from '../redux'
 import { SearchLoading } from '../components/ui/scheduleTeacher/SearchLoading'
 import { AntDesign } from '@expo/vector-icons'
 import { SearceListComponent } from '../components/ui/scheduleTeacher/SearchResponce'
 import styled from 'styled-components/native'
+import { Filter, TextForLoading } from '../types/FindTeacher.types'
 
 export const FindTeacher: FC = () => {
+	const [searchSettings, setSearchSettings] = useState<Filter>('all')
 	const [showFilter, setShowFilter] = useState(false)
-	const [triggerUseEffect, setTriggerUseEffect] = useState('')
-	const [isSearchToDay, setIsSearchToDay] = useState(false)
-	const [isSearchInThisWeek, setisSearchInThisWeek] = useState(false)
-	const [textForLoading, setTextForLoading] = useState(
+	const [textForLoading, setTextForLoading] = useState<TextForLoading>(
 		'Здесь появятся результаты поиска'
 	)
 	const [isSearchLoading, setIsSearchLoading] = useState(false) // статус загрузки приложения
@@ -25,7 +22,6 @@ export const FindTeacher: FC = () => {
 	const ifOffline = useReduxSelector(state => state.counter.isAppOffline)
 	const week = useReduxSelector(state => state.counter.week)
 	const regex = /^[А-Яа-я]+\s+[А-Яа-я]\.\s*[А-Яа-я]\.?$/
-	const testForEmty: Array<Array<TeacherPair>> = [[], [], [], [], [], []]
 	const date = new Date()
 
 	useEffect(() => {
@@ -37,10 +33,10 @@ export const FindTeacher: FC = () => {
 		} else if (nameTeacher.length == 0) {
 			setTextForLoading('Здесь появятся результаты поиска')
 		} else if (regex.test(nameTeacher) == true && ifOffline == false) {
-			if (isSearchInThisWeek && isSearchToDay == false) {
+			if (searchSettings == 'thisWeek') {
 				findScheduleTeacher(null, week)
 				Keyboard.dismiss()
-			} else if (isSearchToDay && isSearchInThisWeek == false) {
+			} else if (searchSettings == 'toDay') {
 				findScheduleTeacher(date.getDay(), week)
 				Keyboard.dismiss()
 			} else {
@@ -48,146 +44,130 @@ export const FindTeacher: FC = () => {
 				Keyboard.dismiss()
 			}
 		}
-	}, [ifOffline, nameTeacher, triggerUseEffect])
+	}, [ifOffline, nameTeacher, searchSettings])
 
 	const findScheduleTeacher = async (
 		toDay: number | null,
 		toWeek: number | null
 	) => {
-		if (ifOffline == true) {
-			AlertModalService.noInternet()
+		setTextForLoading('Ищу преподавателя')
+		setIsSearchLoading(false)
+		setListOfTeacher([])
+		const sch = await parsTeacherSchedule(nameTeacher, toDay, toWeek)
+		if (sch.every(subArr => subArr.length === 0)) {
+			setTextForLoading('Преподавателя нету сегодня')
 		} else {
-			try {
-				setTextForLoading('Ищу: ' + nameTeacher)
-				setIsSearchLoading(false)
-				setListOfTeacher([])
-				const updateSchedule = await ApiService.teacher_schedule(nameTeacher) //получаем расписание
-				const sch = parsTeacherSchedule(
-					updateSchedule,
-					nameTeacher,
-					toDay,
-					toWeek
-				) //парсим json файл расписания
-				if (sch.toString() == testForEmty.toString()) {
-					setTextForLoading('Преподавателя нету сегодня.')
-				} else {
-					setListOfTeacher(sch)
-					setIsSearchLoading(true)
-					setTextForLoading('Здесь появятся результаты поиска')
-				}
-			} catch (e) {
-				console.log(e)
-			}
+			setListOfTeacher(sch)
+			setIsSearchLoading(true)
 		}
 	}
 
 	const FilterComponent: FC = () => {
 		return (
-			<View
-				style={{
-					flexDirection: 'row',
-					width: '94%',
-					height: 'auto',
-					//marginTop: 20,
-					margin: 20
-				}}
-			>
+			<FilterContainer>
 				<ThisDayContainer>
 					<ButtonContainer
-						testID={isSearchToDay ? '#fa9292' : 'white'}
+						testID={searchSettings == 'toDay' ? '#fa9292' : 'white'}
 						onPress={() => {
-							if (isSearchToDay) {
-								setIsSearchToDay(false)
+							if (searchSettings == 'toDay') {
+								setSearchSettings('all')
 							} else {
-								setIsSearchToDay(true)
-								setisSearchInThisWeek(false)
+								setSearchSettings('toDay')
 							}
-							setTriggerUseEffect(Math.random().toString().substring(3, 8))
 						}}
 					>
-						<ButtonText testID={isSearchToDay ? '#212525' : '#adadae'}>
+						<ButtonText
+							testID={searchSettings == 'toDay' ? '#212525' : '#adadae'}
+						>
 							Сегодня
 						</ButtonText>
 					</ButtonContainer>
 				</ThisDayContainer>
 				<ThisWeekContainer>
 					<ButtonContainer
-						testID={isSearchInThisWeek ? '#fa9292' : 'white'}
+						testID={searchSettings == 'thisWeek' ? '#fa9292' : 'white'}
 						onPress={() => {
-							if (isSearchInThisWeek) {
-								setisSearchInThisWeek(false)
+							if (searchSettings == 'thisWeek') {
+								setSearchSettings('all')
 							} else {
-								setisSearchInThisWeek(true)
-								setIsSearchToDay(false)
+								setSearchSettings('thisWeek')
 							}
-							setTriggerUseEffect(Math.random().toString().substring(3, 8))
 						}}
 					>
-						<ButtonText testID={isSearchInThisWeek ? '#212525' : '#adadae'}>
-							{week.toString() + ' неделя'}
+						<ButtonText
+							testID={searchSettings == 'thisWeek' ? '#212525' : '#adadae'}
+						>
+							{week + ' неделя'}
 						</ButtonText>
 					</ButtonContainer>
 				</ThisWeekContainer>
-			</View>
+			</FilterContainer>
 		)
 	}
 
 	return (
-		<View
-			style={{
-				backgroundColor: '#e9e9e9',
-				alignItems: 'center',
-				width: '100%',
-				height: '100%'
-			}}
-		>
-			<View style={{ width: '94%', flexDirection: 'row' }}>
-				<View
+		<SearchContainer>
+			<PlaceholderContainer>
+				<AntDesign
+					name='search1'
+					size={23}
+					color={'#adadae'}
+					style={{ left: 10, width: 'auto' }}
+				/>
+				<TextInput
+					placeholderTextColor={'#adadae'}
+					placeholder={'Имя преподавателя...'}
+					onChangeText={setNameTeacher}
 					style={{
-						width: '100%',
-						borderRadius: 20,
-						backgroundColor: '#ffffff',
-						alignItems: 'center',
-						flexDirection: 'row',
-						height: 35
+						fontSize: 25,
+						width: 'auto',
+						height: 'auto',
+						margin: 0,
+						left: 15,
+						color: '#212525;'
+					}}
+				/>
+				<FilterButton
+					onPress={() => {
+						setShowFilter(!showFilter)
 					}}
 				>
-					<AntDesign
-						name='search1'
-						size={23}
-						color={'#adadae'}
-						style={{ left: 10 }}
-					/>
-					<TextInput
-						placeholderTextColor={'#adadae'}
-						placeholder={'Имя преподавателя...'}
-						onChangeText={setNameTeacher}
-						style={{
-							fontSize: 25,
-							width: '83%',
-							margin: 0,
-							left: 15,
-							color: '#212525;'
-						}}
-					/>
-					<FilterContainer
-						onPress={() => {
-							setShowFilter(!showFilter)
-						}}
-					>
-						<AntDesign name='setting' size={23} color={'#adadae'} />
-					</FilterContainer>
-				</View>
-			</View>
-			{showFilter ? <FilterComponent /> : null}
+					<AntDesign name='setting' size={23} color={'#adadae'} />
+				</FilterButton>
+			</PlaceholderContainer>
+
+			{showFilter && <FilterComponent />}
 			{isSearchLoading ? (
 				<SearceListComponent listOfTeacher={listOfTeacher} />
 			) : (
 				<SearchLoading state={textForLoading} />
 			)}
-		</View>
+		</SearchContainer>
 	)
 }
+
+const FilterContainer = styled.View`
+	flex-direction: row;
+	width: 94%;
+	height: auto;
+	margin-top: 20;
+`
+
+const PlaceholderContainer = styled.View`
+	width: 94%;
+	border-radius: 20;
+	background-color: #ffffff;
+	align-items: center;
+	flex-direction: row;
+	height: 35;
+`
+
+const SearchContainer = styled.View`
+	align-items: center;
+	background-color: 'rgba(233, 233, 233, 1);';
+	width: 100%;
+	height: 100%;
+`
 
 const ThisDayContainer = styled.View`
 	width: 50%;
@@ -214,8 +194,10 @@ const ButtonText = styled.Text`
 	margin-right: 1%;
 	margin-left: 1%;
 `
-const FilterContainer = styled.TouchableOpacity`
+const FilterButton = styled.TouchableOpacity`
 	width: auto;
 	height: auto;
 	align-items: center;
+	margin-left: auto;
+	margin-right: 10;
 `

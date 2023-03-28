@@ -1,4 +1,4 @@
-package com.pelixpng.MireaTypeScript.newarchitecture;
+package com.pelixpng.Mirea.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -20,9 +20,9 @@ import com.facebook.react.fabric.EmptyReactNativeConfig;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.pelixpng.MireaTypeScript.BuildConfig;
-import com.pelixpng.MireaTypeScript.newarchitecture.components.MainComponentsRegistry;
-import com.pelixpng.MireaTypeScript.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.pelixpng.Mirea.BuildConfig;
+import com.pelixpng.Mirea.newarchitecture.components.MainComponentsRegistry;
+import com.pelixpng.Mirea.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 

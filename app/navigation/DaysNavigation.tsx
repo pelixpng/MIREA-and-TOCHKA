@@ -3,7 +3,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import Day from '../components/ui/schedule/Day'
 import { getWeekDay } from '../utilities/GetWeekDay'
 import { HeaderDay } from '../components/ui/schedule/NavigationDayItem'
-import { getColor } from '../components/ui/schedule/Subject'
+import { getColor } from '../utilities/ColorPair'
 import { useReduxSelector } from '../redux'
 import { GetCurrentDayWeek } from '../utilities/GetDateInWeek'
 

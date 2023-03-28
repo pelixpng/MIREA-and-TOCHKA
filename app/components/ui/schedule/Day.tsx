@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { FlatList } from 'react-native'
 import { useReduxSelector } from '../../../redux'
 import Subject, { ItemProps } from './Subject'
@@ -23,18 +23,19 @@ function Day({ dayNumber }: ComponentProps) {
 		setListOfSubject(list => {
 			return [
 				{
-					name: name,
-					rooms: rooms,
-					teachers: teachers,
-					time_end: time_end,
-					time_start: time_start,
-					types: types
+					name,
+					rooms,
+					teachers,
+					time_end,
+					time_start,
+					types
 				},
 				...list
 			]
 		})
 	}
-	useEffect(() => {
+
+	useMemo(() => {
 		setListOfSubject([])
 		if (!finalPairs?.[dayNumber]?.length) return
 		if (dayNumber != 6) {
@@ -54,7 +55,7 @@ function Day({ dayNumber }: ComponentProps) {
 
 	return (
 		<ViewDay>
-			{listOfSubject.length == 0 ? <NoPair /> : null}
+			{listOfSubject.length == 0 && <NoPair />}
 			<FlatList
 				data={listOfSubject}
 				renderItem={({ item }) => <Subject data={item} />}

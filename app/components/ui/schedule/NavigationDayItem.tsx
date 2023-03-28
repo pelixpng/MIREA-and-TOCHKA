@@ -1,21 +1,29 @@
 import React, { FC } from 'react'
 import styled from 'styled-components/native'
+import { StyledColor } from '../../../types/styled'
 
-export const HeaderDay: FC<{
+interface Props {
 	dayWeek: string
 	day: string
 	colorsBalls: string[]
 	focused: boolean
-}> = ({ dayWeek, day, colorsBalls, focused }) => {
+}
+
+export const HeaderDay: FC<Props> = ({
+	dayWeek,
+	day,
+	colorsBalls,
+	focused
+}) => {
 	return (
 		<Headercontainer>
-			<FocusedHeader testID={focused ? '#fa9292' : '#e9e9e9'}>
-				<NumberDay testID={focused ? '#212525' : '#adadae'}>{day}</NumberDay>
+			<FocusedHeader bg={focused ? '#fa9292' : '#e9e9e9'}>
+				<NumberDay bg={focused ? '#212525' : '#adadae'}>{day}</NumberDay>
 				<WeekDay>{dayWeek}</WeekDay>
 			</FocusedHeader>
 			<BallsContainer>
-				{colorsBalls.map(item => (
-					<Ball key={Math.random().toString().substring(3, 8)} testID={item} />
+				{colorsBalls.map((item, index) => (
+					<Ball key={index} bg={item} />
 				))}
 			</BallsContainer>
 		</Headercontainer>
@@ -28,11 +36,11 @@ const Headercontainer = styled.View`
 	min-height: auto;
 `
 
-const FocusedHeader = styled.View`
+const FocusedHeader = styled.View<StyledColor>`
 	align-items: center;
 	min-width: 68%;
 	min-height: auto;
-	background-color: ${props => props.testID};
+	background-color: ${props => props.bg};
 	border-radius: 11px;
 `
 
@@ -43,10 +51,10 @@ const BallsContainer = styled.View`
 	min-height: 7px;
 	justify-content: space-between;
 `
-const Ball = styled.View`
+const Ball = styled.View<StyledColor>`
 	width: 7px;
 	height: 7px;
-	background-color: ${props => props.testID};
+	background-color: ${props => props.bg};
 	border-radius: 100px;
 	margin: 1px;
 `
@@ -59,11 +67,10 @@ const WeekDay = styled.Text`
 	font-weight: bold;
 	color: #212525;
 `
-const NumberDay = styled.Text`
-	//text-align: center;
+const NumberDay = styled.Text<StyledColor>`
 	min-height: auto;
 	min-width: auto;
 	font-size: 16;
 	font-weight: bold;
-	color: ${props => props.testID};
+	color: ${props => props.bg};
 `

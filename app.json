@@ -29,7 +29,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.pelixpng.MireaTypeScript",
+      "package": "com.pelixpng.Mirea",
       "runtimeVersion": {
         "policy": "sdkVersion"
       }

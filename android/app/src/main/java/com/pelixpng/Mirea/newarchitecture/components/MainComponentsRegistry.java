@@ -1,4 +1,4 @@
-package com.pelixpng.MireaTypeScript.newarchitecture.components;
+package com.pelixpng.Mirea.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;

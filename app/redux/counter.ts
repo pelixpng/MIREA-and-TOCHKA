@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { ScheduleResponse } from '../types/schedule';
 import { ItemProps } from '../components/ui/schedule/Subject';
 
@@ -11,6 +11,7 @@ import { ItemProps } from '../components/ui/schedule/Subject';
 
 
 //TODO: сделать интерфейс под апи
+//TODO: исправить типизацию
 interface InitialState {
     group:string;
     week:number;
@@ -34,12 +35,12 @@ const initialState:InitialState = {
     isAppOffline:false
 }
 
-export const getAllGroups = createAsyncThunk(
-    'groupState/getAllGroups',
-    async function() {
+// export const getAllGroups = createAsyncThunk(
+//     'groupState/getAllGroups',
+//     async function() {
         
-    }
-)
+//     }
+// )
 
 const counterSlice = createSlice({
     name: 'groupState', 
