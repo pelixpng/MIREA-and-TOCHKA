@@ -21,4 +21,8 @@ export default class StorageServiceMMKV{
     static saveLastUpdate = (dateUpdate: string) => {
         Storage.set('dateUpdate', dateUpdate)
     }
+
+    static saveThemeSettings = (themeSettings: string) => {
+        Storage.set('theme', themeSettings)
+    }
 }

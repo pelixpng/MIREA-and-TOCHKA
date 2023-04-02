@@ -13,7 +13,7 @@ const BottomNavigation: FC = () => {
 		<Tab.Navigator
 			screenOptions={{
 				tabBarHideOnKeyboard: true,
-				tabBarActiveTintColor: '#FF7648',
+				tabBarActiveTintColor: '#fa9292',
 				tabBarInactiveTintColor: '#88889D'
 			}}
 		>

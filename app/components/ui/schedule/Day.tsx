@@ -1,9 +1,9 @@
 import React, { useMemo, useState } from 'react'
-import { FlatList } from 'react-native'
 import { useReduxSelector } from '../../../redux'
 import Subject, { ItemProps } from './Subject'
-import styled from 'styled-components/native'
 import { NoPair } from './NoPairDay'
+import { BackgroundContainer } from '../../UniversalComponents'
+import { ScrollContainer } from '../../UniversalComponents'
 
 interface ComponentProps {
 	dayNumber: number
@@ -28,7 +28,8 @@ function Day({ dayNumber }: ComponentProps) {
 					teachers,
 					time_end,
 					time_start,
-					types
+					types,
+					key: Math.random().toString().substring(3, 7)
 				},
 				...list
 			]
@@ -54,20 +55,15 @@ function Day({ dayNumber }: ComponentProps) {
 	}, [finalPairs])
 
 	return (
-		<ViewDay>
+		<BackgroundContainer height='100%'>
 			{listOfSubject.length == 0 && <NoPair />}
-			<FlatList
-				data={listOfSubject}
-				renderItem={({ item }) => <Subject data={item} />}
-				keyExtractor={item => item.time_start}
-			/>
-		</ViewDay>
+			<ScrollContainer>
+				{listOfSubject.map((item, index) => (
+					<Subject data={item} key={index} />
+				))}
+			</ScrollContainer>
+		</BackgroundContainer>
 	)
 }
-
-const ViewDay = styled.View`
-	background-color: '#e9e9e9';
-	height: 100%;
-`
 
 export default Day

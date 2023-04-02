@@ -1,8 +1,8 @@
 import React, { FC } from 'react'
-import { ScrollView } from 'react-native'
 import { TeacherPair } from '../../../api/TestTeacherParser'
 import { TeacherSubject } from './SubjectTeacher'
 import { WeekDayItem } from './WeekDay'
+import { ScrollContainer } from '../../UniversalComponents'
 
 const Days = [
 	'ПОНЕДЕЛЬНИК',
@@ -17,15 +17,15 @@ export const SearceListComponent: FC<{
 	listOfTeacher: Array<Array<TeacherPair>>
 }> = ({ listOfTeacher }) => {
 	return (
-		<ScrollView style={{ backgroundColor: '#e9e9e9' }}>
+		<ScrollContainer>
 			{listOfTeacher.map((day, x) => (
 				<>
-					{day.length != 0 ? <WeekDayItem Day={Days[x]} /> : null}
+					{day.length != 0 && <WeekDayItem Day={Days[x]} key={x} />}
 					{day.map((pair, y) => (
 						<TeacherSubject data={pair} key={y} />
 					))}
 				</>
 			))}
-		</ScrollView>
+		</ScrollContainer>
 	)
 }

@@ -3,6 +3,7 @@ import { Animated } from 'react-native'
 import styled from 'styled-components/native'
 import { Ionicons } from '@expo/vector-icons'
 import { TextForLoading } from '../../../types/FindTeacher.types'
+import { BackgroundContainer } from '../../UniversalComponents'
 
 export const SearchLoading: FC<{ state: TextForLoading }> = ({ state }) => {
 	const anim = useRef(new Animated.Value(1))
@@ -40,26 +41,21 @@ export const SearchLoading: FC<{ state: TextForLoading }> = ({ state }) => {
 		}
 	}, [state])
 	return (
-		<SearchContainer>
+		<BackgroundContainer height='100%'>
 			<Animated.View
 				style={{
 					transform: [{ scale: anim.current }],
-					marginTop: '10%'
+					marginTop: '10%',
+					alignSelf: 'center'
 				}}
 			>
 				<Ionicons name='search-outline' size={52} color='#adadae' />
 			</Animated.View>
 			<SearchText>{state}</SearchText>
-		</SearchContainer>
+		</BackgroundContainer>
 	)
 }
 
-const SearchContainer = styled.View`
-	width: 100%;
-	height: 100%;
-	align-items: center;
-	background: #e9e9e9;
-`
 const SearchText = styled.Text`
 	margin-top: 2%;
 	color: #adadae;

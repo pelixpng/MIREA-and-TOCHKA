@@ -25,7 +25,7 @@ const DaysNavigation: FC = () => {
 		<Tab.Navigator
 			initialRouteName={getWeekDay()}
 			screenOptions={{
-				tabBarStyle: { backgroundColor: '#e9e9e9', bottom: 0 }
+				tabBarStyle: { backgroundColor: '#e9e9e9' }
 			}}
 		>
 			{days.map((item, index) => (

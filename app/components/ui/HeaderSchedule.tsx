@@ -1,33 +1,22 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { FC } from 'react'
-import styled from 'styled-components/native'
+import { useColorScheme } from 'react-native'
+import styled, { ThemeProvider } from 'styled-components/native'
 import { MainRoutes, SettingsRoutes } from '../../navigation/Routes'
 import { useReduxSelector } from '../../redux'
-import AlertModalService from '../../utilities/AlertModal'
-
-const CachComponent: FC = () => {
-	return (
-		<ButtonCacheContainer
-			onPress={() => AlertModalService.noInternetForHeaderSchedule()}
-		>
-			<ButtonCacheText>КЭШ</ButtonCacheText>
-		</ButtonCacheContainer>
-	)
-}
+import { DarkTheme, LightTheme } from '../Themes'
+import { BackgroundContainer } from '../UniversalComponents'
 
 export const HeaderSchedule: FC = () => {
 	const mainGroup = useReduxSelector(state => state.counter.group)
 	const mainWeek = useReduxSelector(state => state.counter.week)
-	const isAppOfline = useReduxSelector(state => state.counter.isAppOffline)
 	const nav = useNavigation()
 	const title = 'Неделя\nСеместра'
 	return (
-		<HView>
-			<StyledView>
+		<BackgroundContainer height='auto'>
+			<HeaderContainer>
 				<WeekText>{mainWeek}</WeekText>
 				<DopWeekText>{title}</DopWeekText>
-				{/* кондишнл рендеринг */}
-				{isAppOfline ? <CachComponent /> : null}
 				<ButtonGroupContainer
 					onPress={() =>
 						nav.navigate(SettingsRoutes.Settings, {
@@ -37,20 +26,15 @@ export const HeaderSchedule: FC = () => {
 				>
 					<ButtonGroupText>{mainGroup}</ButtonGroupText>
 				</ButtonGroupContainer>
-			</StyledView>
-		</HView>
+			</HeaderContainer>
+		</BackgroundContainer>
 	)
 }
 
-const HView = styled.View`
-	height: 60px;
-	background: #e9e9e9;
-`
-
-const StyledView = styled.View`
-	background: #e9e9e9;
+const HeaderContainer = styled.View`
+	//background: #e9e9e9;
+	background: ${props => props.theme.backgroundColor};
 	flex-direction: row;
-	height: 60px;
 	width: 95%;
 	align-self: center;
 `
@@ -79,7 +63,7 @@ const WeekText = styled.Text`
 const ButtonGroupContainer = styled.TouchableOpacity`
 	top: 5px;
 	width: auto;
-	height: 43px;
+	height: 46px;
 	border-radius: 10px;
 	background-color: rgba(0, 255, 144, 0.2);
 	margin-left: auto;
@@ -90,27 +74,7 @@ const ButtonGroupText = styled.Text`
 	text-align: center;
 	color: #4dc591;
 	font-weight: 500;
-	line-height: 45px;
-	margin-right: 1%;
-	margin-left: 1%;
-`
-const ButtonCacheContainer = styled.TouchableOpacity`
-	top: 5px;
-	width: auto;
-	height: 43px;
-	border-radius: 10px;
-	background-color: rgba(0, 255, 144, 0.2);
-	margin-left: auto;
-	margin-right: auto;
-	right: 1px;
-	align-items: center;
-`
-const ButtonCacheText = styled.Text`
-	font-size: 23px;
-	text-align: center;
-	color: #4dc591;
-	font-weight: 500;
-	line-height: 45px;
-	margin-right: 1%;
-	margin-left: 1%;
+	line-height: 46px;
+	margin-right: 2%;
+	margin-left: 2%;
 `

@@ -5,6 +5,7 @@ import { SettingsStackParamList } from '../types/Navigation.types'
 import { MainRoutes, SettingsRoutes } from './Routes'
 import React, { FC } from 'react'
 import { AboutApp } from '../screens/AboutApp'
+import { ChangeTheme } from '../screens/ChangeTheme'
 
 const SettingsStack = createStackNavigator<SettingsStackParamList>()
 
@@ -36,6 +37,13 @@ export const SettingsNavigation: FC = () => {
 			<SettingsStack.Screen
 				name={SettingsRoutes.AboutApp}
 				component={AboutApp}
+				options={{
+					title: ''
+				}}
+			/>
+			<SettingsStack.Screen
+				name={SettingsRoutes.ChangeTheme}
+				component={ChangeTheme}
 				options={{
 					title: ''
 				}}

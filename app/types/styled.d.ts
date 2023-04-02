@@ -1,3 +1,4 @@
 export interface StyledColor {
-	bg: string
+	bg?: string,
+    height?: string
 }

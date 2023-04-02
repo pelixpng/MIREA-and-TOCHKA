@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { ScheduleResponse } from '../types/schedule';
 import { ItemProps } from '../components/ui/schedule/Subject';
+import { ThemeSettings } from '../types/ThemeSettings.types';
 
 
 //reducer — чистая функция которая будет отвечать за обновление состояния. 
@@ -16,9 +17,11 @@ interface InitialState {
     group:string;
     week:number;
     schedule:ScheduleResponse;
-    schedulePars:[ItemProps[]]
+    schedulePars:[ItemProps[]];
     allGroupsList:Array<Object>;
-    isAppOffline:boolean
+    isAppOffline:boolean;
+    themeSettings: ThemeSettings;
+    theme: string;
 }
 
 
@@ -32,7 +35,9 @@ const initialState:InitialState = {
     },
     schedulePars:[[]],
     allGroupsList:[],
-    isAppOffline:false
+    isAppOffline:false,
+    themeSettings: 'Системная',
+    theme: '0'
 }
 
 // export const getAllGroups = createAsyncThunk(
@@ -63,9 +68,15 @@ const counterSlice = createSlice({
         },
         addIsAppOfflineToRedux: (state, action: PayloadAction<boolean>) => {
             state.isAppOffline = action.payload
+        },
+        addThemeSettingsToRedux: (state, action: PayloadAction<ThemeSettings>) =>{
+            state.themeSettings = action.payload
+        },
+        addThemeToRedux: (state, action: PayloadAction<string>) =>{
+            state.theme = action.payload
         }
     },
 })
 
-export const { addGroupToRedux, addWeekToRedux, addScheduleToRedux, addScheduleParsToRedux, addAllgroupToRedux, addIsAppOfflineToRedux } = counterSlice.actions //экспортируем функцию
+export const { addGroupToRedux, addWeekToRedux, addScheduleToRedux, addScheduleParsToRedux, addAllgroupToRedux, addIsAppOfflineToRedux, addThemeSettingsToRedux, addThemeToRedux } = counterSlice.actions //экспортируем функцию
 export default counterSlice.reducer // экспортируем редусеры

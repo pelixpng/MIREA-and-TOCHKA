@@ -7,6 +7,11 @@ import { AntDesign } from '@expo/vector-icons'
 import { SearceListComponent } from '../components/ui/scheduleTeacher/SearchResponce'
 import styled from 'styled-components/native'
 import { Filter, TextForLoading } from '../types/FindTeacher.types'
+import { StyledColor } from '../types/styled'
+import {
+	SmallBbutton,
+	SmallButtonText
+} from '../components/UniversalComponents'
 
 export const FindTeacher: FC = () => {
 	const [searchSettings, setSearchSettings] = useState<Filter>('all')
@@ -66,8 +71,8 @@ export const FindTeacher: FC = () => {
 		return (
 			<FilterContainer>
 				<ThisDayContainer>
-					<ButtonContainer
-						testID={searchSettings == 'toDay' ? '#fa9292' : 'white'}
+					<SmallBbutton
+						bg={searchSettings == 'toDay' ? '#fa9292' : 'white'}
 						onPress={() => {
 							if (searchSettings == 'toDay') {
 								setSearchSettings('all')
@@ -76,16 +81,16 @@ export const FindTeacher: FC = () => {
 							}
 						}}
 					>
-						<ButtonText
-							testID={searchSettings == 'toDay' ? '#212525' : '#adadae'}
+						<SmallButtonText
+							bg={searchSettings == 'toDay' ? '#212525' : '#adadae'}
 						>
-							Сегодня
-						</ButtonText>
-					</ButtonContainer>
+							СЕГОДНЯ
+						</SmallButtonText>
+					</SmallBbutton>
 				</ThisDayContainer>
 				<ThisWeekContainer>
-					<ButtonContainer
-						testID={searchSettings == 'thisWeek' ? '#fa9292' : 'white'}
+					<SmallBbutton
+						bg={searchSettings == 'thisWeek' ? '#fa9292' : 'white'}
 						onPress={() => {
 							if (searchSettings == 'thisWeek') {
 								setSearchSettings('all')
@@ -94,12 +99,12 @@ export const FindTeacher: FC = () => {
 							}
 						}}
 					>
-						<ButtonText
-							testID={searchSettings == 'thisWeek' ? '#212525' : '#adadae'}
+						<SmallButtonText
+							bg={searchSettings == 'thisWeek' ? '#212525' : '#adadae'}
 						>
-							{week + ' неделя'}
-						</ButtonText>
-					</ButtonContainer>
+							{week + ' НЕДЕЛЯ'}
+						</SmallButtonText>
+					</SmallBbutton>
 				</ThisWeekContainer>
 			</FilterContainer>
 		)
@@ -181,19 +186,6 @@ const ThisWeekContainer = styled.View`
 	align-items: center;
 `
 
-const ButtonContainer = styled.TouchableOpacity`
-	width: 70%;
-	height: auto;
-	border-radius: 20px;
-	background-color: ${props => props.testID};
-`
-const ButtonText = styled.Text`
-	font-size: 25px;
-	text-align: center;
-	color: ${props => props.testID};
-	margin-right: 1%;
-	margin-left: 1%;
-`
 const FilterButton = styled.TouchableOpacity`
 	width: auto;
 	height: auto;

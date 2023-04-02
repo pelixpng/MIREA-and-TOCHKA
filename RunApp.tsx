@@ -1,29 +1,56 @@
 import 'react-native-gesture-handler'
 import { Navigation } from './app/navigation/Navigation'
-import React, { useState, useEffect } from 'react'
-import { useReduxDispatch } from './app/redux'
+import React, { useState, useEffect, useMemo } from 'react'
+import { useReduxDispatch, useReduxSelector } from './app/redux'
 import {
 	addGroupToRedux,
 	addWeekToRedux,
 	addScheduleParsToRedux,
 	addAllgroupToRedux,
-	addIsAppOfflineToRedux
+	addIsAppOfflineToRedux,
+	addThemeToRedux,
+	addThemeSettingsToRedux
 } from './app/redux/counter'
 import ApiService from './app/api/MireaApi'
 import { parsSchedule } from './app/api/ParserApi'
 import * as SplashScreen from 'expo-splash-screen'
 import StorageServiceMMKV, { Storage } from './app/storage/Storage'
+import { DarkTheme, LightTheme } from './app/components/Themes'
+import { ThemeProvider } from 'styled-components/native'
+import { useColorScheme } from 'react-native'
 
 SplashScreen.preventAutoHideAsync()
 export function RootApp() {
+	const colorScheme = useColorScheme()
 	const [isAppLoading, setIsAppLoading] = useState(false) // статус загрузки приложения
 	const [isAuth, setIsAuth] = useState(false) // тип страницы при запуске
 	const dispatch = useReduxDispatch() // для записи в Redux
+	const theme = useReduxSelector(state => state.counter.theme)
+
 	useEffect(() => {
 		getInitialRoute() // функция для загрузки приложения (расписания и выбор стартового экрана)
 	}, [])
 
+	const getColorScheme = () => {
+		const theme = Storage.getString('theme')
+		if (theme == 'Тёмная') {
+			dispatch(addThemeSettingsToRedux(theme))
+			dispatch(addThemeToRedux('dark'))
+		} else if (theme == 'Светлая') {
+			dispatch(addThemeSettingsToRedux(theme))
+			dispatch(addThemeToRedux('light'))
+		} else {
+			dispatch(addThemeSettingsToRedux('Системная'))
+			if (colorScheme != null && colorScheme != undefined) {
+				dispatch(addThemeToRedux(colorScheme))
+			} else {
+				dispatch(addThemeToRedux('light'))
+			}
+		}
+	}
+
 	const getInitialRoute = async () => {
+		getColorScheme()
 		const nameGroup = Storage.getString('group')
 		try {
 			if (nameGroup !== undefined) {
@@ -66,5 +93,9 @@ export function RootApp() {
 		return null
 	}
 
-	return <Navigation isAuth={isAuth} /> // передаем данные для навигации
+	return (
+		<ThemeProvider theme={theme == 'light' ? LightTheme : DarkTheme}>
+			<Navigation isAuth={isAuth} />
+		</ThemeProvider>
+	) // передаем данные для навигации
 }

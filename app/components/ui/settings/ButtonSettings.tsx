@@ -2,6 +2,7 @@ import React, { FC } from 'react'
 import styled from 'styled-components/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { SettingsStackParamList } from '../../../types/Navigation.types'
+import { MainButton } from '../../UniversalComponents'
 
 type settingsNavProps = NativeStackScreenProps<
 	SettingsStackParamList,
@@ -14,21 +15,12 @@ export const SettingsButton: FC<
 	settingsNavProps & { name: string; routeName: routeNameType }
 > = ({ navigation, name, routeName }) => {
 	return (
-		<ButtonContainer onPress={() => navigation.navigate(routeName)}>
+		<MainButton bg='white' onPress={() => navigation.navigate(routeName)}>
 			<Title>{name}</Title>
-		</ButtonContainer>
+		</MainButton>
 	)
 }
 
-const ButtonContainer = styled.TouchableOpacity`
-	padding: 10px;
-	border-radius: 20px;
-	background-color: #ffffff;
-	margin-top: 20px;
-	width: 97%;
-	align-self: center;
-	align-items: center;
-`
 const Title = styled.Text`
 	width: auto;
 	height: auto;

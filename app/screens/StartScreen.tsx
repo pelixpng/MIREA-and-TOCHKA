@@ -12,6 +12,7 @@ import { StatusBar } from 'expo-status-bar'
 import DropDownPicker from 'react-native-dropdown-picker'
 import StorageServiceMMKV from '../storage/Storage'
 import styled from 'styled-components/native'
+import { StyledColor } from '../types/styled'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'StartScreen'>
 
@@ -42,9 +43,7 @@ const StartScreen: FC<Props> = ({ navigation }) => {
 	const SelectGroupButton: FC = () => {
 		return (
 			<ButtonContainer
-				testID={
-					ifOffline ? 'rgba(172, 172, 172, 0.2)' : 'rgba(0, 255, 144, 0.2)'
-				}
+				bg={ifOffline ? 'rgba(172, 172, 172, 0.2)' : 'rgba(0, 255, 144, 0.2)'}
 				onPress={() => {
 					if (ifOffline) {
 						AlertModalService.noInternet()
@@ -113,10 +112,10 @@ const StartScreen: FC<Props> = ({ navigation }) => {
 	)
 }
 
-const ButtonContainer = styled.TouchableOpacity`
+const ButtonContainer = styled.TouchableOpacity<StyledColor>`
 	padding: 10px;
-	border-radius: 20px;
-	background-color: ${props => props.testID};
+	border-radius: 10px;
+	background-color: ${props => props.bg};
 	margin-top: 20px;
 	width: 97%;
 	align-self: center;

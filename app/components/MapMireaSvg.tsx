@@ -2,6 +2,7 @@ import SvgPanZoom from 'react-native-svg-pan-zoom'
 import React, { FC, useState } from 'react'
 import { FLOOR_0, FLOOR_1, FLOOR_2, FLOOR_3, FLOOR_4 } from './FloorMireaMap'
 import styled from 'styled-components/native'
+import { StyledColor } from '../types/styled'
 
 const floorsComponents = {
 	'0': <FLOOR_0 />,
@@ -23,14 +24,14 @@ export const OfflineMap: FC = () => {
 		return (
 			<FlorComponent
 				onPress={() => setCurrentFloor(floor)}
-				testID={
+				bg={
 					currentFloor == floor
 						? 'rgba(250, 146, 146, 1)'
 						: 'rgba(233, 233, 233, 1);'
 				}
 			>
 				<FloorText
-					testID={currentFloor == floor ? '#000000' : 'rgba(173, 173, 174, 1);'}
+					bg={currentFloor == floor ? '#000000' : 'rgba(173, 173, 174, 1);'}
 				>
 					{floor}
 				</FloorText>
@@ -72,22 +73,22 @@ const SelectFloorContainer = styled.View`
 	background-color: white;
 	z-index: 1;
 `
-const FlorComponent = styled.TouchableOpacity`
+const FlorComponent = styled.TouchableOpacity<StyledColor>`
 	margin: 5px;
 	height: 40px;
 	width: 40px;
-	background-color: ${props => props.testID};
+	background-color: ${props => props.bg};
 	align-items: center;
 	border-radius: 100px;
 `
 
-const FloorText = styled.Text`
+const FloorText = styled.Text<StyledColor>`
 	text-align: center;
 	min-height: auto;
 	min-width: auto;
 	font-weight: 600;
 	font-size: 30px;
-	color: ${props => props.testID};
+	color: ${props => props.bg};
 	margin-right: 4%;
 	margin-left: 4%;
 	margin-top: 4%;
