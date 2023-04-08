@@ -12,10 +12,13 @@ import { SettingsButton } from '../components/ui/settings/ButtonSettings'
 import StorageServiceMMKV from '../storage/Storage'
 import {
 	BackgroundContainer,
+	DynamicButton,
 	MainButton,
 	MainButtonTitle
 } from '../components/UniversalComponents'
-import { useColorScheme } from 'react-native'
+import { DefaultTheme, useTheme } from 'styled-components/native'
+import { Button } from 'react-native'
+import { Storage } from '../storage/Storage'
 
 type settingsNavProps = NativeStackScreenProps<
 	SettingsStackParamList,
@@ -23,6 +26,7 @@ type settingsNavProps = NativeStackScreenProps<
 >
 
 const Settings: FC<settingsNavProps> = ({ navigation, route }) => {
+	const theme: DefaultTheme = useTheme()
 	const nav = useNavigation()
 	const [group, setGroup] = useState('')
 	const [open, setOpen] = useState(false)
@@ -30,6 +34,7 @@ const Settings: FC<settingsNavProps> = ({ navigation, route }) => {
 	const mainWeek = useReduxSelector(state => state.counter.week)
 	const dispatch = useReduxDispatch() //запись в хранилище
 	const allGroups = useReduxSelector(state => state.counter.allGroupsList)
+
 	const nameButton: string[] = [
 		'Обратная связь',
 		'О приложении',
@@ -66,8 +71,7 @@ const Settings: FC<settingsNavProps> = ({ navigation, route }) => {
 
 	const ChangeGroupButton: FC = () => {
 		return (
-			<MainButton
-				bg={ifOffline ? 'rgba(172, 172, 172, 0.2)' : 'rgba(0, 255, 144, 0.2)'}
+			<DynamicButton
 				onPress={() => {
 					if (ifOffline) {
 						AlertModalService.noInternet()
@@ -76,15 +80,16 @@ const Settings: FC<settingsNavProps> = ({ navigation, route }) => {
 						setGroup('')
 					}
 				}}
+				bg={theme.colors.dynamicButton}
 			>
 				<MainButtonTitle>Сменить группу </MainButtonTitle>
-			</MainButton>
+			</DynamicButton>
 		)
 	}
 
 	return (
 		<BackgroundContainer height='100%'>
-			{/* <Button title='Стереть кэш' onPress={() => Storage.clearAll()} /> */}
+			<Button title='Стереть кэш' onPress={() => Storage.clearAll()} />
 			<DropDownPicker
 				open={open}
 				value={group}
@@ -92,13 +97,13 @@ const Settings: FC<settingsNavProps> = ({ navigation, route }) => {
 				setOpen={setOpen}
 				setValue={setGroup}
 				searchable={true}
-				theme='LIGHT'
+				theme={theme.names.themeName}
 				multiple={false}
 				mode='BADGE'
 				dropDownDirection='AUTO'
 				language='RU'
 				placeholder='Нажмите для смены группы...'
-				searchPlaceholderTextColor='rgba(128, 128, 128, 0.83)'
+				searchPlaceholderTextColor={theme.colors.mainText}
 				searchTextInputProps={{
 					maxLength: 10
 				}}
@@ -108,27 +113,27 @@ const Settings: FC<settingsNavProps> = ({ navigation, route }) => {
 					minHeight: 50,
 					paddingVertical: 3,
 					borderRadius: 20,
-					borderColor: 'white'
+					borderWidth: 0
 				}}
 				containerStyle={{
 					width: '97%',
 					alignSelf: 'center'
 				}}
 				dropDownContainerStyle={{
-					borderColor: 'white',
-					borderRadius: 10
+					borderRadius: 10,
+					borderWidth: 0
 				}}
 				textStyle={{
-					color: 'rgba(33, 37, 37, 0.83)',
+					color: theme.colors.mainText,
 					fontSize: 20,
-					fontWeight: '600'
+					fontWeight: '400'
 				}}
 				searchTextInputStyle={{
-					borderColor: '#e9e9e9',
+					borderWidth: 0,
 					borderRadius: 10,
 					fontSize: 20,
-					color: 'rgba(33, 37, 37, 0.83)',
-					backgroundColor: '#e9e9e9'
+					color: theme.colors.mainText,
+					backgroundColor: theme.colors.backgroundApp
 				}}
 			/>
 

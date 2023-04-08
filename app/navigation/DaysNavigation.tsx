@@ -6,10 +6,12 @@ import { HeaderDay } from '../components/ui/schedule/NavigationDayItem'
 import { getColor } from '../utilities/ColorPair'
 import { useReduxSelector } from '../redux'
 import { GetCurrentDayWeek } from '../utilities/GetDateInWeek'
+import { DefaultTheme, useTheme } from 'styled-components/native'
 
 const Tab = createMaterialTopTabNavigator()
 
 const DaysNavigation: FC = () => {
+	const theme: DefaultTheme = useTheme()
 	const days = ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ']
 	const tmpNumbers = GetCurrentDayWeek()
 	const finalPairs = useReduxSelector(state => state.counter.schedulePars)
@@ -25,7 +27,7 @@ const DaysNavigation: FC = () => {
 		<Tab.Navigator
 			initialRouteName={getWeekDay()}
 			screenOptions={{
-				tabBarStyle: { backgroundColor: '#e9e9e9' }
+				tabBarStyle: { backgroundColor: theme.colors.backgroundApp }
 			}}
 		>
 			{days.map((item, index) => (

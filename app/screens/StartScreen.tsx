@@ -11,8 +11,13 @@ import AlertModalService from '../utilities/AlertModal'
 import { StatusBar } from 'expo-status-bar'
 import DropDownPicker from 'react-native-dropdown-picker'
 import StorageServiceMMKV from '../storage/Storage'
-import styled from 'styled-components/native'
+import styled, { DefaultTheme, useTheme } from 'styled-components/native'
 import { StyledColor } from '../types/styled'
+import {
+	BackgroundContainer,
+	DynamicButton,
+	MainButtonTitle
+} from '../components/UniversalComponents'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'StartScreen'>
 
@@ -22,6 +27,7 @@ const StartScreen: FC<Props> = ({ navigation }) => {
 	const [open, setOpen] = useState(false)
 	const dispatch = useReduxDispatch() //запись в хранилище
 	const allGroups = useReduxSelector(state => state.counter.allGroupsList)
+	const theme: DefaultTheme = useTheme()
 
 	const setStatrGroup = async () => {
 		try {
@@ -42,8 +48,8 @@ const StartScreen: FC<Props> = ({ navigation }) => {
 
 	const SelectGroupButton: FC = () => {
 		return (
-			<ButtonContainer
-				bg={ifOffline ? 'rgba(172, 172, 172, 0.2)' : 'rgba(0, 255, 144, 0.2)'}
+			<DynamicButton
+				bg={ifOffline ? 'rgba(172, 172, 172, 0.2)' : theme.colors.dynamicButton}
 				onPress={() => {
 					if (ifOffline) {
 						AlertModalService.noInternet()
@@ -52,13 +58,13 @@ const StartScreen: FC<Props> = ({ navigation }) => {
 					}
 				}}
 			>
-				<Title>Далее</Title>
-			</ButtonContainer>
+				<MainButtonTitle>Сменить группу </MainButtonTitle>
+			</DynamicButton>
 		)
 	}
 
 	return (
-		<View style={{ marginTop: 50 }}>
+		<BackgroundContainer height='100%'>
 			<HeaderText>Привет!</HeaderText>
 			<DropDownPicker
 				open={open}
@@ -67,13 +73,13 @@ const StartScreen: FC<Props> = ({ navigation }) => {
 				setOpen={setOpen}
 				setValue={setGroup}
 				searchable={true}
-				theme='LIGHT'
+				theme={theme.names.themeName}
 				multiple={false}
 				mode='BADGE'
 				dropDownDirection='AUTO'
 				language='RU'
 				placeholder='Выбери группу...'
-				searchPlaceholderTextColor='rgba(128, 128, 128, 0.83)'
+				searchPlaceholderTextColor={theme.colors.mainText}
 				searchTextInputProps={{
 					maxLength: 10
 				}}
@@ -83,58 +89,43 @@ const StartScreen: FC<Props> = ({ navigation }) => {
 					minHeight: 50,
 					paddingVertical: 3,
 					borderRadius: 20,
-					borderColor: 'white'
+					borderWidth: 0
 				}}
 				containerStyle={{
 					width: '97%',
 					alignSelf: 'center'
 				}}
 				dropDownContainerStyle={{
-					borderColor: 'white',
-					borderRadius: 20
+					borderRadius: 10,
+					borderWidth: 0
 				}}
 				textStyle={{
-					color: 'rgba(33, 37, 37, 0.83)',
+					color: theme.colors.mainText,
 					fontSize: 20,
-					fontWeight: '600'
+					fontWeight: '400'
 				}}
 				searchTextInputStyle={{
-					borderColor: '#e9e9e9',
+					borderWidth: 0,
 					borderRadius: 10,
 					fontSize: 20,
-					color: 'rgba(33, 37, 37, 0.83)',
-					backgroundColor: '#e9e9e9'
+					color: theme.colors.mainText,
+					backgroundColor: theme.colors.backgroundApp
 				}}
 			/>
 			{group != '' ? <SelectGroupButton /> : null}
 			<StatusBar style='auto' />
-		</View>
+		</BackgroundContainer>
 	)
 }
 
-const ButtonContainer = styled.TouchableOpacity<StyledColor>`
-	padding: 10px;
-	border-radius: 10px;
-	background-color: ${props => props.bg};
-	margin-top: 20px;
-	width: 97%;
-	align-self: center;
-	align-items: center;
-`
-const Title = styled.Text`
-	width: auto;
-	height: auto;
-	font-weight: 600;
-	font-size: 20px;
-	color: rgba(33, 37, 37, 0.83);
-`
 const HeaderText = styled.Text`
 	width: auto;
 	height: auto;
-	font-weight: 600;
+	font-weight: 400;
 	font-size: 40px;
 	align-self: center;
-	color: rgba(33, 37, 37, 0.83);
+	color: ${props => props.theme.colors.mainText};
+	margin-top: 40px;
 `
 
 export default StartScreen

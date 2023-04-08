@@ -1,7 +1,8 @@
 import { useNavigation } from '@react-navigation/native'
+import { StatusBar } from 'expo-status-bar'
 import React, { FC } from 'react'
 import { useColorScheme } from 'react-native'
-import styled, { ThemeProvider } from 'styled-components/native'
+import styled, { DefaultTheme, ThemeProvider } from 'styled-components/native'
 import { MainRoutes, SettingsRoutes } from '../../navigation/Routes'
 import { useReduxSelector } from '../../redux'
 import { DarkTheme, LightTheme } from '../Themes'
@@ -33,7 +34,7 @@ export const HeaderSchedule: FC = () => {
 
 const HeaderContainer = styled.View`
 	//background: #e9e9e9;
-	background: ${props => props.theme.backgroundColor};
+	background: ${props => props.theme.colors.backgroundApp};
 	flex-direction: row;
 	width: 95%;
 	align-self: center;
@@ -47,15 +48,15 @@ const DopWeekText = styled.Text`
 	font-weight: 400;
 	font-size: 25px;
 	line-height: 28px;
-	color: #adadae;
+	color: ${props => props.theme.colors.dopWeekText};
 `
 
 const WeekText = styled.Text`
-	color: #212525;
+	color: ${props => props.theme.colors.mainText};
 	width: auto;
 	height: auto;
 	top: 1px;
-	font-weight: 500;
+	font-weight: 400;
 	font-size: 64px;
 	line-height: 66px;
 `
@@ -65,15 +66,15 @@ const ButtonGroupContainer = styled.TouchableOpacity`
 	width: auto;
 	height: 46px;
 	border-radius: 10px;
-	background-color: rgba(0, 255, 144, 0.2);
+	background-color: ${props => props.theme.colors.headerButton};
 	margin-left: auto;
 	right: 1px;
 `
 const ButtonGroupText = styled.Text`
 	font-size: 23px;
 	text-align: center;
-	color: #4dc591;
-	font-weight: 500;
+	color: ${props => props.theme.colors.headerButtonText};
+	font-weight: 400;
 	line-height: 46px;
 	margin-right: 2%;
 	margin-left: 2%;

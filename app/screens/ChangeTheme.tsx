@@ -1,32 +1,27 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC } from 'react'
 import {
 	BackgroundContainer,
-	MainButton,
-	MainButtonTitle
+	DynamicButton,
+	DynamicButtonTitle
 } from '../components/UniversalComponents'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { ThemeSettings } from '../types/ThemeSettings.types'
-import StorageServiceMMKV, { Storage } from '../storage/Storage'
+import StorageServiceMMKV from '../storage/Storage'
 import { useReduxDispatch, useReduxSelector } from '../redux'
 import { addThemeSettingsToRedux, addThemeToRedux } from '../redux/counter'
 import { useColorScheme } from 'react-native'
+import styled, { DefaultTheme, useTheme } from 'styled-components/native'
+import { StyledColor } from '../types/styled'
 //import { addThemeToRedux } from '../redux/counter'
 export const ChangeTheme: FC = () => {
 	//const [themeSettings, setThemeSettings] = useState<ThemeSettings>('Тёмная')
 	const nameButton: ThemeSettings[] = ['Тёмная', 'Светлая', 'Системная']
 	const colorScheme = useColorScheme()
+	const theme: DefaultTheme = useTheme()
 	const themeSettingsRedux = useReduxSelector(
 		state => state.counter.themeSettings
 	)
 	const dispatch = useReduxDispatch() //запись в хранилище
-
-	useEffect(() => {
-		if (colorScheme != null && colorScheme != undefined) {
-			dispatch(addThemeToRedux(colorScheme))
-		} else {
-			dispatch(addThemeToRedux('light'))
-		}
-	}, [colorScheme])
 
 	const setTheme = (title: ThemeSettings) => {
 		StorageServiceMMKV.saveThemeSettings(title)
@@ -48,14 +43,18 @@ export const ChangeTheme: FC = () => {
 
 	const ThemeButton: FC<{ title: ThemeSettings }> = ({ title }) => {
 		return (
-			<MainButton
-				bg={themeSettingsRedux == title ? '#fa9292' : 'white'}
+			<DynamicButton
+				bg={
+					themeSettingsRedux == title
+						? theme.colors.focusedDay
+						: theme.colors.backgroundSubject
+				}
 				onPress={() => {
 					setTheme(title)
 				}}
 			>
-				<MainButtonTitle>{title}</MainButtonTitle>
-			</MainButton>
+				<DynamicButtonTitle>{title}</DynamicButtonTitle>
+			</DynamicButton>
 		)
 	}
 

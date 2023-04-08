@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { Linking } from 'react-native'
-import styled from 'styled-components/native'
+import styled, { DefaultTheme, useTheme } from 'styled-components/native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { feedBack } from '../constant/links'
 import {
@@ -23,13 +23,10 @@ export const FeedBack: FC = () => {
 			<TextInfoContainer>
 				<TextInfo>{description}</TextInfo>
 			</TextInfoContainer>
-			<MainButton bg='white' onPress={() => Linking.openURL(feedBack)}>
+			<MainButton onPress={() => Linking.openURL(feedBack)}>
 				<MainButtonTitle>Telegram </MainButtonTitle>
 			</MainButton>
-			<MainButton
-				bg='white'
-				onPress={() => Linking.openURL('mailto:semeonky@gmail.com')}
-			>
+			<MainButton onPress={() => Linking.openURL('mailto:semeonky@gmail.com')}>
 				<MainButtonTitle>Почта </MainButtonTitle>
 			</MainButton>
 		</BackgroundContainer>
@@ -39,7 +36,7 @@ export const FeedBack: FC = () => {
 const TextInfoContainer = styled.View`
 	padding: 10px;
 	border-radius: 10px;
-	background-color: #ffffff;
+	background-color: ${props => props.theme.colors.backgroundSubject};
 	margin-top: 20px;
 	width: 97%;
 	align-self: center;
@@ -52,5 +49,5 @@ const TextInfo = styled.Text`
 	font-weight: 500;
 	font-size: 17px;
 	text-align: justify;
-	color: rgba(33, 37, 37, 0.83);
+	color: ${props => props.theme.colors.dopWeekText};
 `

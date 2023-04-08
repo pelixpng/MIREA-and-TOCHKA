@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import styled from 'styled-components/native'
+import styled, { DefaultTheme, useTheme } from 'styled-components/native'
 import { StyledColor } from '../../../types/styled'
 
 interface Props {
@@ -15,10 +15,15 @@ export const HeaderDay: FC<Props> = ({
 	colorsBalls,
 	focused
 }) => {
+	const theme: DefaultTheme = useTheme()
 	return (
 		<Headercontainer>
-			<FocusedHeader bg={focused ? '#fa9292' : '#e9e9e9'}>
-				<NumberDay bg={focused ? '#212525' : '#adadae'}>{day}</NumberDay>
+			<FocusedHeader
+				bg={focused ? theme.colors.focusedDay : theme.colors.headerDayItem}
+			>
+				<NumberDay bg={focused ? 'white' : theme.colors.numberDayText}>
+					{day}
+				</NumberDay>
 				<WeekDay>{dayWeek}</WeekDay>
 			</FocusedHeader>
 			<BallsContainer>
@@ -64,13 +69,13 @@ const WeekDay = styled.Text`
 	min-height: auto;
 	min-width: auto;
 	font-size: 20;
-	font-weight: bold;
-	color: #212525;
+	font-weight: 400;
+	color: ${props => props.theme.colors.weekDayText};
 `
 const NumberDay = styled.Text<StyledColor>`
 	min-height: auto;
 	min-width: auto;
-	font-size: 16;
-	font-weight: bold;
+	font-size: 17;
+	font-weight: 450;
 	color: ${props => props.bg};
 `

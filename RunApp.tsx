@@ -16,8 +16,9 @@ import { parsSchedule } from './app/api/ParserApi'
 import * as SplashScreen from 'expo-splash-screen'
 import StorageServiceMMKV, { Storage } from './app/storage/Storage'
 import { DarkTheme, LightTheme } from './app/components/Themes'
-import { ThemeProvider } from 'styled-components/native'
+import { DefaultTheme, ThemeProvider, useTheme } from 'styled-components/native'
 import { useColorScheme } from 'react-native'
+import { StatusBar } from 'expo-status-bar'
 
 SplashScreen.preventAutoHideAsync()
 export function RootApp() {
@@ -26,18 +27,19 @@ export function RootApp() {
 	const [isAuth, setIsAuth] = useState(false) // тип страницы при запуске
 	const dispatch = useReduxDispatch() // для записи в Redux
 	const theme = useReduxSelector(state => state.counter.theme)
+	const themeSettingss = useReduxSelector(state => state.counter.themeSettings)
 
 	useEffect(() => {
 		getInitialRoute() // функция для загрузки приложения (расписания и выбор стартового экрана)
 	}, [])
 
 	const getColorScheme = () => {
-		const theme = Storage.getString('theme')
-		if (theme == 'Тёмная') {
-			dispatch(addThemeSettingsToRedux(theme))
+		const themeSettings = Storage.getString('theme')
+		if (themeSettings == 'Тёмная') {
+			dispatch(addThemeSettingsToRedux(themeSettings))
 			dispatch(addThemeToRedux('dark'))
-		} else if (theme == 'Светлая') {
-			dispatch(addThemeSettingsToRedux(theme))
+		} else if (themeSettings == 'Светлая') {
+			dispatch(addThemeSettingsToRedux(themeSettings))
 			dispatch(addThemeToRedux('light'))
 		} else {
 			dispatch(addThemeSettingsToRedux('Системная'))
@@ -46,6 +48,14 @@ export function RootApp() {
 			} else {
 				dispatch(addThemeToRedux('light'))
 			}
+		}
+	}
+
+	const getTheme = (theme: string) => {
+		if (theme == 'light') {
+			return LightTheme
+		} else {
+			return DarkTheme
 		}
 	}
 
@@ -94,7 +104,23 @@ export function RootApp() {
 	}
 
 	return (
-		<ThemeProvider theme={theme == 'light' ? LightTheme : DarkTheme}>
+		<ThemeProvider
+			theme={
+				themeSettingss == 'Системная' ? getTheme(colorScheme) : getTheme(theme)
+			}
+		>
+			<StatusBar
+				style={
+					themeSettingss == 'Системная'
+						? getTheme(colorScheme).colors.statusBarText
+						: getTheme(theme).colors.statusBarText
+				}
+				backgroundColor={
+					themeSettingss == 'Системная'
+						? getTheme(colorScheme).colors.backgroundApp
+						: getTheme(theme).colors.backgroundApp
+				}
+			/>
 			<Navigation isAuth={isAuth} />
 		</ThemeProvider>
 	) // передаем данные для навигации

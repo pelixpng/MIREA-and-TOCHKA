@@ -6,26 +6,30 @@ import { MainRoutes, SettingsRoutes } from './Routes'
 import React, { FC } from 'react'
 import { AboutApp } from '../screens/AboutApp'
 import { ChangeTheme } from '../screens/ChangeTheme'
+import { DefaultTheme, useTheme } from 'styled-components/native'
 
 const SettingsStack = createStackNavigator<SettingsStackParamList>()
 
 export const SettingsNavigation: FC = () => {
+	const theme: DefaultTheme = useTheme()
 	return (
 		<SettingsStack.Navigator
 			initialRouteName={SettingsRoutes.Settings}
 			screenOptions={{
-				headerStyle: { backgroundColor: '#e9e9e9' },
-				headerTitleStyle: {
-					color: '#adadae',
-					fontSize: 30,
-					fontWeight: '100'
+				headerTintColor: theme.colors.dopWeekText,
+				headerStyle: {
+					backgroundColor: theme.colors.backgroundApp,
+					elevation: 0
 				}
 			}}
 		>
 			<SettingsStack.Screen
 				name={MainRoutes.Settings}
 				component={Settings}
-				options={{ title: 'Настройки', headerShown: false }}
+				options={{
+					title: 'Настройки',
+					headerShown: false
+				}}
 			/>
 			<SettingsStack.Screen
 				name={SettingsRoutes.FeedBack}

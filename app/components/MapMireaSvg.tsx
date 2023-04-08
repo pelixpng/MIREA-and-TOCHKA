@@ -1,7 +1,7 @@
 import SvgPanZoom from 'react-native-svg-pan-zoom'
 import React, { FC, useState } from 'react'
 import { FLOOR_0, FLOOR_1, FLOOR_2, FLOOR_3, FLOOR_4 } from './FloorMireaMap'
-import styled from 'styled-components/native'
+import styled, { DefaultTheme, useTheme } from 'styled-components/native'
 import { StyledColor } from '../types/styled'
 
 const floorsComponents = {
@@ -18,6 +18,7 @@ const floors = Object.keys(floorsComponents) as FloorType[]
 
 export const OfflineMap: FC = () => {
 	const [currentFloor, setCurrentFloor] = useState<FloorType>('2')
+	const theme: DefaultTheme = useTheme()
 	const FloorsSelector: FC<{
 		floor: (typeof floors)[number]
 	}> = ({ floor }) => {
@@ -26,12 +27,16 @@ export const OfflineMap: FC = () => {
 				onPress={() => setCurrentFloor(floor)}
 				bg={
 					currentFloor == floor
-						? 'rgba(250, 146, 146, 1)'
-						: 'rgba(233, 233, 233, 1);'
+						? theme.colors.focusedDay
+						: theme.colors.backgroundApp
 				}
 			>
 				<FloorText
-					bg={currentFloor == floor ? '#000000' : 'rgba(173, 173, 174, 1);'}
+					bg={
+						currentFloor == floor
+							? theme.colors.mainText
+							: 'rgba(173, 173, 174, 1);'
+					}
 				>
 					{floor}
 				</FloorText>
@@ -52,9 +57,9 @@ export const OfflineMap: FC = () => {
 				maxScale={1}
 				initialZoom={0.5}
 				viewStyle={{
-					backgroundColor: 'white'
+					backgroundColor: theme.colors.backgroundSubject
 				}}
-				canvasStyle={{ backgroundColor: 'white' }}
+				canvasStyle={{ backgroundColor: theme.colors.backgroundSubject }}
 			>
 				{floorsComponents[currentFloor]}
 			</SvgPanZoom>
@@ -70,7 +75,7 @@ const SelectFloorContainer = styled.View`
 	justify-content: space-between;
 	width: 100%;
 	height: auto;
-	background-color: white;
+	background-color: ${props => props.theme.colors.backgroundSubject};
 	z-index: 1;
 `
 const FlorComponent = styled.TouchableOpacity<StyledColor>`
@@ -86,7 +91,7 @@ const FloorText = styled.Text<StyledColor>`
 	text-align: center;
 	min-height: auto;
 	min-width: auto;
-	font-weight: 600;
+	font-weight: 400;
 	font-size: 30px;
 	color: ${props => props.bg};
 	margin-right: 4%;

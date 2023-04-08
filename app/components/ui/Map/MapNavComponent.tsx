@@ -1,15 +1,18 @@
 import React, { FC } from 'react'
-import styled from 'styled-components/native'
+import styled, { DefaultTheme } from 'styled-components/native'
 import { StyledColor } from '../../../types/styled'
 import { SmallBbutton, SmallButtonText } from '../../UniversalComponents'
 
-export const LabelNavigator: FC<{ name: string; focused: boolean }> = ({
-	name,
-	focused
-}) => {
+export const LabelNavigator: FC<{
+	name: string
+	focused: boolean
+	theme: DefaultTheme
+}> = ({ name, focused, theme }) => {
 	return (
-		<Headercontainer bg={focused ? '#fa9292' : '#e9e9e9'}>
-			<SmallButtonText bg={focused ? '#212525' : '#ADADAE'}>
+		<Headercontainer
+			bg={focused ? theme.colors.focusedDay : theme.colors.backgroundSubject}
+		>
+			<SmallButtonText bg={focused ? theme.colors.mainText : '#ADADAE'}>
 				{name}
 			</SmallButtonText>
 		</Headercontainer>

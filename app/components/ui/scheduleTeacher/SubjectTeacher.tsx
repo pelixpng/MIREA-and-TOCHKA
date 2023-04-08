@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components/native'
+import styled, { DefaultTheme, useTheme } from 'styled-components/native'
 import { getColor } from '../../../utilities/ColorPair'
 import { Ionicons, AntDesign } from '@expo/vector-icons'
 import {
@@ -33,6 +33,7 @@ export interface TescherItemProps {
 }
 
 export const TeacherSubject = ({ data }: Props) => {
+	const theme: DefaultTheme = useTheme()
 	const { time_start, time_end, name, rooms, teachers, types, group, weeks } =
 		data
 	return (
@@ -45,11 +46,19 @@ export const TeacherSubject = ({ data }: Props) => {
 				</TypeContainer>
 				<DayAndGroupContainer>
 					<WeeksContainer>
-						<AntDesign name='calendar' size={16} color='black' />
+						<AntDesign
+							name='calendar'
+							size={16}
+							color={theme.colors.minorText}
+						/>
 						<WeeksText>{weeks.toString()}</WeeksText>
 					</WeeksContainer>
 					<GroupContainer>
-						<Ionicons name='people-outline' size={16} color='black' />
+						<Ionicons
+							name='people-outline'
+							size={16}
+							color={theme.colors.minorText}
+						/>
 						<GroupText>{group}</GroupText>
 					</GroupContainer>
 				</DayAndGroupContainer>
@@ -63,11 +72,19 @@ export const TeacherSubject = ({ data }: Props) => {
 				</NameContainer>
 			</TimeAndNameContainer>
 			<RoomContainer>
-				<Ionicons name='location-outline' size={16} color='black' />
+				<Ionicons
+					name='location-outline'
+					size={16}
+					color={theme.colors.minorText}
+				/>
 				<RoomText>{rooms.split('.')[1]}</RoomText>
 			</RoomContainer>
 			<TeacherContainer>
-				<Ionicons name='person-outline' size={16} color='black' />
+				<Ionicons
+					name='person-outline'
+					size={16}
+					color={theme.colors.minorText}
+				/>
 				<TeacherText>{teachers}</TeacherText>
 			</TeacherContainer>
 		</SubjectContainer>
@@ -122,13 +139,13 @@ const GroupText = styled.Text`
 	font-weight: 400;
 	font-size: 16px;
 	text-align: center;
-	color: rgba(33, 37, 37, 0.83);
+	color: ${props => props.theme.colors.minorText};
 	margin-left: 4px;
 `
 const WeeksText = styled.Text`
 	font-weight: 400;
 	font-size: 16px;
 	text-align: center;
-	color: rgba(33, 37, 37, 0.83);
+	color: ${props => props.theme.colors.minorText};
 	margin-left: 5px;
 `

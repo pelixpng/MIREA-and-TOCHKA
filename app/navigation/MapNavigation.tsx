@@ -4,16 +4,18 @@ import React, { FC } from 'react'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import { OfflineMap } from '../components/MapMireaSvg'
 import { LabelNavigator } from '../components/ui/Map/MapNavComponent'
+import { DefaultTheme, useTheme } from 'styled-components/native'
 
 const MapNav = createMaterialTopTabNavigator()
 export const SelectMireaMap: FC = () => {
+	const theme: DefaultTheme = useTheme()
 	return (
 		<MapNav.Navigator
 			initialRouteName={MapRoutes.OfflineMap}
 			screenOptions={{
 				swipeEnabled: false,
 				tabBarStyle: {
-					backgroundColor: '#e9e9e9',
+					backgroundColor: theme.colors.backgroundApp,
 					marginBottom: 0,
 					marginTop: 0,
 					height: 52
@@ -26,7 +28,7 @@ export const SelectMireaMap: FC = () => {
 				key='1'
 				options={{
 					tabBarLabel: ({ focused }) => (
-						<LabelNavigator name='НАВИГАТОР' focused={focused} />
+						<LabelNavigator name='НАВИГАТОР' focused={focused} theme={theme} />
 					),
 					tabBarPressColor: 'transparent',
 					tabBarIndicatorStyle: {
@@ -40,7 +42,7 @@ export const SelectMireaMap: FC = () => {
 				key='2'
 				options={{
 					tabBarLabel: ({ focused }) => (
-						<LabelNavigator name='КАРТА' focused={focused} />
+						<LabelNavigator name='КАРТА' focused={focused} theme={theme} />
 					),
 					tabBarPressColor: 'transparent',
 					tabBarIndicatorStyle: {

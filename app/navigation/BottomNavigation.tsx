@@ -6,15 +6,21 @@ import { SelectMireaMap } from './MapNavigation'
 import { FindTeacher } from '../screens/FindTeacher'
 import { SettingsNavigation } from './SettingsNavigation'
 import { AntDesign, Ionicons } from '@expo/vector-icons'
+import { DefaultTheme, useTheme } from 'styled-components/native'
 
 const Tab = createBottomTabNavigator()
 const BottomNavigation: FC = () => {
+	const theme: DefaultTheme = useTheme()
 	return (
 		<Tab.Navigator
 			screenOptions={{
 				tabBarHideOnKeyboard: true,
-				tabBarActiveTintColor: '#fa9292',
-				tabBarInactiveTintColor: '#88889D'
+				tabBarActiveTintColor: theme.colors.focusedDay,
+				tabBarInactiveTintColor: '#88889D',
+				tabBarStyle: {
+					backgroundColor: theme.colors.backgroundSubject,
+					borderTopWidth: 0
+				}
 			}}
 		>
 			<Tab.Screen

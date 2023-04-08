@@ -25,19 +25,19 @@ export const AboutApp: FC = () => {
 			<DelimiterContainer>
 				<MainButtonTitle>Используемые ресурсы</MainButtonTitle>
 			</DelimiterContainer>
-			<MainButton bg='white' onPress={() => Linking.openURL(documentationApi)}>
+			<MainButton onPress={() => Linking.openURL(documentationApi)}>
 				<MainButtonTitle>API by Mirea Ninja</MainButtonTitle>
 			</MainButton>
-			<MainButton bg='white' onPress={() => Linking.openURL(onlineMap)}>
+			<MainButton onPress={() => Linking.openURL(onlineMap)}>
 				<MainButtonTitle>Онлайн карта</MainButtonTitle>
 			</MainButton>
-			<MainButton bg='white' onPress={() => Linking.openURL(offlineMap)}>
+			<MainButton onPress={() => Linking.openURL(offlineMap)}>
 				<MainButtonTitle>Офлайн карта</MainButtonTitle>
 			</MainButton>
 			<DelimiterContainer>
 				<MainButtonTitle>Разработчики</MainButtonTitle>
 			</DelimiterContainer>
-			<MainButton bg='white' onPress={() => Linking.openURL(feedBack)}>
+			<MainButton onPress={() => Linking.openURL(feedBack)}>
 				<MainButtonTitle>Семён Кузьмин</MainButtonTitle>
 			</MainButton>
 		</ScrollContainer>

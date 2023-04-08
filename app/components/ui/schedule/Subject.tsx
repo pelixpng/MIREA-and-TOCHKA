@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components/native'
+import styled, { DefaultTheme, useTheme } from 'styled-components/native'
 import { Ionicons } from '@expo/vector-icons'
 import { getColor } from '../../../utilities/ColorPair'
 import { StyledColor } from '../../../types/styled'
@@ -32,6 +32,7 @@ export interface ItemProps {
 }
 
 export const Subject = ({ data }: Props) => {
+	const theme: DefaultTheme = useTheme()
 	const { time_start, time_end, name, rooms, teachers, types } = data
 	return (
 		<SubjectContainer>
@@ -51,7 +52,11 @@ export const Subject = ({ data }: Props) => {
 				</TypeContainer>
 				<RoomAndTeacherContainer>
 					<RoomContainer>
-						<Ionicons name='location-outline' size={16} color='black' />
+						<Ionicons
+							name='location-outline'
+							size={16}
+							color={theme.colors.minorText}
+						/>
 						{/* кондишнл рендеринг и всегда используй === вместо == */}
 						{/* {rooms ? (
 							<RoomText>
@@ -68,7 +73,11 @@ export const Subject = ({ data }: Props) => {
 						{/* <RoomText>{rooms == undefined ? '' : rooms.split('.')[1]}</RoomText> */}
 					</RoomContainer>
 					<TeacherContainer>
-						<Ionicons name='person-outline' size={16} color='black' />
+						<Ionicons
+							name='person-outline'
+							size={16}
+							color={theme.colors.minorText}
+						/>
 						<TeacherText>{teachers}</TeacherText>
 					</TeacherContainer>
 				</RoomAndTeacherContainer>

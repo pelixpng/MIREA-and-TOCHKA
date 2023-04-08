@@ -5,7 +5,7 @@ import { useReduxSelector } from '../redux'
 import { SearchLoading } from '../components/ui/scheduleTeacher/SearchLoading'
 import { AntDesign } from '@expo/vector-icons'
 import { SearceListComponent } from '../components/ui/scheduleTeacher/SearchResponce'
-import styled from 'styled-components/native'
+import styled, { DefaultTheme, useTheme } from 'styled-components/native'
 import { Filter, TextForLoading } from '../types/FindTeacher.types'
 import { StyledColor } from '../types/styled'
 import {
@@ -26,6 +26,7 @@ export const FindTeacher: FC = () => {
 	)
 	const ifOffline = useReduxSelector(state => state.counter.isAppOffline)
 	const week = useReduxSelector(state => state.counter.week)
+	const theme: DefaultTheme = useTheme()
 	const regex = /^[А-Яа-я]+\s+[А-Яа-я]\.\s*[А-Яа-я]\.?$/
 	const date = new Date()
 
@@ -72,7 +73,11 @@ export const FindTeacher: FC = () => {
 			<FilterContainer>
 				<ThisDayContainer>
 					<SmallBbutton
-						bg={searchSettings == 'toDay' ? '#fa9292' : 'white'}
+						bg={
+							searchSettings == 'toDay'
+								? theme.colors.focusedDay
+								: theme.colors.backgroundSubject
+						}
 						onPress={() => {
 							if (searchSettings == 'toDay') {
 								setSearchSettings('all')
@@ -82,7 +87,7 @@ export const FindTeacher: FC = () => {
 						}}
 					>
 						<SmallButtonText
-							bg={searchSettings == 'toDay' ? '#212525' : '#adadae'}
+							bg={searchSettings == 'toDay' ? theme.colors.mainText : '#adadae'}
 						>
 							СЕГОДНЯ
 						</SmallButtonText>
@@ -90,7 +95,11 @@ export const FindTeacher: FC = () => {
 				</ThisDayContainer>
 				<ThisWeekContainer>
 					<SmallBbutton
-						bg={searchSettings == 'thisWeek' ? '#fa9292' : 'white'}
+						bg={
+							searchSettings == 'thisWeek'
+								? theme.colors.focusedDay
+								: theme.colors.backgroundSubject
+						}
 						onPress={() => {
 							if (searchSettings == 'thisWeek') {
 								setSearchSettings('all')
@@ -100,7 +109,9 @@ export const FindTeacher: FC = () => {
 						}}
 					>
 						<SmallButtonText
-							bg={searchSettings == 'thisWeek' ? '#212525' : '#adadae'}
+							bg={
+								searchSettings == 'thisWeek' ? theme.colors.mainText : '#adadae'
+							}
 						>
 							{week + ' НЕДЕЛЯ'}
 						</SmallButtonText>
@@ -124,12 +135,13 @@ export const FindTeacher: FC = () => {
 					placeholder={'Имя преподавателя...'}
 					onChangeText={setNameTeacher}
 					style={{
-						fontSize: 25,
+						fontSize: 23,
 						width: 'auto',
 						height: 'auto',
 						margin: 0,
 						left: 15,
-						color: '#212525;'
+						color: '#adadae',
+						fontWeight: '400'
 					}}
 				/>
 				<FilterButton
@@ -161,7 +173,7 @@ const FilterContainer = styled.View`
 const PlaceholderContainer = styled.View`
 	width: 94%;
 	border-radius: 20;
-	background-color: #ffffff;
+	background-color: ${props => props.theme.colors.backgroundSubject};
 	align-items: center;
 	flex-direction: row;
 	height: 35;
@@ -169,7 +181,7 @@ const PlaceholderContainer = styled.View`
 
 const SearchContainer = styled.View`
 	align-items: center;
-	background-color: 'rgba(233, 233, 233, 1);';
+	background-color: ${props => props.theme.colors.backgroundApp};
 	width: 100%;
 	height: 100%;
 `
