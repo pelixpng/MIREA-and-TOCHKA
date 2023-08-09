@@ -1,8 +1,10 @@
 # MIREA-and-TOCHKA
 
-![logo](img/icon.png)
+Attention the application does not work until September !!!!
 
-<u>Attention the application does not work until September !1!1!1!1!1!1!1!1!1!1!!!!</u>
+<p align="center">
+  <img src="img/icon.png" width="400" height="400" /> 
+</p>
 
 The application allows you to view the schedule for study groups of students of the RTU MIREA University. The current academic week of the semester is displayed at the top of the screen.
 
