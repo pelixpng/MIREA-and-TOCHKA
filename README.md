@@ -7,22 +7,22 @@
 The application allows you to view the schedule for study groups of students of the RTU MIREA University. The current academic week of the semester is displayed at the top of the screen.
 
 <p align="center">
-  <img src="img/1.jpg" width="300" />
-  <img src="img/2.jpg" width="300" /> 
+  <img src="img/1.png" width="300" />
+  <img src="img/2.png" width="300" /> 
 </p>
 
 Also receive the teacher's schedule for today, the current week or for the entire semester.
 
 <p align="center">
-  <img src="img/3.jpg" width="300" />
-  <img src="img/4.jpg" width="300" /> 
+  <img src="img/3.png" width="300" />
+  <img src="img/4.png" width="300" /> 
 </p>
 
 There are two types of maps: navigator and offline map. The navigator allows you to build a route from one room to another. The offline map allows you to orient yourself on the campus of the university even without an Internet connection.
 
 <p align="center">
-  <img src="img/5.jpg" width="300" />
-  <img src="img/6.jpg" width="300" /> 
+  <img src="img/5.png" width="300" />
+  <img src="img/6.png" width="300" /> 
 </p>
 
 In the settings, you can change the theme to light or dark. And also change the study group to get the timetable.
