@@ -2,40 +2,30 @@
 
 Attention the application does not work until September !!!!
 
-<p align="center">
+<p align="left">
   <img src="img/icon.png" width="400" height="400" /> 
 </p>
 
-The application allows you to view the schedule for study groups of students of the RTU MIREA University. The current academic week of the semester is displayed at the top of the screen.
-
-<p align="center">
-  <img src="img/1.png" width="250" />
-  <img src="img/2.png" width="250" /> 
-</p>
-
-Also receive the teacher's schedule for today, the current week or for the entire semester.
-
-<p align="center">
-  <img src="img/3.png" width="250" />
-  <img src="img/4.png" width="250" /> 
-</p>
-
-There are two types of maps: navigator and offline map. The navigator allows you to build a route from one room to another. The offline map allows you to orient yourself on the campus of the university even without an Internet connection.
-
-<p align="center">
-  <img src="img/5.png" width="250" />
-  <img src="img/6.png" width="250" /> 
-</p>
-
-In the settings, you can change the theme to light or dark. And also change the study group to get the timetable.
-
-<p align="center">
-  <img src="img/7.png" width="250" />
-</p>
+The application allows you to view the schedule for study groups of students of the RTU MIREA University. The current academic week of the semester is displayed at the top of the screen. Also receive the teacher's schedule for today, the current week or for the entire semester. There are two types of maps: navigator and offline map. The navigator allows you to build a route from one room to another. The offline map allows you to orient yourself on the campus of the university even without an Internet connection. In the settings, you can change the theme to light or dark. And also change the study group to get the timetable.
 
 It has been developed using ReactNative, TypeScript, and Expo,
 making it compatible with both Android and iOS platforms.
 Currently only available for Android on [Google Play](https://play.google.com/store/apps/details?id=com.pelixpng.Mirea), the iOS version will be released in the fall.
+
+# Screenshots
+
+<p align="center">
+  <img src="img/1.png" width="250" />
+  <img src="img/2.png" width="250" /> 
+  <img src="img/3.png" width="250" />
+</p>
+
+<p align="center">
+  <img src="img/4.png" width="250" />
+  <img src="img/5.png" width="250" />
+  <img src="img/6.png" width="250" />
+  <img src="img/7.png" width="250" />  
+</p>
 
 # Resources Used
 
