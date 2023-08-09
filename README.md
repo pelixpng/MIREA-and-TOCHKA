@@ -1,6 +1,6 @@
 # MIREA-and-TOCHKA
 
-![A](img/logo.png)
+![logo](img/icon.png)
 
 <u>Attention the application does not work until September !1!1!1!1!1!1!1!1!1!1!!!!</u>
 
@@ -28,7 +28,7 @@ There are two types of maps: navigator and offline map. The navigator allows you
 In the settings, you can change the theme to light or dark. And also change the study group to get the timetable.
 
 <p align="center">
-  <img src="img/7.jpg" width="300" />
+  <img src="img/7.png" width="300" />
 </p>
 
 It has been developed using ReactNative, TypeScript, and Expo,
