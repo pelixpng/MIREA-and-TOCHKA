@@ -10,14 +10,15 @@ import { NetInfoState, useNetInfo } from '@react-native-community/netinfo'
 import { addIsAppOfflineToRedux } from '../redux/counter'
 import { HeaderSchedule } from '../components/ui/HeaderSchedule'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { AppDontWork } from '../screens/AppDontWorkScreen'
 
 const Stack = createStackNavigator<RootStackParamList>()
 
 interface Props {
-	isAuth: boolean
+	initialScreen: number
 }
 
-export function Navigation({ isAuth }: Props) {
+export function Navigation({ initialScreen }: Props) {
 	const dispatch = useReduxDispatch() // для записи в Redux
 	const internetState: NetInfoState = useNetInfo() //проверка подключения к интернету
 	useEffect(() => {
@@ -28,11 +29,20 @@ export function Navigation({ isAuth }: Props) {
 		}
 	}, [internetState.isConnected])
 
+	const getRoute = (route: number) => {
+		console.log(route)
+		if (route == 1) {
+			return MainRoutes.StartScreen
+		} else if (route == 2) {
+			return MainRoutes.Shedule
+		} else if (route == 3) {
+			return MainRoutes.AppDontWork
+		}
+	}
+
 	return (
 		<NavigationContainer>
-			<Stack.Navigator
-				initialRouteName={isAuth ? MainRoutes.Shedule : MainRoutes.StartScreen}
-			>
+			<Stack.Navigator initialRouteName={getRoute(initialScreen)}>
 				<Stack.Screen
 					name={MainRoutes.StartScreen}
 					component={StartScreen}
@@ -49,6 +59,13 @@ export function Navigation({ isAuth }: Props) {
 								<HeaderSchedule />
 							</SafeAreaView>
 						)
+					}}
+				/>
+				<Stack.Screen
+					name={MainRoutes.AppDontWork}
+					component={AppDontWork}
+					options={{
+						headerShown: false
 					}}
 				/>
 			</Stack.Navigator>

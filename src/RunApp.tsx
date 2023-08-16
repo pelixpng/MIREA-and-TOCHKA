@@ -14,17 +14,19 @@ import {
 import ApiService from './app/api/MireaApi'
 import { parsSchedule } from './app/api/ParserApi'
 import * as SplashScreen from 'expo-splash-screen'
-import StorageServiceMMKV, { Storage } from './app/storage/Storage'
+import StorageServiceMMKV, { Storage } from './app/Storage/Storage'
 import { DarkTheme, LightTheme } from './app/components/Themes'
 import { DefaultTheme, ThemeProvider, useTheme } from 'styled-components/native'
-import { useColorScheme } from 'react-native'
+import { View, useColorScheme } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
+import { AppDontWork } from './app/screens/AppDontWorkScreen'
+import { MainRoutes } from './app/navigation/Routes'
 
 SplashScreen.preventAutoHideAsync()
 export function RootApp() {
 	const colorScheme = useColorScheme()
 	const [isAppLoading, setIsAppLoading] = useState(false) // статус загрузки приложения
-	const [isAuth, setIsAuth] = useState(false) // тип страницы при запуске
+	const [isAuth, setIsAuth] = useState(0) // тип страницы при запуске
 	const dispatch = useReduxDispatch() // для записи в Redux
 	const theme = useReduxSelector(state => state.counter.theme)
 	const themeSettingss = useReduxSelector(state => state.counter.themeSettings)
@@ -61,40 +63,50 @@ export function RootApp() {
 
 	const getInitialRoute = async () => {
 		getColorScheme()
-		const nameGroup = Storage.getString('group')
-		try {
-			if (nameGroup !== undefined) {
-				const currentWeek = await ApiService.getCurrentWeek()
-				dispatch(addWeekToRedux(currentWeek))
-				const updateSchedule = await ApiService.getFullSchedule(nameGroup) // загружаем актуальное расписание
-				const tmp = parsSchedule(currentWeek, updateSchedule) // распарсим расписание на неделю из json файла
-				dispatch(addScheduleParsToRedux(tmp)) // добавляем все в Redux
-				dispatch(addGroupToRedux(nameGroup))
-				StorageServiceMMKV.saveSchedule(
-					currentWeek.toString(),
-					JSON.stringify(tmp)
-				)
+		const currentDate = new Date()
+		const currentMonth = currentDate.getMonth()
+		console.log(currentMonth.toString())
+		if (currentMonth !== 6 && currentMonth !== 7) {
+			const nameGroup = Storage.getString('group')
+			try {
+				if (nameGroup !== undefined) {
+					const currentWeek = await ApiService.getCurrentWeek()
+					dispatch(addWeekToRedux(currentWeek))
+					const updateSchedule = await ApiService.getFullSchedule(nameGroup) // загружаем актуальное расписание
+					const tmp = parsSchedule(currentWeek, updateSchedule) // распарсим расписание на неделю из json файла
+					dispatch(addScheduleParsToRedux(tmp)) // добавляем все в Redux
+					dispatch(addGroupToRedux(nameGroup))
+					StorageServiceMMKV.saveSchedule(
+						currentWeek.toString(),
+						JSON.stringify(tmp)
+					)
 
-				dispatch(addAllgroupToRedux(await ApiService.getAllGroups()))
-				return setIsAuth(true) // указываем что группа выбрана и можно переходить к просмотру расписания
-			} else {
-				dispatch(addAllgroupToRedux(await ApiService.getAllGroups()))
-			}
-		} catch (e) {
-			console.log(e)
-			if (nameGroup !== undefined) {
-				const cachedWeek = Storage.getString('week')
-				const cachedSchedule = Storage.getString('schedule')
-				dispatch(addGroupToRedux(nameGroup))
-				dispatch(addWeekToRedux(Number(cachedWeek)))
-				if (cachedSchedule !== undefined) {
-					dispatch(addScheduleParsToRedux(JSON.parse(cachedSchedule)))
+					dispatch(addAllgroupToRedux(await ApiService.getAllGroups()))
+					return setIsAuth(2) // указываем что группа выбрана и можно переходить к просмотру расписания
+				} else {
+					dispatch(addAllgroupToRedux(await ApiService.getAllGroups()))
+					setIsAuth(1)
 				}
-				dispatch(addIsAppOfflineToRedux(true))
-				setIsAuth(true)
+			} catch (e) {
+				console.log(e)
+				if (nameGroup !== undefined) {
+					const cachedWeek = Storage.getString('week')
+					const cachedSchedule = Storage.getString('schedule')
+					dispatch(addGroupToRedux(nameGroup))
+					dispatch(addWeekToRedux(Number(cachedWeek)))
+					if (cachedSchedule !== undefined) {
+						dispatch(addScheduleParsToRedux(JSON.parse(cachedSchedule)))
+					}
+					dispatch(addIsAppOfflineToRedux(true))
+					setIsAuth(2)
+				}
+			} finally {
+				setIsAppLoading(true) // указываем что приложение загрузилось
+				await SplashScreen.hideAsync()
 			}
-		} finally {
-			setIsAppLoading(true) // указываем что приложение загрузилось
+		} else {
+			setIsAuth(3)
+			setIsAppLoading(true)
 			await SplashScreen.hideAsync()
 		}
 	}
@@ -121,7 +133,9 @@ export function RootApp() {
 						: getTheme(theme).colors.backgroundApp
 				}
 			/>
-			<Navigation isAuth={isAuth} />
+			<Navigation initialScreen={isAuth} />
 		</ThemeProvider>
+
+		// <AppDontWork />
 	) // передаем данные для навигации
 }

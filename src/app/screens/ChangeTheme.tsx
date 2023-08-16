@@ -6,7 +6,7 @@ import {
 } from '../components/UniversalComponents'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { ThemeSettings } from '../types/ThemeSettings.types'
-import StorageServiceMMKV from '../storage/Storage'
+import StorageServiceMMKV from '../Storage/Storage'
 import { useReduxDispatch, useReduxSelector } from '../redux'
 import { addThemeSettingsToRedux, addThemeToRedux } from '../redux/counter'
 import { useColorScheme } from 'react-native'
@@ -59,11 +59,11 @@ export const ChangeTheme: FC = () => {
 	}
 
 	return (
-		<BackgroundContainer height='100%'>
+		<BackgroundContainer height="100%">
 			<MaterialCommunityIcons
-				name='theme-light-dark'
+				name="theme-light-dark"
 				size={100}
-				color='#adadae'
+				color="#adadae"
 				style={{ alignSelf: 'center' }}
 			/>
 			{nameButton.map((item, index) => (

@@ -6,33 +6,33 @@ import React, { useEffect, useState } from 'react'
 import { ThemeProvider } from 'styled-components/native'
 import { DarkTheme, LightTheme } from './app/components/Themes'
 import { useColorScheme } from 'react-native'
-import { Storage } from './app/storage/Storage'
+import { Storage } from './app/Storage/Storage'
+import { AppDontWork } from './app/screens/AppDontWorkScreen'
 
 export default function App() {
-	// const colorScheme = useColorScheme()
-	// const [theme, setTheme] = useState<string | null>()
+	const colorScheme = useColorScheme()
+	const [theme, setTheme] = useState<string | null>()
 
-	// const getColorScheme = () => {
-	// 	const theme = Storage.getString('theme')
-	// 	if (theme == 'Тёмная') {
-	// 		return 'dark'
-	// 	} else if (theme == 'Светлая') {
-	// 		return 'light'
-	// 	} else {
-	// 		return colorScheme
-	// 	}
-	// }
+	const getColorScheme = () => {
+		const theme = Storage.getString('theme')
+		if (theme == 'Тёмная') {
+			return 'dark'
+		} else if (theme == 'Светлая') {
+			return 'light'
+		} else {
+			return colorScheme
+		}
+	}
 
-	// useEffect(() => {
-	// 	setTheme(getColorScheme())
-	// })
+	useEffect(() => {
+		setTheme(getColorScheme())
+	})
 
 	return (
-		//провайдер для доступа всех компонентов к хранилищу Redux
-		// <ThemeProvider theme={theme == 'light' ? LightTheme : DarkTheme}>
-		<Provider store={store}>
-			<RootApp />
-		</Provider>
-		// </ThemeProvider>
+		<ThemeProvider theme={theme == 'light' ? LightTheme : DarkTheme}>
+			<Provider store={store}>
+				<RootApp />
+			</Provider>
+		</ThemeProvider>
 	)
 }

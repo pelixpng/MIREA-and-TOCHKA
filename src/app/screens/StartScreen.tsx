@@ -10,7 +10,7 @@ import { parsSchedule } from '../api/ParserApi'
 import AlertModalService from '../utilities/AlertModal'
 import { StatusBar } from 'expo-status-bar'
 import DropDownPicker from 'react-native-dropdown-picker'
-import StorageServiceMMKV from '../storage/Storage'
+import StorageServiceMMKV from '../Storage/Storage'
 import styled, { DefaultTheme, useTheme } from 'styled-components/native'
 import { StyledColor } from '../types/styled'
 import {
@@ -64,7 +64,7 @@ const StartScreen: FC<Props> = ({ navigation }) => {
 	}
 
 	return (
-		<BackgroundContainer height='100%'>
+		<BackgroundContainer height="100%">
 			<HeaderText>Привет!</HeaderText>
 			<DropDownPicker
 				open={open}
@@ -75,15 +75,15 @@ const StartScreen: FC<Props> = ({ navigation }) => {
 				searchable={true}
 				theme={theme.names.themeName}
 				multiple={false}
-				mode='BADGE'
-				dropDownDirection='AUTO'
-				language='RU'
-				placeholder='Выбери группу...'
+				mode="BADGE"
+				dropDownDirection="AUTO"
+				language="RU"
+				placeholder="Выбери группу..."
 				searchPlaceholderTextColor={theme.colors.mainText}
 				searchTextInputProps={{
 					maxLength: 10
 				}}
-				searchPlaceholder='Напишите группу...'
+				searchPlaceholder="Напишите группу..."
 				style={{
 					marginTop: 10,
 					minHeight: 50,
@@ -113,7 +113,7 @@ const StartScreen: FC<Props> = ({ navigation }) => {
 				}}
 			/>
 			{group != '' ? <SelectGroupButton /> : null}
-			<StatusBar style='auto' />
+			<StatusBar style="auto" />
 		</BackgroundContainer>
 	)
 }

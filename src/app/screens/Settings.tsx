@@ -9,7 +9,7 @@ import { SettingsStackParamList } from '../types/Navigation.types'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import DropDownPicker from 'react-native-dropdown-picker'
 import { SettingsButton } from '../components/ui/settings/ButtonSettings'
-import StorageServiceMMKV from '../storage/Storage'
+import StorageServiceMMKV from '../Storage/Storage'
 import {
 	BackgroundContainer,
 	DynamicButton,
@@ -18,7 +18,7 @@ import {
 } from '../components/UniversalComponents'
 import { DefaultTheme, useTheme } from 'styled-components/native'
 import { Button } from 'react-native'
-import { Storage } from '../storage/Storage'
+import { Storage } from '../Storage/Storage'
 
 type settingsNavProps = NativeStackScreenProps<
 	SettingsStackParamList,
@@ -88,8 +88,8 @@ const Settings: FC<settingsNavProps> = ({ navigation, route }) => {
 	}
 
 	return (
-		<BackgroundContainer height='100%'>
-			<Button title='Стереть кэш' onPress={() => Storage.clearAll()} />
+		<BackgroundContainer height="100%">
+			<Button title="Стереть кэш" onPress={() => Storage.clearAll()} />
 			<DropDownPicker
 				open={open}
 				value={group}
@@ -99,15 +99,15 @@ const Settings: FC<settingsNavProps> = ({ navigation, route }) => {
 				searchable={true}
 				theme={theme.names.themeName}
 				multiple={false}
-				mode='BADGE'
-				dropDownDirection='AUTO'
-				language='RU'
-				placeholder='Нажмите для смены группы...'
+				mode="BADGE"
+				dropDownDirection="AUTO"
+				language="RU"
+				placeholder="Нажмите для смены группы..."
 				searchPlaceholderTextColor={theme.colors.mainText}
 				searchTextInputProps={{
 					maxLength: 10
 				}}
-				searchPlaceholder='Напишите группу...'
+				searchPlaceholder="Напишите группу..."
 				style={{
 					marginTop: 10,
 					minHeight: 50,
